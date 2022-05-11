@@ -18,3 +18,18 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.navbar {
+  background-color: #282560;
+  color: white;
+  border-bottom: #03c2f3 solid 15px;
+  height: 100px;
+}
+
+.card {
+  @apply mb-5  block   rounded-lg border border-gray-200  shadow-md;
+}
+
+.primary-button {
+  @apply rounded bg-amber-300 py-2 px-4 shadow outline-none hover:bg-amber-400  active:bg-amber-500;
+}

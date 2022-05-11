@@ -1,21 +1,30 @@
-import Head from "next/head";
-import Link from "next/link";
-import React from "react";
+import Head from 'next/head';
+import Link from 'next/link';
+import React from 'react';
+import Image from 'next/image';
 
-export default function Layout({ title, children }) {
+export default function Layout({ title, description, children }) {
   return (
     <>
       <Head>
-        <title>{title ? title + " - CEIQ Shop" : "CEIQ Shop"}</title>
-        <meta name="description" content="Ecommerce Website" />
+        <title>{title ? title + ' - CEIQ Shop' : 'CEIQ Shop'}</title>
+        {description && <meta name="description" content={description} />}
+
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <div className="flex min-h-screen flex-col justify-between ">
         <header>
-          <nav className="flex h-12 items-center px-4 justify-between shadow-md">
+          <nav className="flex h-12 items-center px-4 justify-between shadow-md navbar">
             <Link href="/">
-              <a className="text-lg font-bold">CEIQ Shop</a>
+              <a className="text-lg font-bold">
+                <Image
+                  src="/logo_ceiqShop.svg"
+                  width={280}
+                  height={64}
+                  alt="logo"
+                />
+              </a>
             </Link>
             <div>
               <Link href="/cart">
