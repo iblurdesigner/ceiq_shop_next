@@ -30,7 +30,7 @@ export default function ProductScreen() {
         <div>
           <ul>
             <li>
-              <h1 className="text-lg">{product.name}</h1>
+              <h1 className="text-lg font-extrabold">{product.name}</h1>
             </li>
             <li>Categoría: {product.category}</li>
             <li>Marca: {product.brand}</li>
