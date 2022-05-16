@@ -56,8 +56,8 @@ function CartScreen() {
                 </thead>
                 <tbody>
                   {cartItems.map((item) => (
-                    <tr key={item._id}>
-                      <td className="py-2">
+                    <tr key={item._id} className="divide-y divide-sky-300">
+                      <td className="py-6">
                         <Link href={`/product/${item.slug}`} passHref>
                           <a>
                             <Image
@@ -93,7 +93,7 @@ function CartScreen() {
                       <td>${item.price}</td>
                       <td>
                         <button
-                          className="primary-button"
+                          className="bg-green py-2 px-8 shadow-md rounded-full hover:bg-red-400"
                           type="button"
                           onClick={() => removeItemHandler(item)}
                         >
@@ -114,7 +114,7 @@ function CartScreen() {
                   {cartItems.reduce((a, c) => a + c.quantity, 0)} items) : $
                   {cartItems.reduce((a, c) => a + c.quantity * c.price, 0)}
                 </h2>
-                <button className="primary-button rounded-full px-3 py-1">
+                <button className="bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow">
                   Pagar
                 </button>
               </div>
