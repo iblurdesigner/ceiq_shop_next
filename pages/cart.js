@@ -4,10 +4,11 @@ import { Store } from '../utils/Store';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Select, MenuItem } from '@mui/material';
+import dynamic from 'next/dynamic';
 
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
 
-export default function CartScreen() {
+function CartScreen() {
   const { state } = useContext(Store);
   const {
     cart: { cartItems },
@@ -43,17 +44,21 @@ export default function CartScreen() {
                     <tr key={item._id}>
                       <td className="py-2">
                         <Link href={`/product/${item.slug}`} passHref>
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            width={50}
-                            height={50}
-                          ></Image>
+                          <a>
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              width={50}
+                              height={50}
+                            ></Image>
+                          </a>
                         </Link>
                       </td>
                       <td>
                         <Link href={`/product/${item.slug}`} passHref>
-                          <p>{item.name}</p>
+                          <a>
+                            <p>{item.name}</p>
+                          </a>
                         </Link>
                       </td>
                       <td>
@@ -109,3 +114,5 @@ export default function CartScreen() {
     </Layout>
   );
 }
+
+export default dynamic(() => Promise.resolve(CartScreen), { ssr: false });

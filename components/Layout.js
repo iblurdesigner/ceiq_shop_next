@@ -23,7 +23,7 @@ export default function Layout({ title, description, children }) {
       <div className="dark:flex min-h-screen flex-col justify-between ">
         <header>
           <nav className="flex h-12 items-center px-4 justify-between shadow-md navbar">
-            <Link href="/">
+            <Link href="/" passHref>
               <a className="text-lg font-bold">
                 <Image
                   src="/logo_ceiqShop.svg"
@@ -35,7 +35,7 @@ export default function Layout({ title, description, children }) {
             </Link>
             <div>
               <ButtonDarkM />
-              <Link href="/cart">
+              <Link href="/cart" passHref>
                 <a className="p-2">
                   Carrito
                   {cart.cartItems.length > 0 && (
@@ -45,7 +45,7 @@ export default function Layout({ title, description, children }) {
                   )}
                 </a>
               </Link>
-              <Link href="/login">
+              <Link href="/login" passHref>
                 <a className="p-2">Ingresar</a>
               </Link>
             </div>

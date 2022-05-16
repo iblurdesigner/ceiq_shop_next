@@ -36,7 +36,9 @@ export default function ProductScreen(props) {
   return (
     <Layout title={product.name} description={product.description}>
       <div className="py-2">
-        <Link href="/">Regresar a productos</Link>
+        <Link href="/" passHref>
+          <a>Regresar a productos</a>
+        </Link>
       </div>
       <div className="grid md:grid-cols-4 md:gap-3">
         <div className="md:col-span-2">
