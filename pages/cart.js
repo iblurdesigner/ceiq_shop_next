@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
 import { Store } from '../utils/Store';
 import Link from 'next/link';
@@ -10,6 +11,7 @@ import axios from 'axios';
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
 
 function CartScreen() {
+  const router = useRouter();
   const { state, dispatch } = useContext(Store);
   const {
     cart: { cartItems },
@@ -27,6 +29,10 @@ function CartScreen() {
   // para eliminar items del carrito
   const removeItemHandler = (item) => {
     dispatch({ type: 'CART_REMOVE_ITEM', payload: item });
+  };
+
+  const checkoutHandler = () => {
+    router.push('/shipping');
   };
 
   return (
@@ -114,7 +120,10 @@ function CartScreen() {
                   {cartItems.reduce((a, c) => a + c.quantity, 0)} items) : $
                   {cartItems.reduce((a, c) => a + c.quantity * c.price, 0)}
                 </h2>
-                <button className="bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow">
+                <button
+                  className="bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow"
+                  onClick={checkoutHandler}
+                >
                   Pagar
                 </button>
               </div>
