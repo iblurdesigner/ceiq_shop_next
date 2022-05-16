@@ -5,14 +5,29 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Select, MenuItem } from '@mui/material';
 import dynamic from 'next/dynamic';
+import axios from 'axios';
 
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
 
 function CartScreen() {
-  const { state } = useContext(Store);
+  const { state, dispatch } = useContext(Store);
   const {
     cart: { cartItems },
   } = state;
+
+  const updateCartHandler = async (item, quantity) => {
+    const { data } = await axios.get(`/api/products/${item._id}`);
+    if (data.countInStock < quantity) {
+      window.alert('Lo sentimos el producto esta fuera de stock');
+      return;
+    }
+    dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } });
+  };
+
+  // para eliminar items del carrito
+  const removeItemHandler = (item) => {
+    dispatch({ type: 'CART_REMOVE_ITEM', payload: item });
+  };
 
   return (
     <Layout title="Carrito de compras">
@@ -20,9 +35,9 @@ function CartScreen() {
 
       {cartItems.length === 0 ? (
         <div>
-          El carrito se encuentra vacío
+          El carrito se encuentra vacío.
           <Link href="/" passHref>
-            <a>Ir a comprar</a>
+            <a className="text-sky-400"> Ir a comprar</a>
           </Link>
         </div>
       ) : (
@@ -57,12 +72,17 @@ function CartScreen() {
                       <td>
                         <Link href={`/product/${item.slug}`} passHref>
                           <a>
-                            <p>{item.name}</p>
+                            <p className="text-sky-600">{item.name}</p>
                           </a>
                         </Link>
                       </td>
                       <td>
-                        <Select value={item.quantity}>
+                        <Select
+                          value={item.quantity}
+                          onChange={(e) =>
+                            updateCartHandler(item, e.target.value)
+                          }
+                        >
                           {[...Array(item.countInStock).keys()].map((x) => (
                             <MenuItem key={x + 1} value={x + 1}>
                               {x + 1}
@@ -72,7 +92,11 @@ function CartScreen() {
                       </td>
                       <td>${item.price}</td>
                       <td>
-                        <button className="primary-button" type="button">
+                        <button
+                          className="primary-button"
+                          type="button"
+                          onClick={() => removeItemHandler(item)}
+                        >
                           x
                         </button>
                       </td>
