@@ -7,6 +7,7 @@ import Product from '../models/Product';
 export default function Home(props) {
   // Ya no necesitaremos pedir desde la base de datos estatica si no mediante las props
   const { products } = props;
+
   return (
     <Layout title="Pagina de inicio">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">

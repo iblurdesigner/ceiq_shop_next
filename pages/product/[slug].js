@@ -1,18 +1,38 @@
+// import { useRouter } from 'next/router';
+import React, { useContext } from 'react';
+import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
-// import { useRouter } from 'next/router';
-import React from 'react';
 import Layout from '../../components/Layout';
 import Product from '../../models/Product';
 // import data from '../../utils/data';
 import db from '../../utils/db';
+import { Store } from '../../utils/Store';
+import { useRouter } from 'next/router';
 
 export default function ProductScreen(props) {
+  const router = useRouter();
+  const { state, dispatch } = useContext(Store);
   const { product } = props;
 
   if (!product) {
     return <div>Producto no encontrado</div>;
   }
+
+  const addToCartHandler = async () => {
+    const { data } = await axios.get(`/api/products/${product._id}`);
+    const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+
+    if (data.countInStock < quantity) {
+      window.alert('Lo sentimos. La cantidad que solicita sobrepasa el stock');
+      return;
+    }
+
+    dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
+    router.push('/cart');
+  };
+
   return (
     <Layout title={product.name} description={product.description}>
       <div className="py-2">
@@ -54,7 +74,12 @@ export default function ProductScreen(props) {
                 {product.countInStock > 0 ? 'En stock' : 'No disponible'}
               </div>
             </div>
-            <button className="primary-button w-full">Añadir al carrito</button>
+            <button
+              className="primary-button w-full"
+              onClick={addToCartHandler}
+            >
+              Añadir al carrito
+            </button>
           </div>
         </div>
       </div>
