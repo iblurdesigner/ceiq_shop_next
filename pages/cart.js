@@ -148,4 +148,5 @@ function CartScreen() {
   );
 }
 
+//esto es para evitar el error de Hydration
 export default dynamic(() => Promise.resolve(CartScreen), { ssr: false });

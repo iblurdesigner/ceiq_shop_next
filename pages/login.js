@@ -1,11 +1,25 @@
 import { List, ListItem, TextField } from '@mui/material';
 import axios from 'axios';
 import Link from 'next/link';
-import NextLink from 'next/link';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Layout from '../components/Layout';
+import { Store } from '../utils/Store';
+import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
+import dynamic from 'next/dynamic';
 
-export default function Login() {
+function Login() {
+  const router = useRouter();
+  const { redirect } = router.query; // esto es para que redirija a login?redirect=/shipping
+  const { state, dispatch } = useContext(Store);
+  const { userInfo } = state;
+
+  useEffect(() => {
+    if (userInfo) {
+      router.push('/');
+    }
+  }, []);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const submitHandler = async (e) => {
@@ -15,7 +29,10 @@ export default function Login() {
         email,
         password,
       });
-      alert('Inicio de sesión con exito!');
+      dispatch({ type: 'USER_LOGIN', payload: data });
+      Cookies.set('userInfo', JSON.stringify(data));
+      router.push(redirect || '/');
+      // alert('Inicio de sesión con exito!');
     } catch (err) {
       alert(err.response.data ? err.response.data.message : err.message);
     }
@@ -72,3 +89,7 @@ export default function Login() {
     </Layout>
   );
 }
+
+//esto es para evitar el error de Hydration
+
+export default dynamic(() => Promise.resolve(Login), { ssr: false });
