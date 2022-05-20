@@ -17,7 +17,7 @@ function MyApp({
       <SnackbarProvider
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
-        <ThemeProvider defaultTheme="light">
+        <ThemeProvider attribute="class">
           <StoreProvider>
             <Component {...pageProps} />;
           </StoreProvider>

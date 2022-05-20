@@ -1,4 +1,6 @@
 import React, { useContext, useState } from 'react';
+// import { useTheme } from 'next-themes';
+// import Button from './Button';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -53,10 +55,11 @@ export default function Layout({ title, description, children }) {
                 />
               </a>
             </Link>
-            <div>
+            <div className="w-64  flex justify-between">
               <ButtonDarkM />
+
               <Link href="/cart" passHref>
-                <a className="p-2">
+                <a className="p-2 ">
                   Carrito
                   {cart.cartItems.length > 0 && (
                     <span className="ml-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white">

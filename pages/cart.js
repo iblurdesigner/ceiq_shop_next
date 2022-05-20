@@ -4,7 +4,7 @@ import Layout from '../components/Layout';
 import { Store } from '../utils/Store';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Select, MenuItem } from '@mui/material';
+// import { Select, MenuItem } from '@mui/material';
 import dynamic from 'next/dynamic';
 import axios from 'axios';
 
@@ -83,18 +83,19 @@ function CartScreen() {
                         </Link>
                       </td>
                       <td>
-                        <Select
+                        <select
+                          className="w-600 dark:bg-green bg-gray-200 dark:text-black border border-gray-200 py-3 px-4 rounded-3xl"
                           value={item.quantity}
                           onChange={(e) =>
                             updateCartHandler(item, e.target.value)
                           }
                         >
                           {[...Array(item.countInStock).keys()].map((x) => (
-                            <MenuItem key={x + 1} value={x + 1}>
+                            <option key={x + 1} value={x + 1}>
                               {x + 1}
-                            </MenuItem>
+                            </option>
                           ))}
-                        </Select>
+                        </select>
                       </td>
                       <td>${item.price}</td>
                       <td>
