@@ -25,32 +25,43 @@ export default function ProductItem({ product }) {
   };
 
   return (
-    <div className="card">
-      <Link href={`/product/${product.slug}`} passHref>
-        <a>
-          <img
-            src={product.image}
-            alt={product.name}
-            className="rounded shadow"
-          />
-        </a>
-      </Link>
-      <div className="flex flex-col items-center justify-center p-5">
-        <Link href={`/product/${product.slug}`} passHref>
-          <a>
-            <h2 className="text-lg">{product.name}</h2>
-          </a>
-        </Link>
-        <p className="mb-2">{product.brand}</p>
-        <p>${product.price}</p>
-        <button
-          className="primary-button"
-          type="button"
-          onClick={() => addToCartHandler(product)}
-        >
-          Añadir al carrito
-        </button>
+    <>
+      <div className="card">
+        <div className="grid grid-cols">
+          <Link href={`/product/${product.slug}`} passHref>
+            <a>
+              <img
+                src={product.image}
+                alt={product.name}
+                className="rounded shadow"
+              />
+            </a>
+          </Link>
+
+          <div className="grid content-between p-4 h-52">
+            <Link href={`/product/${product.slug}`} passHref>
+              <a>
+                <h2 className="dark:text-white text-xl font-medium text-blue hover:text-cyan">
+                  {product.name}
+                </h2>
+              </a>
+            </Link>
+            <p className="mb-2 text-gray-400">{product.brand}</p>
+            <p className="text-3xl font-semibold">
+              <span className="font-normal text-base">US$</span>
+              {product.price}
+            </p>
+
+            <button
+              className="bg-green rounded-full font-medium text-lg px-4 py-2 shadow-xl hover:bg-yellow hover:text-white w-full"
+              type="button"
+              onClick={() => addToCartHandler(product)}
+            >
+              Añadir al carrito
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
