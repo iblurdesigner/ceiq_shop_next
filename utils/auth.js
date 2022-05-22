@@ -16,4 +16,22 @@ const signToken = (user) => {
   );
 };
 
-export { signToken };
+const isAuth = async (req, res, next) => {
+  const { authorization } = req.headers;
+  if (authorization) {
+    // Bearer xxx => xxx    Este es el formato del token
+    const token = authorization.slice(7, authorization.length);
+    jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
+      if (err) {
+        res.status(401).send({ message: 'El Token no es válido' });
+      } else {
+        req.user = decode;
+        next();
+      }
+    });
+  } else {
+    res.status(401).send({ message: 'No se ha proporciona el token' });
+  }
+};
+
+export { signToken, isAuth };
