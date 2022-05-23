@@ -281,6 +281,7 @@ function Order({ params }) {
                           createOrder={createOrder}
                           onApprove={onApprove}
                           onError={onError}
+                          className="mx-5"
                         ></PayPalButtons>
                       </div>
                     )}
