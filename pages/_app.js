@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 import { StoreProvider } from '../utils/Store';
@@ -19,7 +20,9 @@ function MyApp({
       >
         <ThemeProvider attribute="class">
           <StoreProvider>
-            <Component {...pageProps} />;
+            <PayPalScriptProvider deferLoading={true}>
+              <Component {...pageProps} />;
+            </PayPalScriptProvider>
           </StoreProvider>
         </ThemeProvider>
       </SnackbarProvider>
