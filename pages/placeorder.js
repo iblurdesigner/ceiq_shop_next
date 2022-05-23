@@ -77,7 +77,7 @@ function PlaceOrder() {
   };
 
   return (
-    <Layout title="Carrito de compras">
+    <Layout title="Realizar Pedido">
       <CheckoutWizard activeStep={3}></CheckoutWizard>
       <h1 className="text-4xl py-4">Realizar Pedido</h1>
       <>
