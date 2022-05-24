@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 import dynamic from 'next/dynamic';
 import { Controller, useForm } from 'react-hook-form';
 import { useSnackbar } from 'notistack';
+import { getError } from '../utils/error';
 
 function Login() {
   const {
@@ -42,10 +43,7 @@ function Login() {
       router.push(redirect || '/');
       // alert('Inicio de sesión con exito!');
     } catch (err) {
-      enqueueSnackbar(
-        err.response.data ? err.response.data.message : err.message,
-        { variant: 'error' }
-      );
+      enqueueSnackbar(getError(err), { variant: 'error' });
     }
   };
 
