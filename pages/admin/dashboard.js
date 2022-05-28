@@ -92,6 +92,11 @@ function AdminDashboard() {
                     <ListItemText primary="Órdenes"></ListItemText>
                   </ListItem>
                 </Link>
+                <Link href="/admin/products" passHref>
+                  <ListItem button component="a">
+                    <ListItemText primary="Productos"></ListItemText>
+                  </ListItem>
+                </Link>
               </List>
             </div>
           </div>

@@ -14,7 +14,7 @@ function reducer(state, action) {
     case 'FETCH_REQUEST':
       return { ...state, loading: true, error: '' };
     case 'FETCH_SUCCESS':
-      return { ...state, loading: false, orders: action.payload, error: '' };
+      return { ...state, loading: false, products: action.payload, error: '' };
     case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
     default:
@@ -22,15 +22,15 @@ function reducer(state, action) {
   }
 }
 
-function OrdersDashboard() {
+function ProductsDashboard() {
   const { state } = useContext(Store);
   const router = useRouter();
 
   const { userInfo } = state;
 
-  const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
+  const [{ loading, error, products }, dispatch] = useReducer(reducer, {
     loading: true,
-    orders: [],
+    products: [],
     error: '',
   });
 
@@ -41,7 +41,7 @@ function OrdersDashboard() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/admin/orders`, {
+        const { data } = await axios.get(`/api/admin/products`, {
           headers: { authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
@@ -64,12 +64,12 @@ function OrdersDashboard() {
                   </ListItem>
                 </Link>
                 <Link href="/admin/orders" passHref>
-                  <ListItem selected button component="a">
+                  <ListItem button component="a">
                     <ListItemText primary="Órdenes"></ListItemText>
                   </ListItem>
                 </Link>
                 <Link href="/admin/products" passHref>
-                  <ListItem button component="a">
+                  <ListItem selected button component="a">
                     <ListItemText primary="Productos"></ListItemText>
                   </ListItem>
                 </Link>
@@ -95,44 +95,43 @@ function OrdersDashboard() {
                         <thead>
                           <tr>
                             <th className="py-2">ID</th>
-                            <th className="py-2">USUARIO</th>
-                            <th className="py-2">FECHA</th>
-                            <th className="py-2">TOTAL</th>
-                            <th className="py-2">PAGO</th>
-                            <th className="py-2">ENTREGA</th>
-                            <th className="py-2">ACCION</th>
+                            <th className="py-2">NOMBRE</th>
+                            <th className="py-2">PRECIO</th>
+                            <th className="py-2">CATEGORIA</th>
+                            <th className="py-2">CANTIDAD</th>
+                            <th className="py-2">RATING</th>
+                            <th className="py-2">ACCIONES</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {orders.map((order) => (
+                          {products.map((product) => (
                             <tr
-                              key={order._id}
+                              key={product._id}
                               className="divide-y divide-sky-300"
                             >
                               <td className="py-6">
-                                {order._id.substring(20, 24)}
+                                {product._id.substring(20, 24)}
                               </td>
+                              <td>{product.name}</td>
+                              <td>${product.price}</td>
+                              <td>{product.category}</td>
+                              <td>{product.countInStock}</td>
+                              <td>{product.rating}</td>
                               <td>
-                                {order.user
-                                  ? order.user.name
-                                  : 'ELIMINAR USUARIO'}
-                              </td>
-                              <td>{order.createdAt}</td>
-                              <td>${order.totalPrice}</td>
-                              <td>
-                                {order.isPaid
-                                  ? `pagado el ${order.paidAt}`
-                                  : 'sin pago'}
-                              </td>
-                              <td>
-                                {order.isDelivered
-                                  ? `entregado en ${order.deliveredAt}`
-                                  : 'sin entrega'}
-                              </td>
-                              <td>
-                                <Link href={`/order/${order._id}`} passHref>
+                                <Link
+                                  href={`/admin/product/${product._id}`}
+                                  passHref
+                                >
                                   <button className="bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow">
-                                    Detalles
+                                    Editar
+                                  </button>
+                                </Link>{' '}
+                                <Link
+                                  href={`/admin/product/${product._id}`}
+                                  passHref
+                                >
+                                  <button className="bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow">
+                                    Eliminar
                                   </button>
                                 </Link>
                               </td>
@@ -164,4 +163,6 @@ function OrdersDashboard() {
   );
 }
 
-export default dynamic(() => Promise.resolve(OrdersDashboard), { ssr: false });
+export default dynamic(() => Promise.resolve(ProductsDashboard), {
+  ssr: false,
+});
