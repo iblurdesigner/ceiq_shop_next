@@ -15,15 +15,10 @@ function reducer(state, action) {
     case 'FETCH_REQUEST':
       return { ...state, loading: true, error: '' };
     case 'FETCH_SUCCESS':
-      return { ...state, loading: false, products: action.payload, error: '' };
+      return { ...state, loading: false, users: action.payload, error: '' };
     case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
-    case 'CREATE_REQUEST':
-      return { ...state, loadingCreate: true };
-    case 'CREATE_SUCCESS':
-      return { ...state, loadingCreate: false };
-    case 'CREATE_FAIL':
-      return { ...state, loadingCreate: false };
+
     case 'DELETE_REQUEST':
       return { ...state, loadingDelete: true };
     case 'DELETE_SUCCESS':
@@ -37,20 +32,18 @@ function reducer(state, action) {
   }
 }
 
-function AdminProducts() {
+function AdminUsers() {
   const { state } = useContext(Store);
   const router = useRouter();
 
   const { userInfo } = state;
 
-  const [
-    { loading, error, products, loadingCreate, loadingDelete, successDelete },
-    dispatch,
-  ] = useReducer(reducer, {
-    loading: true,
-    products: [],
-    error: '',
-  });
+  const [{ loading, error, users, loadingDelete, successDelete }, dispatch] =
+    useReducer(reducer, {
+      loading: true,
+      users: [],
+      error: '',
+    });
 
   useEffect(() => {
     if (!userInfo) {
@@ -59,7 +52,7 @@ function AdminProducts() {
     const fetchData = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/admin/products`, {
+        const { data } = await axios.get(`/api/admin/users`, {
           headers: { authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
@@ -74,47 +67,27 @@ function AdminProducts() {
     }
   }, [successDelete]);
 
-  // ***** para crear un producto y para eliminarlo ******
+  // ***** para crear un usero y para eliminarlo ******
   const { enqueueSnackbar } = useSnackbar();
-  const createHandler = async () => {
-    if (!window.confirm('Está seguro de realizar este paso?')) {
-      return;
-    }
-    try {
-      dispatch({ type: 'CREATE_REQUEST' });
-      const { data } = await axios.post(
-        `/api/admin/products`,
-        {},
-        {
-          headers: { authorization: `Bearer ${userInfo.token}` },
-        }
-      );
-      dispatch({ type: 'CREATE_SUCCESS' });
-      enqueueSnackbar('Producto creado con exito', { variant: 'success' });
-      router.push(`/admin/product/${data.product._id}`);
-    } catch (err) {
-      dispatch({ type: 'CREATE_FAIL' });
-      enqueueSnackbar(getError(err), { variant: 'error' });
-    }
-  };
-  const deleteHandler = async (productId) => {
+
+  const deleteHandler = async (userId) => {
     if (!window.confirm('Está seguro de realizar esta acción?')) {
       return;
     }
     try {
       dispatch({ type: 'DELETE_REQUEST' });
-      await axios.delete(`/api/admin/products/${productId}`, {
+      await axios.delete(`/api/admin/users/${userId}`, {
         headers: { authorization: `Bearer ${userInfo.token}` },
       });
       dispatch({ type: 'DELETE_SUCCESS' });
-      enqueueSnackbar('Producto eliminado con exito', { variant: 'success' });
+      enqueueSnackbar('Usero eliminado con exito', { variant: 'success' });
     } catch (err) {
       dispatch({ type: 'DELETE_FAIL' });
       enqueueSnackbar(getError(err), { variant: 'error' });
     }
   };
 
-  // ***** para crear un producto y para eliminarlo ******
+  // ***** para crear un usero y para eliminarlo ******
 
   return (
     <>
@@ -134,12 +107,12 @@ function AdminProducts() {
                   </ListItem>
                 </Link>
                 <Link href="/admin/products" passHref>
-                  <ListItem selected button component="a">
+                  <ListItem button component="a">
                     <ListItemText primary="Productos"></ListItemText>
                   </ListItem>
                 </Link>
                 <Link href="/admin/users" passHref>
-                  <ListItem button component="a">
+                  <ListItem selected button component="a">
                     <ListItemText primary="Usuarios"></ListItemText>
                   </ListItem>
                 </Link>
@@ -151,17 +124,8 @@ function AdminProducts() {
             <div className="card p-6">
               <ul>
                 <li>
-                  <div className="flex justify-between items-center">
-                    <h1 className="text-4xl py-4">Productos</h1>
-                    {loadingDelete && <CircularProgress />}
-                    <button
-                      className="bg-yellow rounded-full px-3 py-1 h-fit shadow-xl hover:bg-green"
-                      onClick={createHandler}
-                    >
-                      Crear Producto
-                    </button>
-                    {loadingCreate && <CircularProgress />}
-                  </div>
+                  <h1 className="text-4xl py-4">Usuarios</h1>
+                  {loadingDelete && <CircularProgress />}
                 </li>
 
                 <li>
@@ -176,47 +140,35 @@ function AdminProducts() {
                           <tr>
                             <th className="py-2">ID</th>
                             <th className="py-2">NOMBRE</th>
-                            <th className="py-2">PRECIO</th>
-                            <th className="py-2">CATEGORIA</th>
-                            <th className="py-2">CANTIDAD</th>
-                            <th className="py-2">RATING</th>
+                            <th className="py-2">EMAIL</th>
+                            <th className="py-2">ADMINISTRADOR</th>
                             <th className="py-2">ACCIONES</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {products.map((product) => (
+                          {users.map((user) => (
                             <tr
-                              key={product._id}
+                              key={user._id}
                               className="divide-y divide-sky-300"
                             >
                               <td className="py-6">
-                                {product._id.substring(20, 24)}
+                                {user._id.substring(20, 24)}
                               </td>
-                              <td>{product.name}</td>
-                              <td>${product.price}</td>
-                              <td>{product.category}</td>
-                              <td>{product.countInStock}</td>
-                              <td>{product.rating}</td>
+                              <td>{user.name}</td>
+                              <td>{user.email}</td>
+                              <td>{user.isAdmin ? 'SI' : 'NO'}</td>
                               <td>
-                                <Link
-                                  href={`/admin/product/${product._id}`}
-                                  passHref
-                                >
+                                <Link href={`/admin/user/${user._id}`} passHref>
                                   <button className="bg-cyan rounded-full px-3 py-1 shadow-xl hover:bg-green">
                                     Editar
                                   </button>
                                 </Link>{' '}
-                                <Link
-                                  href={`/admin/product/${product._id}`}
-                                  passHref
+                                <button
+                                  onClick={() => deleteHandler(user._id)}
+                                  className="bg-red-400 rounded-full px-3 py-1 shadow-xl hover:bg-red-200"
                                 >
-                                  <button
-                                    onClick={() => deleteHandler(product._id)}
-                                    className="bg-red-400 rounded-full px-3 py-1 shadow-xl hover:bg-red-200"
-                                  >
-                                    Eliminar
-                                  </button>
-                                </Link>
+                                  Eliminar
+                                </button>
                               </td>
                             </tr>
                           ))}
@@ -246,6 +198,6 @@ function AdminProducts() {
   );
 }
 
-export default dynamic(() => Promise.resolve(AdminProducts), {
+export default dynamic(() => Promise.resolve(AdminUsers), {
   ssr: false,
 });

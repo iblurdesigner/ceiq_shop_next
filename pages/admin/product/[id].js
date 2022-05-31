@@ -186,6 +186,11 @@ function ProductEdit({ params }) {
                     <ListItemText primary="Productos"></ListItemText>
                   </ListItem>
                 </Link>
+                <Link href="/admin/users" passHref>
+                  <ListItem button component="a">
+                    <ListItemText primary="Usuarios"></ListItemText>
+                  </ListItem>
+                </Link>
               </List>
             </div>
           </div>

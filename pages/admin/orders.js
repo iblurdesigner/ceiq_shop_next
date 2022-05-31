@@ -22,7 +22,7 @@ function reducer(state, action) {
   }
 }
 
-function OrdersDashboard() {
+function AdminOrders() {
   const { state } = useContext(Store);
   const router = useRouter();
 
@@ -71,6 +71,11 @@ function OrdersDashboard() {
                 <Link href="/admin/products" passHref>
                   <ListItem button component="a">
                     <ListItemText primary="Productos"></ListItemText>
+                  </ListItem>
+                </Link>
+                <Link href="/admin/users" passHref>
+                  <ListItem button component="a">
+                    <ListItemText primary="Usuarios"></ListItemText>
                   </ListItem>
                 </Link>
               </List>
@@ -164,4 +169,4 @@ function OrdersDashboard() {
   );
 }
 
-export default dynamic(() => Promise.resolve(OrdersDashboard), { ssr: false });
+export default dynamic(() => Promise.resolve(AdminOrders), { ssr: false });
