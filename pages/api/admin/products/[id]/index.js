@@ -36,4 +36,17 @@ handler.put(async (req, res) => {
   }
 });
 
+handler.delete(async (req, res) => {
+  await db.connect();
+  const product = await Product.findById(req.query.id);
+  if (product) {
+    await product.remove();
+    await db.disconnect();
+    res.send({ message: 'Producto eliminado' });
+  } else {
+    await db.disconnect();
+    res.status(404).send({ message: 'No se encuentra el Producto' });
+  }
+});
+
 export default handler;
