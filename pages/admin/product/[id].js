@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import React, { useEffect, useContext, useReducer } from 'react';
 import {
+  Button,
   CircularProgress,
   List,
   ListItem,
@@ -30,6 +31,16 @@ function reducer(state, action) {
       return { ...state, loadingUpdate: false, errorUpdate: '' };
     case 'UPDATE_FAIL':
       return { ...state, loadingUpdate: false, errorUpdate: action.payload };
+    case 'UPLOAD_REQUEST':
+      return { ...state, loadingUpload: true, errorUpload: '' };
+    case 'UPLOAD_SUCCESS':
+      return {
+        ...state,
+        loadingUpload: false,
+        errorUpload: '',
+      };
+    case 'UPLOAD_FAIL':
+      return { ...state, loadingUpload: false, errorUpload: action.payload };
     default:
       state;
   }
@@ -39,10 +50,11 @@ function ProductEdit({ params }) {
   const productId = params.id;
   const { state } = useContext(Store);
 
-  const [{ loading, error, loadingUpdate }, dispatch] = useReducer(reducer, {
-    loading: true,
-    error: '',
-  });
+  const [{ loading, error, loadingUpdate, loadingUpload }, dispatch] =
+    useReducer(reducer, {
+      loading: true,
+      error: '',
+    });
 
   const {
     handleSubmit,
@@ -83,6 +95,29 @@ function ProductEdit({ params }) {
       fetchData();
     }
   }, []);
+
+  const uploadHandler = async (e) => {
+    const file = e.target.files[0];
+    const bodyFormData = new FormData();
+    bodyFormData.append('file', file);
+    try {
+      dispatch({ type: 'UPLOAD_REQUEST' });
+      const { data } = await axios.post('/api/admin/upload', bodyFormData, {
+        headers: {
+          'Content-Type': 'multipar  t/form-data',
+          authorization: `Bearer ${userInfo.token}`,
+        },
+      });
+      dispatch({ type: 'UPLOAD_SUCCESS' });
+      setValue('image', data.secure_url);
+      enqueueSnackbar('El archivo se ha subido, actualice por favor', {
+        variant: 'success',
+      });
+    } catch (err) {
+      dispatch({ type: 'UPLOAD_FAIL', payload: getError(err) });
+      enqueueSnackbar(getError(err), { variant: 'error' });
+    }
+  };
 
   const submitHandler = async ({
     name,
@@ -267,6 +302,19 @@ function ProductEdit({ params }) {
                               )}
                             ></Controller>
                           </ListItem>
+
+                          <ListItem>
+                            <Button variant="contained" component="label">
+                              Subir imagen
+                              <input
+                                type="file"
+                                onChange={uploadHandler}
+                                hidden
+                              />
+                            </Button>
+                            {loadingUpload && <CircularProgress />}
+                          </ListItem>
+
                           <ListItem>
                             <Controller
                               name="category"
@@ -416,6 +464,7 @@ function ProductEdit({ params }) {
                               )}
                             ></Controller>
                           </ListItem>
+
                           <ListItem>
                             <button
                               className="bg-green py-2 px-8 shadow-md rounded-full hover:bg-cyan"
