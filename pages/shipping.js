@@ -1,12 +1,12 @@
-import { List, ListItem, TextField } from '@mui/material';
-import React, { useContext, useEffect } from 'react';
-import Layout from '../components/Layout';
-import { Store } from '../utils/Store';
-import { useRouter } from 'next/router';
-import Cookies from 'js-cookie';
-import dynamic from 'next/dynamic';
-import { Controller, useForm } from 'react-hook-form';
-import CheckoutWizard from '../components/CheckoutWizard';
+import { List, ListItem, TextField } from "@mui/material";
+import React, { useContext, useEffect } from "react";
+import Layout from "../components/Layout";
+import { Store } from "../utils/Store";
+import { useRouter } from "next/router";
+import Cookies from "js-cookie";
+import dynamic from "next/dynamic";
+import { Controller, useForm } from "react-hook-form";
+import CheckoutWizard from "../components/CheckoutWizard";
 
 function Shipping() {
   const {
@@ -25,22 +25,22 @@ function Shipping() {
 
   useEffect(() => {
     if (!userInfo) {
-      router.push('/login?redirect=/shipping');
+      router.push("/login?redirect=/shipping");
     }
-    setValue('fullName', shippingAddress.fullName);
-    setValue('address', shippingAddress.address);
-    setValue('city', shippingAddress.city);
-    setValue('postalCode', shippingAddress.postalCode);
-    setValue('country', shippingAddress.country);
+    setValue("fullName", shippingAddress.fullName);
+    setValue("address", shippingAddress.address);
+    setValue("city", shippingAddress.city);
+    setValue("postalCode", shippingAddress.postalCode);
+    setValue("country", shippingAddress.country);
   }, []);
 
   const submitHandler = ({ fullName, address, city, postalCode, country }) => {
     dispatch({
-      type: 'SAVE_SHIPPING_ADDRESS',
+      type: "SAVE_SHIPPING_ADDRESS",
       payload: { fullName, address, city, postalCode, country },
     });
     Cookies.set(
-      'shippingAddress',
+      "shippingAddress",
       JSON.stringify({
         fullName,
         address,
@@ -49,7 +49,7 @@ function Shipping() {
         country,
       })
     );
-    router.push('/payment');
+    router.push("/payment");
   };
 
   return (
@@ -81,10 +81,10 @@ function Shipping() {
                       error={Boolean(errors.fullName)}
                       helperText={
                         errors.fullName
-                          ? errors.fullName.type === 'minLength'
-                            ? 'Nombre completo debe contener al menos un caracter'
-                            : 'Nombre completo es requerido'
-                          : ''
+                          ? errors.fullName.type === "minLength"
+                            ? "Nombre completo debe contener al menos un caracter"
+                            : "Nombre completo es requerido"
+                          : ""
                       }
                       {...field}
                     ></TextField>
@@ -109,10 +109,10 @@ function Shipping() {
                       error={Boolean(errors.address)}
                       helperText={
                         errors.address
-                          ? errors.address.type === 'minLength'
-                            ? 'La Dirección debe contener al menos un caracter'
-                            : 'La Dirección es requerida'
-                          : ''
+                          ? errors.address.type === "minLength"
+                            ? "La Dirección debe contener al menos un caracter"
+                            : "La Dirección es requerida"
+                          : ""
                       }
                       {...field}
                     ></TextField>
@@ -137,10 +137,10 @@ function Shipping() {
                       error={Boolean(errors.city)}
                       helperText={
                         errors.city
-                          ? errors.city.type === 'minLength'
-                            ? 'El campo ciudad debe contener al menos un caracter'
-                            : 'La Ciudad es requerida'
-                          : ''
+                          ? errors.city.type === "minLength"
+                            ? "El campo ciudad debe contener al menos un caracter"
+                            : "La Ciudad es requerida"
+                          : ""
                       }
                       {...field}
                     ></TextField>
@@ -165,10 +165,10 @@ function Shipping() {
                       error={Boolean(errors.postalCode)}
                       helperText={
                         errors.postalCode
-                          ? errors.postalCode.type === 'minLength'
-                            ? 'El campo Código Postal debe contener al menos un caracter'
-                            : 'El Código Postal es requerido'
-                          : ''
+                          ? errors.postalCode.type === "minLength"
+                            ? "El campo Código Postal debe contener al menos un caracter"
+                            : "El Código Postal es requerido"
+                          : ""
                       }
                       {...field}
                     ></TextField>
@@ -193,10 +193,10 @@ function Shipping() {
                       error={Boolean(errors.country)}
                       helperText={
                         errors.country
-                          ? errors.country.type === 'minLength'
-                            ? 'El campo País debe contener al menos un caracter'
-                            : 'El País es requerido'
-                          : ''
+                          ? errors.country.type === "minLength"
+                            ? "El campo País debe contener al menos un caracter"
+                            : "El País es requerido"
+                          : ""
                       }
                       {...field}
                     ></TextField>
@@ -219,6 +219,6 @@ function Shipping() {
   );
 }
 
-//esto es para evitar el error de Hydration
+// esto es para evitar el error de Hydration
 
 export default dynamic(() => Promise.resolve(Shipping), { ssr: false });

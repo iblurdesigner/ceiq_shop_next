@@ -1,17 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import Layout from '../components/Layout';
-import { Store } from '../utils/Store';
-import CheckoutWizard from '../components/CheckoutWizard';
-import Cookies from 'js-cookie';
-import { useSnackbar } from 'notistack';
-import Link from 'next/link';
-import Image from 'next/image';
+import React, { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Layout from "../components/Layout";
+import { Store } from "../utils/Store";
+import CheckoutWizard from "../components/CheckoutWizard";
+import Cookies from "js-cookie";
+import { useSnackbar } from "notistack";
+import Link from "next/link";
+import Image from "next/image";
 
-import dynamic from 'next/dynamic';
-import axios from 'axios';
-import { getError } from '../utils/error';
-import { CircularProgress } from '@mui/material';
+import dynamic from "next/dynamic";
+import axios from "axios";
+import { getError } from "../utils/error";
+import { CircularProgress } from "@mui/material";
 
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
 
@@ -23,7 +23,7 @@ function PlaceOrder() {
     cart: { cartItems, shippingAddress, paymentMethod },
   } = state;
 
-  //calculo de precios
+  // calculo de precios
   const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100; // esto va a subir a l inmediato superior de 3 decimales
   const itemsPrice = round2(
     cartItems.reduce((a, c) => a + c.price * c.quantity, 0)
@@ -32,13 +32,13 @@ function PlaceOrder() {
   const taxPrice = round2(itemsPrice * 0.12);
   const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
 
-  //redireccion
+  // redireccion
   useEffect(() => {
     if (!paymentMethod) {
-      router.push('/payment');
+      router.push("/payment");
     }
     if (cartItems.length === 0) {
-      router.push('/cart');
+      router.push("/cart");
     }
   }, []);
 
@@ -50,7 +50,7 @@ function PlaceOrder() {
     try {
       setLoading(true);
       const { data } = await axios.post(
-        '/api/orders',
+        "/api/orders",
         {
           orderItems: cartItems,
           shippingAddress,
@@ -66,13 +66,13 @@ function PlaceOrder() {
           },
         }
       );
-      dispatch({ type: 'CART_CLEAR' });
-      Cookies.remove('cartItems');
+      dispatch({ type: "CART_CLEAR" });
+      Cookies.remove("cartItems");
       setLoading(false);
       router.push(`/order/${data._id}`);
     } catch (err) {
       setLoading(false);
-      enqueueSnackbar(getError(err), { variant: 'error' });
+      enqueueSnackbar(getError(err), { variant: "error" });
     }
   };
 
@@ -91,8 +91,8 @@ function PlaceOrder() {
                   </h2>
                 </li>
                 <li>
-                  {shippingAddress.fullName}, {shippingAddress.address},{' '}
-                  {shippingAddress.city}, {shippingAddress.postalCode},{' '}
+                  {shippingAddress.fullName}, {shippingAddress.address},{" "}
+                  {shippingAddress.city}, {shippingAddress.postalCode},{" "}
                   {shippingAddress.country}
                 </li>
               </ul>
@@ -218,5 +218,5 @@ function PlaceOrder() {
   );
 }
 
-//esto es para evitar el error de Hydration
+// esto es para evitar el error de Hydration
 export default dynamic(() => Promise.resolve(PlaceOrder), { ssr: false });

@@ -1,8 +1,8 @@
-import axios from 'axios';
-import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import React, { useEffect, useContext, useState, useReducer } from 'react';
+import axios from "axios";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import React, { useEffect, useContext, useState, useReducer } from "react";
 import {
   Button,
   Checkbox,
@@ -12,40 +12,39 @@ import {
   ListItemText,
   TextField,
   FormControlLabel,
-} from '@mui/material';
-import { getError } from '../../../utils/error';
-import { Store } from '../../../utils/Store';
-import Layout from '../../../components/Layout';
-import { Controller, useForm } from 'react-hook-form';
-import { useSnackbar } from 'notistack';
+} from "@mui/material";
+import { getError } from "../../../utils/error";
+import { Store } from "../../../utils/Store";
+import Layout from "../../../components/Layout";
+import { Controller, useForm } from "react-hook-form";
+import { useSnackbar } from "notistack";
 // import { data } from 'autoprefixer';
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'FETCH_REQUEST':
-      return { ...state, loading: true, error: '' };
-    case 'FETCH_SUCCESS':
-      return { ...state, loading: false, error: '' };
-    case 'FETCH_FAIL':
+    case "FETCH_REQUEST":
+      return { ...state, loading: true, error: "" };
+    case "FETCH_SUCCESS":
+      return { ...state, loading: false, error: "" };
+    case "FETCH_FAIL":
       return { ...state, loading: false, error: action.payload };
-    case 'UPDATE_REQUEST':
-      return { ...state, loadingUpdate: true, errorUpdate: '' };
-    case 'UPDATE_SUCCESS':
-      return { ...state, loadingUpdate: false, errorUpdate: '' };
-    case 'UPDATE_FAIL':
+    case "UPDATE_REQUEST":
+      return { ...state, loadingUpdate: true, errorUpdate: "" };
+    case "UPDATE_SUCCESS":
+      return { ...state, loadingUpdate: false, errorUpdate: "" };
+    case "UPDATE_FAIL":
       return { ...state, loadingUpdate: false, errorUpdate: action.payload };
-    case 'UPLOAD_REQUEST':
-      return { ...state, loadingUpload: true, errorUpload: '' };
-    case 'UPLOAD_SUCCESS':
+    case "UPLOAD_REQUEST":
+      return { ...state, loadingUpload: true, errorUpload: "" };
+    case "UPLOAD_SUCCESS":
       return {
         ...state,
         loadingUpload: false,
-        errorUpload: '',
+        errorUpload: "",
       };
-    case 'UPLOAD_FAIL':
+    case "UPLOAD_FAIL":
       return { ...state, loadingUpload: false, errorUpload: action.payload };
     default:
-      state;
   }
 }
 
@@ -56,7 +55,7 @@ function UserEdit({ params }) {
   const [{ loading, error, loadingUpdate, loadingUpload }, dispatch] =
     useReducer(reducer, {
       loading: true,
-      error: '',
+      error: "",
     });
 
   const {
@@ -75,19 +74,19 @@ function UserEdit({ params }) {
 
   useEffect(() => {
     if (!userInfo) {
-      return router.push('/login');
+      return router.push("/login");
     } else {
       const fetchData = async () => {
         try {
-          dispatch({ type: 'FETCH_REQUEST' });
+          dispatch({ type: "FETCH_REQUEST" });
           const { data } = await axios.get(`/api/admin/users/${userId}`, {
             headers: { authorization: `Bearer ${userInfo.token}` },
           });
           setIsAdmin(data.isAdmin);
-          dispatch({ type: 'FETCH_SUCCESS' });
-          setValue('name', data.name);
+          dispatch({ type: "FETCH_SUCCESS" });
+          setValue("name", data.name);
         } catch (err) {
-          dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
+          dispatch({ type: "FETCH_FAIL", payload: getError(err) });
         }
       };
       fetchData();
@@ -97,23 +96,23 @@ function UserEdit({ params }) {
   const uploadHandler = async (e) => {
     const file = e.target.files[0];
     const bodyFormData = new FormData();
-    bodyFormData.append('file', file);
+    bodyFormData.append("file", file);
     try {
-      dispatch({ type: 'UPLOAD_REQUEST' });
-      const { data } = await axios.post('/api/admin/upload', bodyFormData, {
+      dispatch({ type: "UPLOAD_REQUEST" });
+      const { data } = await axios.post("/api/admin/upload", bodyFormData, {
         headers: {
-          'Content-Type': 'multipar  t/form-data',
+          "Content-Type": "multipar  t/form-data",
           authorization: `Bearer ${userInfo.token}`,
         },
       });
-      dispatch({ type: 'UPLOAD_SUCCESS' });
-      setValue('image', data.secure_url);
-      enqueueSnackbar('El archivo se ha subido, actualice por favor', {
-        variant: 'success',
+      dispatch({ type: "UPLOAD_SUCCESS" });
+      setValue("image", data.secure_url);
+      enqueueSnackbar("El archivo se ha subido, actualice por favor", {
+        variant: "success",
       });
     } catch (err) {
-      dispatch({ type: 'UPLOAD_FAIL', payload: getError(err) });
-      enqueueSnackbar(getError(err), { variant: 'error' });
+      dispatch({ type: "UPLOAD_FAIL", payload: getError(err) });
+      enqueueSnackbar(getError(err), { variant: "error" });
     }
   };
 
@@ -132,7 +131,7 @@ function UserEdit({ params }) {
     closeSnackbar();
 
     try {
-      dispatch({ type: 'UPDATE_REQUEST' });
+      dispatch({ type: "UPDATE_REQUEST" });
       await axios.put(
         `/api/admin/users/${userId}`,
         {
@@ -150,15 +149,15 @@ function UserEdit({ params }) {
         },
         { headers: { authorization: `Bearer ${userInfo.token}` } }
       );
-      dispatch({ type: 'UPDATE_SUCCESS' });
-      enqueueSnackbar('El Usero se ha actualizado con exito!', {
-        variant: 'success',
+      dispatch({ type: "UPDATE_SUCCESS" });
+      enqueueSnackbar("El Usero se ha actualizado con exito!", {
+        variant: "success",
       });
-      router.push('/admin/users');
+      router.push("/admin/users");
     } catch (err) {
-      dispatch({ type: 'UPDATE_FAIL', payload: getError(err) });
+      dispatch({ type: "UPDATE_FAIL", payload: getError(err) });
       enqueueSnackbar(getError(err), {
-        variant: 'error',
+        variant: "error",
       });
     }
   };
@@ -228,7 +227,7 @@ function UserEdit({ params }) {
                                   label="Nombre"
                                   error={Boolean(errors.name)}
                                   helperText={
-                                    errors.name ? 'El nombre es requerido' : ''
+                                    errors.name ? "El nombre es requerido" : ""
                                   }
                                   {...field}
                                 ></TextField>
@@ -252,7 +251,7 @@ function UserEdit({ params }) {
                                   label="Imagen"
                                   error={Boolean(errors.image)}
                                   helperText={
-                                    errors.image ? 'La imagen es requerido' : ''
+                                    errors.image ? "La imagen es requerido" : ""
                                   }
                                   {...field}
                                 ></TextField>

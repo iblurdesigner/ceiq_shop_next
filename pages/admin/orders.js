@@ -1,24 +1,23 @@
-import axios from 'axios';
-import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import React, { useEffect, useContext, useReducer } from 'react';
-import { CircularProgress, List, ListItem, ListItemText } from '@mui/material';
+import axios from "axios";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import React, { useEffect, useContext, useReducer } from "react";
+import { CircularProgress, List, ListItem, ListItemText } from "@mui/material";
 
-import { getError } from '../../utils/error';
-import { Store } from '../../utils/Store';
-import Layout from '../../components/Layout';
+import { getError } from "../../utils/error";
+import { Store } from "../../utils/Store";
+import Layout from "../../components/Layout";
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'FETCH_REQUEST':
-      return { ...state, loading: true, error: '' };
-    case 'FETCH_SUCCESS':
-      return { ...state, loading: false, orders: action.payload, error: '' };
-    case 'FETCH_FAIL':
+    case "FETCH_REQUEST":
+      return { ...state, loading: true, error: "" };
+    case "FETCH_SUCCESS":
+      return { ...state, loading: false, orders: action.payload, error: "" };
+    case "FETCH_FAIL":
       return { ...state, loading: false, error: action.payload };
     default:
-      state;
   }
 }
 
@@ -31,22 +30,22 @@ function AdminOrders() {
   const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
     loading: true,
     orders: [],
-    error: '',
+    error: "",
   });
 
   useEffect(() => {
     if (!userInfo) {
-      router.push('/login');
+      router.push("/login");
     }
     const fetchData = async () => {
       try {
-        dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/admin/orders`, {
+        dispatch({ type: "FETCH_REQUEST" });
+        const { data } = await axios.get("/api/admin/orders", {
           headers: { authorization: `Bearer ${userInfo.token}` },
         });
-        dispatch({ type: 'FETCH_SUCCESS', payload: data });
+        dispatch({ type: "FETCH_SUCCESS", payload: data });
       } catch (err) {
-        dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
+        dispatch({ type: "FETCH_FAIL", payload: getError(err) });
       }
     };
     fetchData();
@@ -120,19 +119,19 @@ function AdminOrders() {
                               <td>
                                 {order.user
                                   ? order.user.name
-                                  : 'ELIMINAR USUARIO'}
+                                  : "ELIMINAR USUARIO"}
                               </td>
                               <td>{order.createdAt}</td>
                               <td>${order.totalPrice}</td>
                               <td>
                                 {order.isPaid
                                   ? `pagado el ${order.paidAt}`
-                                  : 'sin pago'}
+                                  : "sin pago"}
                               </td>
                               <td>
                                 {order.isDelivered
                                   ? `entregado en ${order.deliveredAt}`
-                                  : 'sin entrega'}
+                                  : "sin entrega"}
                               </td>
                               <td>
                                 <Link href={`/order/${order._id}`} passHref>

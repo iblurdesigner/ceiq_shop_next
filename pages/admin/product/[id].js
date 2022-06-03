@@ -1,8 +1,8 @@
-import axios from 'axios';
-import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import React, { useEffect, useContext, useReducer } from 'react';
+import axios from "axios";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import React, { useEffect, useContext, useReducer } from "react";
 import {
   Button,
   CircularProgress,
@@ -10,39 +10,38 @@ import {
   ListItem,
   ListItemText,
   TextField,
-} from '@mui/material';
-import { getError } from '../../../utils/error';
-import { Store } from '../../../utils/Store';
-import Layout from '../../../components/Layout';
-import { Controller, useForm } from 'react-hook-form';
-import { useSnackbar } from 'notistack';
+} from "@mui/material";
+import { getError } from "../../../utils/error";
+import { Store } from "../../../utils/Store";
+import Layout from "../../../components/Layout";
+import { Controller, useForm } from "react-hook-form";
+import { useSnackbar } from "notistack";
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'FETCH_REQUEST':
-      return { ...state, loading: true, error: '' };
-    case 'FETCH_SUCCESS':
-      return { ...state, loading: false, error: '' };
-    case 'FETCH_FAIL':
+    case "FETCH_REQUEST":
+      return { ...state, loading: true, error: "" };
+    case "FETCH_SUCCESS":
+      return { ...state, loading: false, error: "" };
+    case "FETCH_FAIL":
       return { ...state, loading: false, error: action.payload };
-    case 'UPDATE_REQUEST':
-      return { ...state, loadingUpdate: true, errorUpdate: '' };
-    case 'UPDATE_SUCCESS':
-      return { ...state, loadingUpdate: false, errorUpdate: '' };
-    case 'UPDATE_FAIL':
+    case "UPDATE_REQUEST":
+      return { ...state, loadingUpdate: true, errorUpdate: "" };
+    case "UPDATE_SUCCESS":
+      return { ...state, loadingUpdate: false, errorUpdate: "" };
+    case "UPDATE_FAIL":
       return { ...state, loadingUpdate: false, errorUpdate: action.payload };
-    case 'UPLOAD_REQUEST':
-      return { ...state, loadingUpload: true, errorUpload: '' };
-    case 'UPLOAD_SUCCESS':
+    case "UPLOAD_REQUEST":
+      return { ...state, loadingUpload: true, errorUpload: "" };
+    case "UPLOAD_SUCCESS":
       return {
         ...state,
         loadingUpload: false,
-        errorUpload: '',
+        errorUpload: "",
       };
-    case 'UPLOAD_FAIL':
+    case "UPLOAD_FAIL":
       return { ...state, loadingUpload: false, errorUpload: action.payload };
     default:
-      state;
   }
 }
 
@@ -53,7 +52,7 @@ function ProductEdit({ params }) {
   const [{ loading, error, loadingUpdate, loadingUpload }, dispatch] =
     useReducer(reducer, {
       loading: true,
-      error: '',
+      error: "",
     });
 
   const {
@@ -69,27 +68,27 @@ function ProductEdit({ params }) {
 
   useEffect(() => {
     if (!userInfo) {
-      return router.push('/login');
+      return router.push("/login");
     } else {
       const fetchData = async () => {
         try {
-          dispatch({ type: 'FETCH_REQUEST' });
+          dispatch({ type: "FETCH_REQUEST" });
           const { data } = await axios.get(`/api/admin/products/${productId}`, {
             headers: { authorization: `Bearer ${userInfo.token}` },
           });
-          dispatch({ type: 'FETCH_SUCCESS' });
-          setValue('name', data.name);
-          setValue('slug', data.slug);
-          setValue('price', data.price);
-          setValue('image', data.image);
-          setValue('category', data.category);
-          setValue('brand', data.brand);
-          setValue('rating', data.rating);
-          setValue('numReviews', data.numReviews);
-          setValue('countInStock', data.countInStock);
-          setValue('description', data.description);
+          dispatch({ type: "FETCH_SUCCESS" });
+          setValue("name", data.name);
+          setValue("slug", data.slug);
+          setValue("price", data.price);
+          setValue("image", data.image);
+          setValue("category", data.category);
+          setValue("brand", data.brand);
+          setValue("rating", data.rating);
+          setValue("numReviews", data.numReviews);
+          setValue("countInStock", data.countInStock);
+          setValue("description", data.description);
         } catch (err) {
-          dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
+          dispatch({ type: "FETCH_FAIL", payload: getError(err) });
         }
       };
       fetchData();
@@ -99,23 +98,23 @@ function ProductEdit({ params }) {
   const uploadHandler = async (e) => {
     const file = e.target.files[0];
     const bodyFormData = new FormData();
-    bodyFormData.append('file', file);
+    bodyFormData.append("file", file);
     try {
-      dispatch({ type: 'UPLOAD_REQUEST' });
-      const { data } = await axios.post('/api/admin/upload', bodyFormData, {
+      dispatch({ type: "UPLOAD_REQUEST" });
+      const { data } = await axios.post("/api/admin/upload", bodyFormData, {
         headers: {
-          'Content-Type': 'multipar  t/form-data',
+          "Content-Type": "multipar  t/form-data",
           authorization: `Bearer ${userInfo.token}`,
         },
       });
-      dispatch({ type: 'UPLOAD_SUCCESS' });
-      setValue('image', data.secure_url);
-      enqueueSnackbar('El archivo se ha subido, actualice por favor', {
-        variant: 'success',
+      dispatch({ type: "UPLOAD_SUCCESS" });
+      setValue("image", data.secure_url);
+      enqueueSnackbar("El archivo se ha subido, actualice por favor", {
+        variant: "success",
       });
     } catch (err) {
-      dispatch({ type: 'UPLOAD_FAIL', payload: getError(err) });
-      enqueueSnackbar(getError(err), { variant: 'error' });
+      dispatch({ type: "UPLOAD_FAIL", payload: getError(err) });
+      enqueueSnackbar(getError(err), { variant: "error" });
     }
   };
 
@@ -134,7 +133,7 @@ function ProductEdit({ params }) {
     closeSnackbar();
 
     try {
-      dispatch({ type: 'UPDATE_REQUEST' });
+      dispatch({ type: "UPDATE_REQUEST" });
       await axios.put(
         `/api/admin/products/${productId}`,
         {
@@ -151,15 +150,15 @@ function ProductEdit({ params }) {
         },
         { headers: { authorization: `Bearer ${userInfo.token}` } }
       );
-      dispatch({ type: 'UPDATE_SUCCESS' });
-      enqueueSnackbar('El Producto se ha actualizado con exito!', {
-        variant: 'success',
+      dispatch({ type: "UPDATE_SUCCESS" });
+      enqueueSnackbar("El Producto se ha actualizado con exito!", {
+        variant: "success",
       });
-      router.push('/admin/products');
+      router.push("/admin/products");
     } catch (err) {
-      dispatch({ type: 'UPDATE_FAIL', payload: getError(err) });
+      dispatch({ type: "UPDATE_FAIL", payload: getError(err) });
       enqueueSnackbar(getError(err), {
-        variant: 'error',
+        variant: "error",
       });
     }
   };
@@ -231,7 +230,7 @@ function ProductEdit({ params }) {
                                   label="Nombre"
                                   error={Boolean(errors.name)}
                                   helperText={
-                                    errors.name ? 'El nombre es requerido' : ''
+                                    errors.name ? "El nombre es requerido" : ""
                                   }
                                   {...field}
                                 ></TextField>
@@ -254,7 +253,7 @@ function ProductEdit({ params }) {
                                   label="Slug"
                                   error={Boolean(errors.slug)}
                                   helperText={
-                                    errors.slug ? 'Slug es requerido' : ''
+                                    errors.slug ? "Slug es requerido" : ""
                                   }
                                   {...field}
                                 ></TextField>
@@ -277,7 +276,7 @@ function ProductEdit({ params }) {
                                   label="Precio"
                                   error={Boolean(errors.price)}
                                   helperText={
-                                    errors.price ? 'El precio es requerido' : ''
+                                    errors.price ? "El precio es requerido" : ""
                                   }
                                   {...field}
                                 ></TextField>
@@ -300,7 +299,7 @@ function ProductEdit({ params }) {
                                   label="Imagen"
                                   error={Boolean(errors.image)}
                                   helperText={
-                                    errors.image ? 'La imagen es requerido' : ''
+                                    errors.image ? "La imagen es requerido" : ""
                                   }
                                   {...field}
                                 ></TextField>
@@ -337,8 +336,8 @@ function ProductEdit({ params }) {
                                   error={Boolean(errors.category)}
                                   helperText={
                                     errors.category
-                                      ? 'La Categoría es requerido'
-                                      : ''
+                                      ? "La Categoría es requerido"
+                                      : ""
                                   }
                                   {...field}
                                 ></TextField>
@@ -361,7 +360,7 @@ function ProductEdit({ params }) {
                                   label="Marca"
                                   error={Boolean(errors.brand)}
                                   helperText={
-                                    errors.brand ? 'La marca es requerido' : ''
+                                    errors.brand ? "La marca es requerido" : ""
                                   }
                                   {...field}
                                 ></TextField>
@@ -385,8 +384,8 @@ function ProductEdit({ params }) {
                                   error={Boolean(errors.rating)}
                                   helperText={
                                     errors.rating
-                                      ? 'El rating es requerido'
-                                      : ''
+                                      ? "El rating es requerido"
+                                      : ""
                                   }
                                   {...field}
                                 ></TextField>
@@ -410,8 +409,8 @@ function ProductEdit({ params }) {
                                   error={Boolean(errors.numReviews)}
                                   helperText={
                                     errors.numReviews
-                                      ? 'Las revisiones son requeridas'
-                                      : ''
+                                      ? "Las revisiones son requeridas"
+                                      : ""
                                   }
                                   {...field}
                                 ></TextField>
@@ -435,8 +434,8 @@ function ProductEdit({ params }) {
                                   error={Boolean(errors.countInStock)}
                                   helperText={
                                     errors.countInStock
-                                      ? 'La cantidad es requerida'
-                                      : ''
+                                      ? "La cantidad es requerida"
+                                      : ""
                                   }
                                   {...field}
                                 ></TextField>
@@ -461,8 +460,8 @@ function ProductEdit({ params }) {
                                   error={Boolean(errors.description)}
                                   helperText={
                                     errors.description
-                                      ? 'La descripción es requerida'
-                                      : ''
+                                      ? "La descripción es requerida"
+                                      : ""
                                   }
                                   {...field}
                                 ></TextField>

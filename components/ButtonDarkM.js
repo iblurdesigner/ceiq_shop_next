@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import { useTheme } from 'next-themes';
-import Button from './Button';
+import { useTheme } from "next-themes";
+import Button from "./Button";
 
 export default function ButtonDarkM() {
   const { systemTheme, theme, setTheme } = useTheme();
 
-  //esto es para que el color del icono cambie correctamente
+  // esto es para que el color del icono cambie correctamente
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  //para agregar el icono de la luna para darkMode
+  // para agregar el icono de la luna para darkMode
   const renderThemeChanger = () => {
     if (!mounted) return null;
 
-    const currentTheme = theme === 'system' ? systemTheme : theme;
+    const currentTheme = theme === "system" ? systemTheme : theme;
 
-    if (currentTheme === 'dark') {
+    if (currentTheme === "dark") {
       return (
-        <Button className="dark:bg-gray-600" onClick={() => setTheme('light')}>
+        <Button className="dark:bg-gray-600" onClick={() => setTheme("light")}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5"
@@ -38,7 +38,7 @@ export default function ButtonDarkM() {
       );
     } else {
       return (
-        <Button onClick={() => setTheme('dark')}>
+        <Button onClick={() => setTheme("dark")}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5"

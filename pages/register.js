@@ -1,15 +1,15 @@
-import { List, ListItem, TextField } from '@mui/material';
-import axios from 'axios';
-import Link from 'next/link';
-import React, { useContext, useEffect } from 'react';
-import Layout from '../components/Layout';
-import { Store } from '../utils/Store';
-import { useRouter } from 'next/router';
-import Cookies from 'js-cookie';
-import dynamic from 'next/dynamic';
-import { Controller, useForm } from 'react-hook-form';
-import { useSnackbar } from 'notistack';
-import { getError } from '../utils/error';
+import { List, ListItem, TextField } from "@mui/material";
+import axios from "axios";
+import Link from "next/link";
+import React, { useContext, useEffect } from "react";
+import Layout from "../components/Layout";
+import { Store } from "../utils/Store";
+import { useRouter } from "next/router";
+import Cookies from "js-cookie";
+import dynamic from "next/dynamic";
+import { Controller, useForm } from "react-hook-form";
+import { useSnackbar } from "notistack";
+import { getError } from "../utils/error";
 
 function Register() {
   const {
@@ -26,32 +26,32 @@ function Register() {
 
   useEffect(() => {
     if (userInfo) {
-      router.push('/');
+      router.push("/");
     }
   }, []);
 
   const submitHandler = async ({ name, email, password, confirmPassword }) => {
     closeSnackbar();
     if (password !== confirmPassword) {
-      enqueueSnackbar('Las contraseñas no son las mismas', {
-        variant: 'error',
+      enqueueSnackbar("Las contraseñas no son las mismas", {
+        variant: "error",
       });
       return;
     }
 
     try {
-      const { data } = await axios.post('/api/users/register', {
+      const { data } = await axios.post("/api/users/register", {
         name,
         email,
         password,
       });
-      dispatch({ type: 'USER_LOGIN', payload: data });
-      Cookies.set('userInfo', JSON.stringify(data));
-      router.push(redirect || '/');
+      dispatch({ type: "USER_LOGIN", payload: data });
+      Cookies.set("userInfo", JSON.stringify(data));
+      router.push(redirect || "/");
       // alert('Inicio de sesión con exito!');
     } catch (err) {
       enqueueSnackbar(getError(err), {
-        variant: 'error',
+        variant: "error",
       });
     }
   };
@@ -81,14 +81,14 @@ function Register() {
                       fullWidth
                       id="name"
                       label="Nombre"
-                      inputProps={{ type: 'name' }}
+                      inputProps={{ type: "name" }}
                       error={Boolean(errors.name)}
                       helperText={
                         errors.name
-                          ? errors.name.type === 'minLength'
-                            ? 'El nombre debe ser mayor a 1 caracter'
-                            : 'El nombre es requerido'
-                          : ''
+                          ? errors.name.type === "minLength"
+                            ? "El nombre debe ser mayor a 1 caracter"
+                            : "El nombre es requerido"
+                          : ""
                       }
                       {...field}
                     ></TextField>
@@ -110,14 +110,14 @@ function Register() {
                       fullWidth
                       id="email"
                       label="Email"
-                      inputProps={{ type: 'email' }}
+                      inputProps={{ type: "email" }}
                       error={Boolean(errors.email)}
                       helperText={
                         errors.email
-                          ? errors.email.type === 'pattern'
-                            ? 'El correo no es válido'
-                            : 'Es necesario un correo'
-                          : ''
+                          ? errors.email.type === "pattern"
+                            ? "El correo no es válido"
+                            : "Es necesario un correo"
+                          : ""
                       }
                       {...field}
                     ></TextField>
@@ -139,14 +139,14 @@ function Register() {
                       fullWidth
                       id="password"
                       label="Contraseña"
-                      inputProps={{ type: 'password' }}
+                      inputProps={{ type: "password" }}
                       error={Boolean(errors.password)}
                       helperText={
                         errors.password
-                          ? errors.password.type === 'minLength'
-                            ? 'La contraseña debe ser mayor a 5 caracteres'
-                            : 'La contraseña es requerida'
-                          : ''
+                          ? errors.password.type === "minLength"
+                            ? "La contraseña debe ser mayor a 5 caracteres"
+                            : "La contraseña es requerida"
+                          : ""
                       }
                       {...field}
                     ></TextField>
@@ -168,14 +168,14 @@ function Register() {
                       fullWidth
                       id="confirmPassword"
                       label="Confirmar Contraseña"
-                      inputProps={{ type: 'password' }}
+                      inputProps={{ type: "password" }}
                       error={Boolean(errors.confirmPassword)}
                       helperText={
                         errors.confirmPassword
-                          ? errors.confirmPassword.type === 'minLength'
-                            ? 'La confirmación de contraseña debe ser mayor a 5 caracteres'
-                            : 'La confirmación de contraseña es requerida'
-                          : ''
+                          ? errors.confirmPassword.type === "minLength"
+                            ? "La confirmación de contraseña debe ser mayor a 5 caracteres"
+                            : "La confirmación de contraseña es requerida"
+                          : ""
                       }
                       {...field}
                     ></TextField>
@@ -192,7 +192,7 @@ function Register() {
               </ListItem>
               <ListItem>
                 <p className="mx-2">¿Ya tienes una cuenta?</p>
-                <Link href={`/login?redirect=${redirect || '/'}`} passHref>
+                <Link href={`/login?redirect=${redirect || "/"}`} passHref>
                   <a className="text-green">Ingresar</a>
                 </Link>
               </ListItem>
@@ -204,6 +204,6 @@ function Register() {
   );
 }
 
-//esto es para evitar el error de Hydration
+// esto es para evitar el error de Hydration
 
 export default dynamic(() => Promise.resolve(Register), { ssr: false });

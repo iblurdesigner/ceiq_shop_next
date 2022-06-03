@@ -1,15 +1,15 @@
-import { List, ListItem, TextField } from '@mui/material';
-import axios from 'axios';
-import Link from 'next/link';
-import React, { useContext, useEffect } from 'react';
-import Layout from '../components/Layout';
-import { Store } from '../utils/Store';
-import { useRouter } from 'next/router';
-import Cookies from 'js-cookie';
-import dynamic from 'next/dynamic';
-import { Controller, useForm } from 'react-hook-form';
-import { useSnackbar } from 'notistack';
-import { getError } from '../utils/error';
+import { List, ListItem, TextField } from "@mui/material";
+import axios from "axios";
+import Link from "next/link";
+import React, { useContext, useEffect } from "react";
+import Layout from "../components/Layout";
+import { Store } from "../utils/Store";
+import { useRouter } from "next/router";
+import Cookies from "js-cookie";
+import dynamic from "next/dynamic";
+import { Controller, useForm } from "react-hook-form";
+import { useSnackbar } from "notistack";
+import { getError } from "../utils/error";
 
 function Login() {
   const {
@@ -27,23 +27,23 @@ function Login() {
 
   useEffect(() => {
     if (userInfo) {
-      router.push('/');
+      router.push("/");
     }
   }, []);
 
   const submitHandler = async ({ email, password }) => {
     closeSnackbar();
     try {
-      const { data } = await axios.post('/api/users/login', {
+      const { data } = await axios.post("/api/users/login", {
         email,
         password,
       });
-      dispatch({ type: 'USER_LOGIN', payload: data });
-      Cookies.set('userInfo', JSON.stringify(data));
-      router.push(redirect || '/');
+      dispatch({ type: "USER_LOGIN", payload: data });
+      Cookies.set("userInfo", JSON.stringify(data));
+      router.push(redirect || "/");
       // alert('Inicio de sesión con exito!');
     } catch (err) {
-      enqueueSnackbar(getError(err), { variant: 'error' });
+      enqueueSnackbar(getError(err), { variant: "error" });
     }
   };
 
@@ -72,14 +72,14 @@ function Login() {
                       fullWidth
                       id="email"
                       label="Email"
-                      inputProps={{ type: 'email' }}
+                      inputProps={{ type: "email" }}
                       error={Boolean(errors.email)}
                       helperText={
                         errors.email
-                          ? errors.email.type === 'pattern'
-                            ? 'El correo no es válido'
-                            : 'Es necesario un correo'
-                          : ''
+                          ? errors.email.type === "pattern"
+                            ? "El correo no es válido"
+                            : "Es necesario un correo"
+                          : ""
                       }
                       {...field}
                     ></TextField>
@@ -101,14 +101,14 @@ function Login() {
                       fullWidth
                       id="password"
                       label="Contraseña"
-                      inputProps={{ type: 'password' }}
+                      inputProps={{ type: "password" }}
                       error={Boolean(errors.password)}
                       helperText={
                         errors.password
-                          ? errors.password.type === 'minLength'
-                            ? 'La contraseña debe ser mayor a 5 caracteres'
-                            : 'La contraseña es requerida'
-                          : ''
+                          ? errors.password.type === "minLength"
+                            ? "La contraseña debe ser mayor a 5 caracteres"
+                            : "La contraseña es requerida"
+                          : ""
                       }
                       {...field}
                     ></TextField>
@@ -125,7 +125,7 @@ function Login() {
               </ListItem>
               <ListItem>
                 <p className="mx-2">¿Aún no tienes una cuenta?</p>
-                <Link href={`/register?redirect=${redirect || '/'}`} passHref>
+                <Link href={`/register?redirect=${redirect || "/"}`} passHref>
                   <a className="text-green">Registrarse</a>
                 </Link>
               </ListItem>
@@ -137,6 +137,6 @@ function Login() {
   );
 }
 
-//esto es para evitar el error de Hydration
+// esto es para evitar el error de Hydration
 
 export default dynamic(() => Promise.resolve(Login), { ssr: false });

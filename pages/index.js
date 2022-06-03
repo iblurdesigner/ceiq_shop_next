@@ -1,9 +1,9 @@
-import Layout from '../components/Layout';
-import ProductItem from '../components/ProductItem';
+import Layout from "../components/Layout";
+import ProductItem from "../components/ProductItem";
 // import data from '../utils/data';
-import db from '../utils/db';
-import Product from '../models/Product';
-import dynamic from 'next/dynamic';
+import db from "../utils/db";
+import Product from "../models/Product";
+import dynamic from "next/dynamic";
 
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
 
@@ -33,5 +33,5 @@ export async function getServerSideProps() {
   };
 }
 
-//esto es para evitar el error de Hydration
+// esto es para evitar el error de Hydration
 export default dynamic(() => Promise.resolve(Home), { ssr: false });

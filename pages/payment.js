@@ -1,9 +1,9 @@
-import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
-import React, { useContext, useEffect, useState } from 'react';
-import { Store } from '../utils/Store';
-import Layout from '../components/Layout';
-import CheckoutWizard from '../components/CheckoutWizard';
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+import React, { useContext, useEffect, useState } from "react";
+import { Store } from "../utils/Store";
+import Layout from "../components/Layout";
+import CheckoutWizard from "../components/CheckoutWizard";
 import {
   FormControl,
   FormControlLabel,
@@ -11,13 +11,13 @@ import {
   ListItem,
   Radio,
   RadioGroup,
-} from '@mui/material';
-import { useSnackbar } from 'notistack';
+} from "@mui/material";
+import { useSnackbar } from "notistack";
 
 export default function Payment() {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const router = useRouter();
-  const [paymentMethod, setPaymentMethod] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState("");
   const { state, dispatch } = useContext(Store);
   const {
     cart: { shippingAddress },
@@ -25,9 +25,9 @@ export default function Payment() {
 
   useEffect(() => {
     if (!shippingAddress.address) {
-      router.push('/shipping');
+      router.push("/shipping");
     } else {
-      setPaymentMethod(Cookies.get('paymentMethod') || '');
+      setPaymentMethod(Cookies.get("paymentMethod") || "");
     }
   }, []);
 
@@ -35,11 +35,11 @@ export default function Payment() {
     closeSnackbar();
     e.preventDefault();
     if (!paymentMethod) {
-      enqueueSnackbar('El método de pago es requerido', { variant: 'error' });
+      enqueueSnackbar("El método de pago es requerido", { variant: "error" });
     } else {
-      dispatch({ type: 'SAVE_PAYMENT_METHOD', payload: paymentMethod });
-      Cookies.set('paymentMethod', paymentMethod);
-      router.push('/placeorder');
+      dispatch({ type: "SAVE_PAYMENT_METHOD", payload: paymentMethod });
+      Cookies.set("paymentMethod", paymentMethod);
+      router.push("/placeorder");
     }
   };
   return (
@@ -86,7 +86,7 @@ export default function Payment() {
             <button
               className="dark:text-black bg-gray-200 rounded-full px-3 py-1 hover:bg-yellow"
               type="button"
-              onClick={() => router.push('/shipping')}
+              onClick={() => router.push("/shipping")}
             >
               Atrás
             </button>

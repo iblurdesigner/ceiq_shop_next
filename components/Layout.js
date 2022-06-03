@@ -1,16 +1,16 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState } from "react";
 // import { useTheme } from 'next-themes';
 // import Button from './Button';
-import Head from 'next/head';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import Cookies from 'js-cookie';
-import { Store } from '../utils/Store';
-import { Menu, MenuItem } from '@mui/material';
+import Head from "next/head";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import Cookies from "js-cookie";
+import { Store } from "../utils/Store";
+import { Menu, MenuItem } from "@mui/material";
 
-import dynamic from 'next/dynamic';
-const ButtonDarkM = dynamic(() => import('./ButtonDarkM'), { ssr: false });
+import dynamic from "next/dynamic";
+const ButtonDarkM = dynamic(() => import("./ButtonDarkM"), { ssr: false });
 
 export default function Layout({ title, description, children }) {
   const router = useRouter();
@@ -30,16 +30,16 @@ export default function Layout({ title, description, children }) {
   };
   const logoutClickHandler = () => {
     setAnchorEl(null);
-    dispatch({ type: 'USER_LOGOUT' });
-    Cookies.remove('userInfo');
-    Cookies.remove('cartItems');
-    router.push('/');
+    dispatch({ type: "USER_LOGOUT" });
+    Cookies.remove("userInfo");
+    Cookies.remove("cartItems");
+    router.push("/");
   };
 
   return (
     <>
       <Head>
-        <title>{title ? title + ' - CEIQ Shop' : 'CEIQ Shop'}</title>
+        <title>{title ? title + " - CEIQ Shop" : "CEIQ Shop"}</title>
         {description && <meta name="description" content={description} />}
 
         <link rel="icon" href="/favicon.ico" />
@@ -92,13 +92,13 @@ export default function Layout({ title, description, children }) {
                     onClose={loginMenuCloseHandler}
                   >
                     <MenuItem
-                      onClick={(e) => loginMenuCloseHandler(e, '/profile')}
+                      onClick={(e) => loginMenuCloseHandler(e, "/profile")}
                     >
                       Perfil
                     </MenuItem>
                     <MenuItem
                       onClick={(e) =>
-                        loginMenuCloseHandler(e, '/order-history')
+                        loginMenuCloseHandler(e, "/order-history")
                       }
                     >
                       Historial de órdenes
@@ -106,7 +106,7 @@ export default function Layout({ title, description, children }) {
                     {userInfo.isAdmin && (
                       <MenuItem
                         onClick={(e) =>
-                          loginMenuCloseHandler(e, '/admin/dashboard')
+                          loginMenuCloseHandler(e, "/admin/dashboard")
                         }
                       >
                         Administración Dashboard

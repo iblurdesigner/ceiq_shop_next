@@ -1,7 +1,7 @@
-import nc from 'next-connect';
-import { isAdmin, isAuth } from '../../../../../utils/auth';
-import Product from '../../../../../models/Product';
-import db from '../../../../../utils/db';
+import nc from "next-connect";
+import { isAdmin, isAuth } from "../../../../../utils/auth";
+import Product from "../../../../../models/Product";
+import db from "../../../../../utils/db";
 
 const handler = nc();
 handler.use(isAuth, isAdmin);
@@ -29,10 +29,10 @@ handler.put(async (req, res) => {
     product.description = req.body.description;
     await product.save();
     await db.disconnect();
-    res.send({ message: 'El producto se ha actualizado con éxito' });
+    res.send({ message: "El producto se ha actualizado con éxito" });
   } else {
     await db.disconnect();
-    res.status(404).send({ message: 'No se encuentra el Producto' });
+    res.status(404).send({ message: "No se encuentra el Producto" });
   }
 });
 
@@ -42,10 +42,10 @@ handler.delete(async (req, res) => {
   if (product) {
     await product.remove();
     await db.disconnect();
-    res.send({ message: 'Producto eliminado' });
+    res.send({ message: "Producto eliminado" });
   } else {
     await db.disconnect();
-    res.status(404).send({ message: 'No se encuentra el Producto' });
+    res.status(404).send({ message: "No se encuentra el Producto" });
   }
 });
 

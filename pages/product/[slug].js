@@ -1,14 +1,14 @@
 // import { useRouter } from 'next/router';
-import React, { useContext } from 'react';
-import axios from 'axios';
-import Image from 'next/image';
-import Link from 'next/link';
-import Layout from '../../components/Layout';
-import Product from '../../models/Product';
+import React, { useContext } from "react";
+import axios from "axios";
+import Image from "next/image";
+import Link from "next/link";
+import Layout from "../../components/Layout";
+import Product from "../../models/Product";
 // import data from '../../utils/data';
-import db from '../../utils/db';
-import { Store } from '../../utils/Store';
-import { useRouter } from 'next/router';
+import db from "../../utils/db";
+import { Store } from "../../utils/Store";
+import { useRouter } from "next/router";
 
 export default function ProductScreen(props) {
   const router = useRouter();
@@ -26,12 +26,12 @@ export default function ProductScreen(props) {
 
     const { data } = await axios.get(`/api/products/${product._id}`);
     if (data.countInStock < quantity) {
-      window.alert('Lo sentimos. La cantidad que solicita sobrepasa el stock');
+      window.alert("Lo sentimos. La cantidad que solicita sobrepasa el stock");
       return;
     }
 
-    dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
-    router.push('/cart');
+    dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity } });
+    router.push("/cart");
   };
 
   return (
@@ -59,7 +59,7 @@ export default function ProductScreen(props) {
             <li>Categoría: {product.category}</li>
             <li>Marca: {product.brand}</li>
             <li>
-              Calificaciones: {product.rating} estrellas ({product.numReviews}{' '}
+              Calificaciones: {product.rating} estrellas ({product.numReviews}{" "}
               revisiones)
             </li>
             <li>Descripción: {product.description}</li>
@@ -74,7 +74,7 @@ export default function ProductScreen(props) {
             <div className="mb-2 flex justify-between">
               <div>Estado</div>
               <div>
-                {product.countInStock > 0 ? 'En stock' : 'No disponible'}
+                {product.countInStock > 0 ? "En stock" : "No disponible"}
               </div>
             </div>
             <button

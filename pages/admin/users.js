@@ -1,34 +1,33 @@
-import axios from 'axios';
-import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import React, { useEffect, useContext, useReducer } from 'react';
-import { CircularProgress, List, ListItem, ListItemText } from '@mui/material';
+import axios from "axios";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import React, { useEffect, useContext, useReducer } from "react";
+import { CircularProgress, List, ListItem, ListItemText } from "@mui/material";
 
-import { getError } from '../../utils/error';
-import { Store } from '../../utils/Store';
-import Layout from '../../components/Layout';
-import { useSnackbar } from 'notistack';
+import { getError } from "../../utils/error";
+import { Store } from "../../utils/Store";
+import Layout from "../../components/Layout";
+import { useSnackbar } from "notistack";
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'FETCH_REQUEST':
-      return { ...state, loading: true, error: '' };
-    case 'FETCH_SUCCESS':
-      return { ...state, loading: false, users: action.payload, error: '' };
-    case 'FETCH_FAIL':
+    case "FETCH_REQUEST":
+      return { ...state, loading: true, error: "" };
+    case "FETCH_SUCCESS":
+      return { ...state, loading: false, users: action.payload, error: "" };
+    case "FETCH_FAIL":
       return { ...state, loading: false, error: action.payload };
 
-    case 'DELETE_REQUEST':
+    case "DELETE_REQUEST":
       return { ...state, loadingDelete: true };
-    case 'DELETE_SUCCESS':
+    case "DELETE_SUCCESS":
       return { ...state, loadingDelete: false, successDelete: true };
-    case 'DELETE_FAIL':
+    case "DELETE_FAIL":
       return { ...state, loadingDelete: false };
-    case 'DELETE_RESET':
+    case "DELETE_RESET":
       return { ...state, loadingDelete: false, successDelete: false };
     default:
-      state;
   }
 }
 
@@ -42,26 +41,26 @@ function AdminUsers() {
     useReducer(reducer, {
       loading: true,
       users: [],
-      error: '',
+      error: "",
     });
 
   useEffect(() => {
     if (!userInfo) {
-      router.push('/login');
+      router.push("/login");
     }
     const fetchData = async () => {
       try {
-        dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/admin/users`, {
+        dispatch({ type: "FETCH_REQUEST" });
+        const { data } = await axios.get("/api/admin/users", {
           headers: { authorization: `Bearer ${userInfo.token}` },
         });
-        dispatch({ type: 'FETCH_SUCCESS', payload: data });
+        dispatch({ type: "FETCH_SUCCESS", payload: data });
       } catch (err) {
-        dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
+        dispatch({ type: "FETCH_FAIL", payload: getError(err) });
       }
     };
     if (successDelete) {
-      dispatch({ type: 'DELETE_RESET' });
+      dispatch({ type: "DELETE_RESET" });
     } else {
       fetchData();
     }
@@ -71,19 +70,19 @@ function AdminUsers() {
   const { enqueueSnackbar } = useSnackbar();
 
   const deleteHandler = async (userId) => {
-    if (!window.confirm('Está seguro de realizar esta acción?')) {
+    if (!window.confirm("Está seguro de realizar esta acción?")) {
       return;
     }
     try {
-      dispatch({ type: 'DELETE_REQUEST' });
+      dispatch({ type: "DELETE_REQUEST" });
       await axios.delete(`/api/admin/users/${userId}`, {
         headers: { authorization: `Bearer ${userInfo.token}` },
       });
-      dispatch({ type: 'DELETE_SUCCESS' });
-      enqueueSnackbar('Usero eliminado con exito', { variant: 'success' });
+      dispatch({ type: "DELETE_SUCCESS" });
+      enqueueSnackbar("Usero eliminado con exito", { variant: "success" });
     } catch (err) {
-      dispatch({ type: 'DELETE_FAIL' });
-      enqueueSnackbar(getError(err), { variant: 'error' });
+      dispatch({ type: "DELETE_FAIL" });
+      enqueueSnackbar(getError(err), { variant: "error" });
     }
   };
 
@@ -156,13 +155,13 @@ function AdminUsers() {
                               </td>
                               <td>{user.name}</td>
                               <td>{user.email}</td>
-                              <td>{user.isAdmin ? 'SI' : 'NO'}</td>
+                              <td>{user.isAdmin ? "SI" : "NO"}</td>
                               <td>
                                 <Link href={`/admin/user/${user._id}`} passHref>
                                   <button className="bg-cyan rounded-full px-3 py-1 shadow-xl hover:bg-green">
                                     Editar
                                   </button>
-                                </Link>{' '}
+                                </Link>{" "}
                                 <button
                                   onClick={() => deleteHandler(user._id)}
                                   className="bg-red-400 rounded-full px-3 py-1 shadow-xl hover:bg-red-200"

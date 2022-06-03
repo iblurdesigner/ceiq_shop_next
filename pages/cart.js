@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
-import { useRouter } from 'next/router';
-import Layout from '../components/Layout';
-import { Store } from '../utils/Store';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Select, MenuItem } from '@mui/material';
-import dynamic from 'next/dynamic';
-import axios from 'axios';
+import React, { useContext } from "react";
+import { useRouter } from "next/router";
+import Layout from "../components/Layout";
+import { Store } from "../utils/Store";
+import Link from "next/link";
+import Image from "next/image";
+import { Select, MenuItem } from "@mui/material";
+import dynamic from "next/dynamic";
+import axios from "axios";
 
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
 
@@ -20,19 +20,19 @@ function CartScreen() {
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(`/api/products/${item._id}`);
     if (data.countInStock < quantity) {
-      window.alert('Lo sentimos el producto esta fuera de stock');
+      window.alert("Lo sentimos el producto esta fuera de stock");
       return;
     }
-    dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } });
+    dispatch({ type: "CART_ADD_ITEM", payload: { ...item, quantity } });
   };
 
   // para eliminar items del carrito
   const removeItemHandler = (item) => {
-    dispatch({ type: 'CART_REMOVE_ITEM', payload: item });
+    dispatch({ type: "CART_REMOVE_ITEM", payload: item });
   };
 
   const checkoutHandler = () => {
-    router.push('/shipping');
+    router.push("/shipping");
   };
 
   return (
@@ -149,5 +149,5 @@ function CartScreen() {
   );
 }
 
-//esto es para evitar el error de Hydration
+// esto es para evitar el error de Hydration
 export default dynamic(() => Promise.resolve(CartScreen), { ssr: false });

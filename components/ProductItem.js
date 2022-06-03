@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import axios from 'axios';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import React, { useContext } from 'react';
-import { Store } from '../utils/Store';
+import axios from "axios";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useContext } from "react";
+import { Store } from "../utils/Store";
 
 export default function ProductItem({ product }) {
   const router = useRouter();
@@ -16,12 +16,12 @@ export default function ProductItem({ product }) {
 
     const { data } = await axios.get(`/api/products/${product._id}`);
     if (data.countInStock < quantity) {
-      window.alert('Lo sentimos. La cantidad que solicita sobrepasa el stock');
+      window.alert("Lo sentimos. La cantidad que solicita sobrepasa el stock");
       return;
     }
 
-    dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
-    router.push('/cart');
+    dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity } });
+    router.push("/cart");
   };
 
   return (

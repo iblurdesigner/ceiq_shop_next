@@ -1,15 +1,15 @@
-import axios from 'axios';
-import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import React, { useEffect, useContext } from 'react';
-import { List, ListItem, ListItemText, TextField } from '@mui/material';
-import { getError } from '../utils/error';
-import { Store } from '../utils/Store';
-import Layout from '../components/Layout';
-import { Controller, useForm } from 'react-hook-form';
-import Cookies from 'js-cookie';
-import { useSnackbar } from 'notistack';
+import axios from "axios";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import React, { useEffect, useContext } from "react";
+import { List, ListItem, ListItemText, TextField } from "@mui/material";
+import { getError } from "../utils/error";
+import { Store } from "../utils/Store";
+import Layout from "../components/Layout";
+import { Controller, useForm } from "react-hook-form";
+import Cookies from "js-cookie";
+import { useSnackbar } from "notistack";
 
 function Profile() {
   const { state, dispatch } = useContext(Store);
@@ -26,24 +26,24 @@ function Profile() {
 
   useEffect(() => {
     if (!userInfo) {
-      return router.push('/login');
+      return router.push("/login");
     }
-    setValue('name', userInfo.name);
-    setValue('email', userInfo.email);
+    setValue("name", userInfo.name);
+    setValue("email", userInfo.email);
   }, []);
 
   const submitHandler = async ({ name, email, password, confirmPassword }) => {
     closeSnackbar();
     if (password !== confirmPassword) {
-      enqueueSnackbar('Las contraseñas no son las mismas', {
-        variant: 'error',
+      enqueueSnackbar("Las contraseñas no son las mismas", {
+        variant: "error",
       });
       return;
     }
 
     try {
       const { data } = await axios.put(
-        '/api/users/profile',
+        "/api/users/profile",
         {
           name,
           email,
@@ -51,15 +51,15 @@ function Profile() {
         },
         { headers: { authorization: `Bearer ${userInfo.token}` } }
       );
-      dispatch({ type: 'USER_LOGIN', payload: data });
-      Cookies.set('userInfo', JSON.stringify(data));
+      dispatch({ type: "USER_LOGIN", payload: data });
+      Cookies.set("userInfo", JSON.stringify(data));
 
-      enqueueSnackbar('Perfil actualizado con exito!', {
-        variant: 'success',
+      enqueueSnackbar("Perfil actualizado con exito!", {
+        variant: "success",
       });
     } catch (err) {
       enqueueSnackbar(getError(err), {
-        variant: 'error',
+        variant: "error",
       });
     }
   };
@@ -114,14 +114,14 @@ function Profile() {
                                   fullWidth
                                   id="name"
                                   label="Nombre"
-                                  inputProps={{ type: 'name' }}
+                                  inputProps={{ type: "name" }}
                                   error={Boolean(errors.name)}
                                   helperText={
                                     errors.name
-                                      ? errors.name.type === 'minLength'
-                                        ? 'El nombre debe ser mayor a 1 caracter'
-                                        : 'El nombre es requerido'
-                                      : ''
+                                      ? errors.name.type === "minLength"
+                                        ? "El nombre debe ser mayor a 1 caracter"
+                                        : "El nombre es requerido"
+                                      : ""
                                   }
                                   {...field}
                                 ></TextField>
@@ -144,14 +144,14 @@ function Profile() {
                                   fullWidth
                                   id="email"
                                   label="Email"
-                                  inputProps={{ type: 'email' }}
+                                  inputProps={{ type: "email" }}
                                   error={Boolean(errors.email)}
                                   helperText={
                                     errors.email
-                                      ? errors.email.type === 'pattern'
-                                        ? 'El correo no es válido'
-                                        : 'Es necesario un correo'
-                                      : ''
+                                      ? errors.email.type === "pattern"
+                                        ? "El correo no es válido"
+                                        : "Es necesario un correo"
+                                      : ""
                                   }
                                   {...field}
                                 ></TextField>
@@ -165,9 +165,9 @@ function Profile() {
                               defaultValue=""
                               rules={{
                                 validate: (value) =>
-                                  value === '' ||
+                                  value === "" ||
                                   value.length > 5 ||
-                                  'La contraseña debe ser mayor a 5 caracteres',
+                                  "La contraseña debe ser mayor a 5 caracteres",
                               }}
                               render={({ field }) => (
                                 <TextField
@@ -175,12 +175,12 @@ function Profile() {
                                   fullWidth
                                   id="password"
                                   label="Contraseña"
-                                  inputProps={{ type: 'password' }}
+                                  inputProps={{ type: "password" }}
                                   error={Boolean(errors.password)}
                                   helperText={
                                     errors.password
-                                      ? 'La contraseña debe ser mayor a 5 caracteres'
-                                      : ''
+                                      ? "La contraseña debe ser mayor a 5 caracteres"
+                                      : ""
                                   }
                                   {...field}
                                 ></TextField>
@@ -194,9 +194,9 @@ function Profile() {
                               defaultValue=""
                               rules={{
                                 validate: (value) =>
-                                  value === '' ||
+                                  value === "" ||
                                   value.length > 5 ||
-                                  'La confirmación de contraseña debe ser mayor a 5 caracteres',
+                                  "La confirmación de contraseña debe ser mayor a 5 caracteres",
                               }}
                               render={({ field }) => (
                                 <TextField
@@ -204,12 +204,12 @@ function Profile() {
                                   fullWidth
                                   id="confirmPassword"
                                   label="Confirmar Contraseña"
-                                  inputProps={{ type: 'password' }}
+                                  inputProps={{ type: "password" }}
                                   error={Boolean(errors.confirmPassword)}
                                   helperText={
                                     errors.password
-                                      ? 'La confirmación de contraseña debe ser mayor a 5 caracteres'
-                                      : ''
+                                      ? "La confirmación de contraseña debe ser mayor a 5 caracteres"
+                                      : ""
                                   }
                                   {...field}
                                 ></TextField>
