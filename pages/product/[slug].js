@@ -1,5 +1,5 @@
 // import { useRouter } from 'next/router';
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,12 +8,59 @@ import Product from "../../models/Product";
 // import data from '../../utils/data';
 import db from "../../utils/db";
 import { Store } from "../../utils/Store";
+import { getError } from "../../utils/error";
 import { useRouter } from "next/router";
+import { CircularProgress, Rating, TextField } from "@mui/material";
+import { useSnackbar } from "notistack";
 
 export default function ProductScreen(props) {
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
+  const { userInfo } = state;
   const { product } = props;
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [reviews, setReviews] = useState([]);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await axios.post(
+        `/api/products/${product._id}/reviews`,
+        {
+          rating,
+          comment,
+        },
+        {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      setLoading(false);
+      enqueueSnackbar("Las revisiones han sido enviadas correctamente", {
+        variant: "success",
+      });
+      fetchReviews();
+    } catch (err) {
+      setLoading(false);
+      enqueueSnackbar(getError(err), { variant: "error" });
+    }
+  };
+
+  const fetchReviews = async () => {
+    try {
+      const { data } = await axios.get(`/api/products/${product._id}/reviews`);
+      setReviews(data);
+    } catch (err) {
+      enqueueSnackbar(getError(err), { variant: "error" });
+    }
+  };
+  useEffect(() => {
+    fetchReviews();
+  }, []);
 
   if (!product) {
     return <div>Producto no encontrado</div>;
@@ -38,7 +85,7 @@ export default function ProductScreen(props) {
     <Layout title={product.name} description={product.description}>
       <div className="py-2">
         <Link href="/" passHref>
-          <a>Regresar a productos</a>
+          <a className="text-cyan">↞ Regresar a productos</a>
         </Link>
       </div>
       <div className="grid md:grid-cols-4 md:gap-3">
@@ -52,16 +99,22 @@ export default function ProductScreen(props) {
           ></Image>
         </div>
         <div>
-          <ul>
+          <ul className="h-80  flex flex-col justify-between">
             <li>
               <h1 className="text-lg font-extrabold">{product.name}</h1>
             </li>
             <li>Categoría: {product.category}</li>
             <li>Marca: {product.brand}</li>
-            <li>
-              Calificaciones: {product.rating} estrellas ({product.numReviews}{" "}
-              revisiones)
+
+            <li className="flex items-center">
+              <Rating value={product.rating} readOnly></Rating>
+              <Link href="#reviews" passHref>
+                <p className="text-cyan font-bold">
+                  ({product.numReviews} revisiones)
+                </p>
+              </Link>
             </li>
+
             <li>Descripción: {product.description}</li>
           </ul>
         </div>
@@ -86,6 +139,88 @@ export default function ProductScreen(props) {
           </div>
         </div>
       </div>
+
+      {/* comentarios y revisiones */}
+      <ul className="bg-sky-50 mt-8 p-6 w-3/6">
+        <li>
+          <h2
+            name="reviews"
+            id="reviews"
+            className="text-3xl text-gray-400 font-medium mb-4"
+          >
+            Revisiones de clientes
+          </h2>
+        </li>
+        {reviews.length === 0 && (
+          <li>
+            <p className="text-gray-400 mb-4">No hay revisiones</p>
+          </li>
+        )}
+        {reviews.map((review) => (
+          <li key={review._id} className="my-4">
+            <div className="flex flex-row ">
+              <div className="px-4">
+                <p className="font-bold">{review.name}</p>
+                <p className="text-gray-400 font-light text-xs">
+                  {review.createdAt.substring(0, 10)}
+                </p>
+              </div>
+              <div className="border-l-2 pl-4 border-sky-200">
+                <Rating value={review.rating} readOnly></Rating>
+                <p>{review.comment}</p>
+              </div>
+            </div>
+          </li>
+        ))}
+        <li>
+          {userInfo ? (
+            <form onSubmit={submitHandler}>
+              <ul>
+                <li>
+                  <p className="text-xl text-cyan mb-4 mt-6">
+                    Deja tu comentario
+                  </p>
+                </li>
+                <li className="mb-4">
+                  <TextField
+                    multiline
+                    variant="outlined"
+                    fullWidth
+                    name="review"
+                    label="Ingresar una revisión y calificación"
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                  />
+                </li>
+                <li className="mb-6">
+                  <Rating
+                    name="simple-controlled"
+                    value={rating}
+                    onChange={(e) => setRating(e.target.value)}
+                  />
+                </li>
+                <li>
+                  <button
+                    className="bg-green w-3/6 rounded-full px-3 py-1 shadow-xl hover:bg-yellow"
+                    type="submit"
+                  >
+                    Enviar
+                  </button>
+                  {loading && <CircularProgress></CircularProgress>}
+                </li>
+              </ul>
+            </form>
+          ) : (
+            <p className="my-6">
+              Por favor{" "}
+              <Link href={`/login?redirect=/product/${product.slug}`} passHref>
+                <a className="text-cyan hover:text-yellow">Inicie Sesión</a>
+              </Link>{" "}
+              para escribir una revisión
+            </p>
+          )}
+        </li>
+      </ul>
     </Layout>
   );
 }
@@ -95,7 +230,7 @@ export async function getServerSideProps(context) {
   const { slug } = params;
 
   await db.connect();
-  const product = await Product.findOne({ slug }).lean();
+  const product = await Product.findOne({ slug }, "-reviews").lean();
   await db.disconnect();
   return {
     props: {

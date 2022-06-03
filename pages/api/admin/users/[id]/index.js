@@ -30,10 +30,10 @@ handler.put(async (req, res) => {
     // user.description = req.body.description;
     await user.save();
     await db.disconnect();
-    res.send({ message: "El usero se ha actualizado con éxito" });
+    res.send({ message: "El usuario se ha actualizado con éxito" });
   } else {
     await db.disconnect();
-    res.status(404).send({ message: "No se encuentra el Usero" });
+    res.status(404).send({ message: "No se encuentra el usuario" });
   }
 });
 
@@ -43,10 +43,10 @@ handler.delete(async (req, res) => {
   if (user) {
     await user.remove();
     await db.disconnect();
-    res.send({ message: "Usero eliminado" });
+    res.send({ message: "Usuario eliminado" });
   } else {
     await db.disconnect();
-    res.status(404).send({ message: "No se encuentra el Usero" });
+    res.status(404).send({ message: "No se encuentra el usuario" });
   }
 });
 
