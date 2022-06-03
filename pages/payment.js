@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
 import { Store } from "../utils/Store";
 import Layout from "../components/Layout";
-import CheckoutWizard from "../components/CheckoutWizard";
 import {
   FormControl,
   FormControlLabel,
@@ -13,6 +12,7 @@ import {
   RadioGroup,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
+import CheckoutWizard from "../components/CheckoutWizard";
 
 export default function Payment() {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
