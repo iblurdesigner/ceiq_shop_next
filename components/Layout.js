@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 // import { useTheme } from 'next-themes';
-// import Button from './Button';
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
@@ -13,6 +12,7 @@ import {
   Divider,
   Drawer,
   IconButton,
+  InputBase,
   List,
   ListItem,
   ListItemText,
@@ -52,6 +52,19 @@ export default function Layout({ title, description, children }) {
       enqueueSnackbar(getError(err), { variant: "error" });
     }
   };
+
+  // codigo del buscador
+  const [query, setQuery] = useState("");
+  const queryChangeHandler = (e) => {
+    setQuery(e.target.value);
+  };
+  const submitHandler = (e) => {
+    e.preventDefault();
+    router.push(`/search?query=${query}`);
+  };
+
+  // codigo del buscador
+
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -118,6 +131,7 @@ export default function Layout({ title, description, children }) {
               </IconButton>
             </Box>
 
+            {/* Esto define el menu oculto */}
             <Drawer
               anchor="left"
               open={sidbarVisible}
@@ -172,6 +186,42 @@ export default function Layout({ title, description, children }) {
                 ))}
               </List>
             </Drawer>
+
+            {/* ********* buscador *********** */}
+
+            <div className="w-4/12">
+              <form
+                onSubmit={submitHandler}
+                className="flex items-center justify-between"
+              >
+                <InputBase
+                  className="bg-white rounded-l-lg p-4 h-6 m-0 text-gray-300 hover:text-cyan w-full"
+                  name="query"
+                  placeholder="Buscar productos"
+                  onChange={queryChangeHandler}
+                />
+                <IconButton type="submit" aria-label="search">
+                  <Button className="bg-cyan rounded-r-lg">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-5 text-white "
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </Button>
+                </IconButton>
+              </form>
+            </div>
+
+            {/* ********* buscador *********** */}
+
+            {/* ********* darkmode carrito usuario ********* */}
 
             <div className="w-64  flex justify-between">
               <ButtonDarkM />

@@ -28,25 +28,25 @@ export default function ProductItem({ product }) {
   return (
     <>
       <div className="card">
-        <div className="grid grid-cols">
-          <Link href={`/product/${product.slug}`} passHref>
-            <a>
-              <img
-                src={product.image}
-                alt={product.name}
-                className="rounded shadow"
-              />
-            </a>
-          </Link>
-
-          <div className="grid content-between p-4 h-52">
+        <div className="h-full grid grid-cols-1 content-between">
+          <div>
             <Link href={`/product/${product.slug}`} passHref>
-              <>
-                <a>
-                  <h2 className="dark:text-white text-xl font-medium text-blue hover:text-cyan">
-                    {product.name}
-                  </h2>
-                </a>
+              <a>
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="rounded-t-lg shadow"
+                />
+              </a>
+            </Link>
+          </div>
+
+          <div className="grid content-between p-4">
+            <Link href={`/product/${product.slug}`} passHref>
+              <a>
+                <h2 className="dark:text-white text-xl font-medium text-blue hover:text-cyan pb-2">
+                  {product.name}
+                </h2>
                 <li className="flex items-center">
                   <Rating value={product.rating} readOnly></Rating>
                   <Link href="#reviews" passHref>
@@ -55,10 +55,10 @@ export default function ProductItem({ product }) {
                     </p>
                   </Link>
                 </li>
-              </>
+              </a>
             </Link>
             <p className="mb-2 text-gray-400">{product.brand}</p>
-            <p className="text-3xl font-semibold">
+            <p className="text-3xl font-semibold h-12">
               <span className="font-normal text-base">US$</span>
               {product.price}
             </p>

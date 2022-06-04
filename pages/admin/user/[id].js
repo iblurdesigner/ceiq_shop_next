@@ -150,7 +150,7 @@ function UserEdit({ params }) {
         { headers: { authorization: `Bearer ${userInfo.token}` } }
       );
       dispatch({ type: "UPDATE_SUCCESS" });
-      enqueueSnackbar("El Usero se ha actualizado con exito!", {
+      enqueueSnackbar("El usuario se ha actualizado con exito!", {
         variant: "success",
       });
       router.push("/admin/users");
@@ -164,7 +164,7 @@ function UserEdit({ params }) {
 
   return (
     <>
-      <Layout title={`Editar Usero ${userId}`}>
+      <Layout title={`Editar usuario ${userId}`}>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
           <div>
             <div className="card p-6">
@@ -197,7 +197,7 @@ function UserEdit({ params }) {
             <div className="card p-6">
               <ul>
                 <li>
-                  <h1 className="text-4xl py-4">Editar Usero ${userId}</h1>
+                  <h1 className="text-4xl py-4">Editar usuario ${userId}</h1>
                 </li>
                 <li>
                   {loading && <CircularProgress></CircularProgress>}
@@ -241,7 +241,7 @@ function UserEdit({ params }) {
                               control={control}
                               defaultValue=""
                               rules={{
-                                required: true,
+                                required: false,
                               }}
                               render={({ field }) => (
                                 <TextField

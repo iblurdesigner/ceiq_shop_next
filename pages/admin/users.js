@@ -66,7 +66,7 @@ function AdminUsers() {
     }
   }, [successDelete]);
 
-  // ***** para crear un usero y para eliminarlo ******
+  // ***** para crear un usuario y para eliminarlo ******
   const { enqueueSnackbar } = useSnackbar();
 
   const deleteHandler = async (userId) => {
@@ -79,14 +79,14 @@ function AdminUsers() {
         headers: { authorization: `Bearer ${userInfo.token}` },
       });
       dispatch({ type: "DELETE_SUCCESS" });
-      enqueueSnackbar("Usero eliminado con exito", { variant: "success" });
+      enqueueSnackbar("Usuario eliminado con exito", { variant: "success" });
     } catch (err) {
       dispatch({ type: "DELETE_FAIL" });
       enqueueSnackbar(getError(err), { variant: "error" });
     }
   };
 
-  // ***** para crear un usero y para eliminarlo ******
+  // ***** para crear un usuario y para eliminarlo ******
 
   return (
     <>
