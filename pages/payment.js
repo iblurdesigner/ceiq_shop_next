@@ -1,6 +1,7 @@
+import React, { useContext, useEffect, useState } from "react";
+import CheckoutWizard from "../components/CheckoutWizard";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
-import React, { useContext, useEffect, useState } from "react";
 import { Store } from "../utils/Store";
 import Layout from "../components/Layout";
 import {
@@ -12,7 +13,6 @@ import {
   RadioGroup,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
-import CheckoutWizard from "../components/CheckoutWizard";
 
 export default function Payment() {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -44,7 +44,8 @@ export default function Payment() {
   };
   return (
     <Layout title="Método de Pago">
-      <CheckoutWizard activeStep={2}></CheckoutWizard>
+      {/* <CheckoutWizard activeStep={2}></CheckoutWizard> */}
+      <CheckoutWizard activestep={2}></CheckoutWizard>
       <form className="rounded px-8 pt-6 pb-8 mb-4" onSubmit={submitHandler}>
         <h1 className="text-4xl py-4">Método de pago</h1>
         <List>

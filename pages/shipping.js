@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import dynamic from "next/dynamic";
 import { Controller, useForm } from "react-hook-form";
 import CheckoutWizard from "../components/CheckoutWizard";
+// import CheckoutWizard from '../components/CheckoutWizard';
 
 function Shipping() {
   const {
@@ -54,7 +55,7 @@ function Shipping() {
 
   return (
     <Layout title="Dirección de envío">
-      <CheckoutWizard activeStep={1} />
+      <CheckoutWizard activeStep={1}></CheckoutWizard>
       <div className="flex justify-center mt-10">
         <div className="card w-6/12 ">
           <form

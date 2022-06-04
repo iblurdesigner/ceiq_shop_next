@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import CheckoutWizard from "../components/CheckoutWizard";
 import Layout from "../components/Layout";
 import { Store } from "../utils/Store";
 import Cookies from "js-cookie";
@@ -11,7 +12,6 @@ import dynamic from "next/dynamic";
 import axios from "axios";
 import { getError } from "../utils/error";
 import { CircularProgress } from "@mui/material";
-import CheckoutWizard from "../components/CheckoutWizard";
 
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
 
