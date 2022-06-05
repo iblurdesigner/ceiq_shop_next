@@ -84,7 +84,7 @@ function CartScreen() {
                       </td>
                       <td>
                         <Select
-                          className="w-300 dark:bg-green bg-gray-200 dark:text-black border border-emerald-300   px-4 rounded-full leading-tight"
+                          className="h-8 dark:bg-green bg-gray-200 dark:text-black border border-emerald-300   px-4 rounded-full leading-tight"
                           value={item.quantity}
                           onChange={(e) =>
                             updateCartHandler(item, e.target.value)

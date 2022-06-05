@@ -44,7 +44,6 @@ export default function Payment() {
   };
   return (
     <Layout title="Método de Pago">
-      {/* <CheckoutWizard activeStep={2}></CheckoutWizard> */}
       <CheckoutWizard activestep={2}></CheckoutWizard>
       <form className="rounded px-8 pt-6 pb-8 mb-4" onSubmit={submitHandler}>
         <h1 className="text-4xl py-4">Método de pago</h1>
