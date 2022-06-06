@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useContext } from "react";
 import Layout from "../components/Layout";
 import ProductItem from "../components/ProductItem";
@@ -8,12 +9,14 @@ import Product from "../models/Product";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { Store } from "../utils/Store";
+import Carousel from "react-material-ui-carousel";
+import Link from "next/link";
 
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
 
 function Home(props) {
   // Ya no necesitaremos pedir desde la base de datos estatica si no mediante las props
-  const { products } = props;
+  const { topRatedProducts, featuredProducts } = props;
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
 
@@ -34,8 +37,19 @@ function Home(props) {
 
   return (
     <Layout title="Pagina de inicio">
+      <Carousel animation="slide" className="rounded-lg">
+        {featuredProducts.map((product) => (
+          <Link key={product._id} href={`/product/${product.slug}`} passHref>
+            <a>
+              <img src={product.featuredImage} alt={product.name}></img>
+            </a>
+          </Link>
+        ))}
+      </Carousel>
+
+      <h1 className="text-2xl font-semibold my-6">Productos más vendidos</h1>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-        {products.map((product) => (
+        {topRatedProducts.map((product) => (
           <ProductItem
             product={product}
             key={product.slug}
@@ -49,11 +63,23 @@ function Home(props) {
 
 export async function getServerSideProps() {
   await db.connect();
-  const products = await Product.find({}, "-reviews").lean();
+  const featuredProductsDocs = await Product.find(
+    { isFeatured: true },
+    "-reviews"
+  )
+    .lean()
+    .limit(3);
+  const topRatedProductsDocs = await Product.find({}, "-reviews")
+    .lean()
+    .sort({
+      rating: -1,
+    })
+    .limit(6);
   await db.disconnect();
   return {
     props: {
-      products: products.map(db.convertDocToObj),
+      featuredProducts: featuredProductsDocs.map(db.convertDocToObj),
+      topRatedProducts: topRatedProductsDocs.map(db.convertDocToObj),
     },
   };
 }

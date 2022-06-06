@@ -26,6 +26,8 @@ const productSchema = new mongoose.Schema(
     description: { type: String, required: true },
     code: { type: String, required: true },
     reviews: [reviewSchema],
+    featuredImage: { type: String },
+    isFeatured: { type: Boolean, required: true, default: false },
   },
   {
     timestamps: true,
