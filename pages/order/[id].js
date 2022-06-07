@@ -211,6 +211,19 @@ function Order({ params }) {
                     {shippingAddress.fullName}, {shippingAddress.address},{" "}
                     {shippingAddress.city}, {shippingAddress.postalCode},{" "}
                     {shippingAddress.country}
+                    &nbsp;
+                    {shippingAddress.location && (
+                      <Link
+                        variant="button"
+                        target="_new"
+                        href={`https://maps.google.com?q=${shippingAddress.location.lat},${shippingAddress.location.lng}`}
+                        passHref
+                      >
+                        <a className="ml-2 text-cyan text-xl font-medium ">
+                          Localizar en el mapa
+                        </a>
+                      </Link>
+                    )}
                   </li>
                   <li>
                     Estado:{" "}

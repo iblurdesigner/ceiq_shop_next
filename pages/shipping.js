@@ -15,6 +15,7 @@ function Shipping() {
     control,
     formState: { errors },
     setValue,
+    getValues,
   } = useForm();
 
   const router = useRouter();
@@ -23,7 +24,7 @@ function Shipping() {
     userInfo,
     cart: { shippingAddress },
   } = state;
-
+  const { location } = shippingAddress;
   useEffect(() => {
     if (!userInfo) {
       router.push("/login?redirect=/shipping");
@@ -38,7 +39,7 @@ function Shipping() {
   const submitHandler = ({ fullName, address, city, postalCode, country }) => {
     dispatch({
       type: "SAVE_SHIPPING_ADDRESS",
-      payload: { fullName, address, city, postalCode, country },
+      payload: { fullName, address, city, postalCode, country, location },
     });
     Cookies.set(
       "shippingAddress",
@@ -48,9 +49,31 @@ function Shipping() {
         city,
         postalCode,
         country,
+        location,
       })
     );
     router.push("/payment");
+  };
+
+  const chooseLocationHandler = () => {
+    const fullName = getValues("fullName");
+    const address = getValues("address");
+    const city = getValues("city");
+    const postalCode = getValues("postalCode");
+    const country = getValues("country");
+    dispatch({
+      type: "SAVE_SHIPPING_ADDRESS",
+      payload: { fullName, address, city, postalCode, country },
+    });
+    Cookies.set("shippingAddress", {
+      fullName,
+      address,
+      city,
+      postalCode,
+      country,
+      location,
+    });
+    router.push("/map");
   };
 
   return (
@@ -204,7 +227,18 @@ function Shipping() {
                   )}
                 ></Controller>
               </ListItem>
+
               <ListItem>
+                <ul className="mr-8">
+                  <button
+                    className="bg-yellow rounded-full px-3 py-1 shadow-xl hover:bg-green"
+                    type="button"
+                    onClick={chooseLocationHandler}
+                  >
+                    Buscar en el mapa
+                  </button>
+                  <p>{location.lat && `${location.lat}, ${location.lat}`}</p>
+                </ul>
                 <button
                   className="bg-green py-2 px-8 shadow-md rounded-full hover:bg-cyan"
                   type="submit"
