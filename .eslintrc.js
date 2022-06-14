@@ -17,6 +17,12 @@ module.exports = {
     "standard",
     "prettier",
   ],
+  settings: {
+    react: {
+      pragma: "React",
+      version: "detect",
+    },
+  },
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -24,9 +30,19 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  plugins: ["react"],
+  plugins: ["react", "testing-library"],
+  overrides: [
+    // Only uses Testing Library lint rules in test files
+    {
+      files: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
+      extends: ["plugin:testing-library/react"],
+    },
+  ],
   rules: {
     "react/prop-types": RULES.OFF,
     "react/react-in-jsx-scope": RULES.OFF,
+    "no-undef": RULES.OFF,
+    "import/no-unresolved": RULES.OFF,
+    "import/extensions": RULES.OFF,
   },
 };

@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
-const connection = {};
+const { MONGODB_URI, MONGODB_URI_TEST, NODE_ENV } = process.env;
+
+const connectionString = NODE_ENV === "test" ? MONGODB_URI_TEST : MONGODB_URI;
+
+const connection = { connectionString };
 
 async function connect() {
   if (connection.isConnected) {

@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { Store } from "../utils/Store";
 import Carousel from "react-material-ui-carousel";
 import Link from "next/link";
+import Head from "next/head";
 
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
 
@@ -36,28 +37,32 @@ function Home(props) {
   };
 
   return (
-    <Layout title="Pagina de inicio">
-      <Carousel animation="slide" className="rounded-lg">
-        {featuredProducts.map((product) => (
-          <Link key={product._id} href={`/product/${product.slug}`} passHref>
-            <a>
-              <img src={product.featuredImage} alt={product.name}></img>
-            </a>
-          </Link>
-        ))}
-      </Carousel>
+    <>
+      <Head></Head>
 
-      <h1 className="text-2xl font-semibold my-6">Productos más vendidos</h1>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-        {topRatedProducts.map((product) => (
-          <ProductItem
-            product={product}
-            key={product.slug}
-            addToCartHandler={addToCartHandler}
-          ></ProductItem>
-        ))}
-      </div>
-    </Layout>
+      <Layout title="Pagina de inicio">
+        <Carousel animation="slide" className="rounded-lg">
+          {featuredProducts.map((product) => (
+            <Link key={product._id} href={`/product/${product.slug}`} passHref>
+              <a>
+                <img src={product.featuredImage} alt={product.name}></img>
+              </a>
+            </Link>
+          ))}
+        </Carousel>
+
+        <h1 className="text-2xl font-semibold my-6">Productos más vendidos</h1>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+          {topRatedProducts.map((product) => (
+            <ProductItem
+              product={product}
+              key={product.slug}
+              addToCartHandler={addToCartHandler}
+            ></ProductItem>
+          ))}
+        </div>
+      </Layout>
+    </>
   );
 }
 
