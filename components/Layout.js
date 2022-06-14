@@ -98,7 +98,10 @@ export default function Layout({ title, description, children }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="dark:flex min-h-screen flex-col justify-between ">
+      <div
+        className="dark:flex min-h-screen flex-col justify-between"
+        data-testid="test-layout"
+      >
         <header>
           <nav className="flex h-12 items-center px-4 justify-between shadow-md navbar">
             <Box display="flex" alignItems="center">
