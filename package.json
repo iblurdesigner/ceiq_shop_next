@@ -4,13 +4,15 @@
   "scripts": {
     "type": "module",
     "dev": "NODE_ENV=development next dev",
+    "dev:test": "NODE_ENV=test next dev",
     "build": "NODE_ENV=production next build && next export",
     "start": "next start",
     "lint": "next lint",
     "lint-fix": "eslint . --fix",
     "prepare": "husky install",
     "test": "NODE_ENV=test jest --verbose",
-    "test:ci": "jest --ci"
+    "test:ci": "jest --ci",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "@emotion/react": "11.9.0",
@@ -50,6 +52,7 @@
     "@testing-library/user-event": "14.2.0",
     "autoprefixer": "10.4.5",
     "babel-jest": "28.1.1",
+    "cypress": "^10.1.0",
     "eslint": "8.16.0",
     "eslint-config-next": "12.1.5",
     "eslint-config-prettier": "8.5.0",

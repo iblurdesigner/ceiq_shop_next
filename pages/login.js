@@ -117,6 +117,7 @@ function Login() {
               </ListItem>
               <ListItem>
                 <button
+                  data-testid="form-login-button"
                   className="bg-green py-2 px-8 shadow-md rounded-full hover:bg-cyan"
                   type="submit"
                 >
