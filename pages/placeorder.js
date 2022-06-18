@@ -28,7 +28,7 @@ function PlaceOrder() {
   const itemsPrice = round2(
     cartItems.reduce((a, c) => a + c.price * c.quantity, 0)
   );
-  const shippingPrice = itemsPrice > 200 ? 0 : 15;
+  const shippingPrice = itemsPrice > 200 ? 0 : 5;
   const taxPrice = round2(itemsPrice * 0.12);
   const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
 
