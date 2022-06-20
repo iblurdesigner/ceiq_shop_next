@@ -71,6 +71,11 @@ export default function Payment() {
                   value="Cash"
                   control={<Radio />}
                 ></FormControlLabel>
+                <FormControlLabel
+                  label="Crytomonedas - Ethereum"
+                  value="Ethereum"
+                  control={<Radio />}
+                ></FormControlLabel>
               </RadioGroup>
             </FormControl>
           </ListItem>

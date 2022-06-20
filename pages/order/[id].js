@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import { Store } from "../../utils/Store";
@@ -12,6 +12,9 @@ import axios from "axios";
 import { getError } from "../../utils/error";
 import { CircularProgress } from "@mui/material";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+
+import getBlockchain from "../ethereum.js";
+import StoreEth from "../../utils/crypto/StoreEth";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -54,6 +57,10 @@ function Order({ params }) {
   const router = useRouter();
   const { state } = useContext(Store);
   const { userInfo } = state;
+
+  // crypto
+  const [paymentProcessor, setPaymentProcessor] = useState(undefined);
+  const [dai, setDai] = useState(undefined);
 
   const [
     { loading, error, order, successPay, loadingDeliver, successDeliver },
@@ -122,6 +129,14 @@ function Order({ params }) {
       };
       loadPaypalScript();
     }
+
+    // crypto
+    const init = async () => {
+      const { paymentProcessor, dai } = await getBlockchain();
+      setPaymentProcessor(paymentProcessor);
+      setDai(dai);
+    };
+    init();
   }, [order, successPay, successDeliver]);
 
   const { enqueueSnackbar } = useSnackbar();
@@ -139,6 +154,11 @@ function Order({ params }) {
       .then((orderID) => {
         return orderID;
       });
+  }
+
+  // crypto
+  if (typeof window.ethereum === "undefined") {
+    return <p>Necesita instalar la última versión de Metamask</p>;
   }
 
   // para una vez aprobado
@@ -329,14 +349,22 @@ function Order({ params }) {
                     {isPending ? (
                       <CircularProgress />
                     ) : (
-                      <div>
-                        <PayPalButtons
-                          createOrder={createOrder}
-                          onApprove={onApprove}
-                          onError={onError}
-                          className="mx-5"
-                        ></PayPalButtons>
-                      </div>
+                      // boton PayPal
+                      <>
+                        <div>
+                          <PayPalButtons
+                            createOrder={createOrder}
+                            onApprove={onApprove}
+                            onError={onError}
+                            className="mx-5"
+                          ></PayPalButtons>
+                        </div>
+
+                        <StoreEth
+                          paymentProcessor={paymentProcessor}
+                          dai={dai}
+                        />
+                      </>
                     )}
                   </li>
                 )}
