@@ -85,26 +85,37 @@ export default function ProductScreen(props) {
     <Layout title={product.name} description={product.description}>
       <div className="py-2">
         <Link href="/" passHref>
-          <a className="text-cyan">↞ Regresar a productos</a>
+          <a className="text-cyan text-xl md:text-lg flex items-center">
+            <span className="text-6xl mr-4 md:text-2xl">↞</span>
+            <p>Regresar a productos</p>
+          </a>
         </Link>
       </div>
       <div className="grid md:grid-cols-4 md:gap-3">
-        <div className="md:col-span-2">
+        <div className="md:col-span-1">
           <Image
             src={product.image}
             alt={product.name}
-            width={500}
-            height={500}
+            width={200}
+            height={200}
             layout="responsive"
           ></Image>
         </div>
-        <div>
-          <ul className="h-80  flex flex-col justify-between">
+        <div className="md:col-span-2 md:ml-10 mb-4 mt-4 md:mt-0">
+          <ul className="flex flex-col justify-between">
             <li>
-              <h1 className="text-lg font-extrabold">{product.name}</h1>
+              <h1 className="text-4xl md:text-2xl  font-extrabold">
+                {product.name}
+              </h1>
             </li>
-            <li>Categoría: {product.category}</li>
-            <li>Marca: {product.brand}</li>
+            <li>
+              <p className="font-semibold text-lg mt-4">Categoría:</p>
+              {product.category}
+            </li>
+            <li>
+              <p className="font-semibold text-lg">Marca:</p>
+              {product.brand}
+            </li>
 
             <li className="flex items-center">
               <Rating value={product.rating} readOnly></Rating>
@@ -115,7 +126,10 @@ export default function ProductScreen(props) {
               </Link>
             </li>
 
-            <li>Descripción: {product.description}</li>
+            <li>
+              <p className="font-semibold text-lg mt-6">Descripción:</p>
+              <p>{product.description}</p>
+            </li>
           </ul>
         </div>
         <div>
@@ -141,7 +155,7 @@ export default function ProductScreen(props) {
       </div>
 
       {/* comentarios y revisiones */}
-      <ul className="bg-sky-50 mt-8 p-6 w-3/6">
+      <ul className="bg-sky-50 mt-8 p-6 md:w-3/6">
         <li>
           <h2
             name="reviews"
