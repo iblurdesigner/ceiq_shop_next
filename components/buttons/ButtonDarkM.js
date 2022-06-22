@@ -21,12 +21,13 @@ export default function ButtonDarkM() {
 
     if (currentTheme === "dark") {
       return (
-        <Button className="dark:bg-gray-600" onClick={() => setTheme("light")}>
+        <Button onClick={() => setTheme("light")}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
+            className="h-10 w-10 md:h-5 md:w-5 text-yellow"
             viewBox="0 0 20 20"
             fill="currentColor"
+            alt="modo oscuro"
           >
             <path
               fillRule="evenodd"
@@ -41,9 +42,10 @@ export default function ButtonDarkM() {
         <Button onClick={() => setTheme("dark")}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
+            className="h-10 w-10 md:h-5 md:w-5 "
             viewBox="0 0 20 20"
             fill="currentColor"
+            alt="modo oscuro"
           >
             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
           </svg>

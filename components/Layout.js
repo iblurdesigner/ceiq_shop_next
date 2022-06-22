@@ -21,11 +21,16 @@ import {
 } from "@mui/material";
 
 import dynamic from "next/dynamic";
-import Button from "./Button";
+import Button from "./buttons/Button";
 import { useSnackbar } from "notistack";
 import axios from "axios";
-import ButtonCloseUi from "./ButtonCloseUi";
-const ButtonDarkM = dynamic(() => import("./ButtonDarkM"), { ssr: false });
+import ButtonCloseUi from "./buttons/ButtonCloseUi";
+import CartBtn from "../components/buttons/CartBtn";
+import Userbtn from "../components/buttons/Userbtn";
+import HamburgerBtn from "./buttons/hamburgerBtn";
+const ButtonDarkM = dynamic(() => import("../components/buttons/ButtonDarkM"), {
+  ssr: false,
+});
 
 export default function Layout({ title, description, children }) {
   const router = useRouter();
@@ -100,27 +105,15 @@ export default function Layout({ title, description, children }) {
 
       <div className="dark:flex min-h-screen flex-col justify-between ">
         <header>
-          <nav className="flex h-12 items-center px-4 justify-between shadow-md navbar">
+          <nav className="flex navbar items-center px-4 justify-center flex-wrap md:justify-between shadow-md h-40 md:h-28">
             <Box display="flex" alignItems="center">
               <IconButton
                 edge="start"
                 aria-label="open drawer"
                 onClick={sidebarOpenHandler}
               >
-                <Button className="text-white px-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </Button>
+                <HamburgerBtn className="text-white px-2 h-12 w-12" />
+
                 <Link href="/" passHref>
                   <a className="text-lg font-bold">
                     <Image
@@ -155,7 +148,7 @@ export default function Layout({ title, description, children }) {
                       onClick={sidebarCloseHandler}
                     >
                       <Button className="text-green hover:bg-green hover:text-blue">
-                        <ButtonCloseUi />
+                        <ButtonCloseUi className="h-10 w-10 md:h-6 md:w-6" />
                       </Button>
                     </IconButton>
                   </Box>
@@ -167,21 +160,95 @@ export default function Layout({ title, description, children }) {
                     href={`/search?category=${category}`}
                     passHref
                   >
-                    <ListItem
-                      button
-                      component="a"
-                      onClick={sidebarCloseHandler}
-                    >
-                      <ListItemText primary={category}></ListItemText>
-                    </ListItem>
+                    <div className="h-20">
+                      <ListItem
+                        button
+                        component="a"
+                        onClick={sidebarCloseHandler}
+                      >
+                        <ListItemText primary={category}></ListItemText>
+                      </ListItem>
+                    </div>
                   </Link>
                 ))}
               </List>
+              <Divider light />
+              <div className="p-2 flex flex-col justify-around items-center">
+                <div className="mb-6 p-2">
+                  <Link href="/cart" passHref>
+                    <a className="p-2">
+                      <CartBtn className="h-10 w-10 text-cyan" />
+                      {cart.cartItems.length > 0 && (
+                        <span className="ml-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white">
+                          {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                        </span>
+                      )}
+                    </a>
+                  </Link>
+                </div>
+
+                {userInfo ? (
+                  <>
+                    <button
+                      className="hover:text-green mx-6"
+                      type="button"
+                      aria-controls="simple-menu"
+                      aria-haspopup="true"
+                      onClick={loginClickHandler}
+                    >
+                      {userInfo.name}
+                    </button>
+
+                    <Menu
+                      id="simple-menu"
+                      anchorEl={anchorEl}
+                      keepMounted
+                      open={Boolean(anchorEl)}
+                      onClose={loginMenuCloseHandler}
+                    >
+                      <MenuItem
+                        onClick={(e) => loginMenuCloseHandler(e, "/profile")}
+                      >
+                        Perfil
+                      </MenuItem>
+                      <MenuItem
+                        onClick={(e) =>
+                          loginMenuCloseHandler(e, "/order-history")
+                        }
+                      >
+                        Historial de órdenes
+                      </MenuItem>
+                      {userInfo.isAdmin && (
+                        <MenuItem
+                          onClick={(e) =>
+                            loginMenuCloseHandler(e, "/admin/dashboard")
+                          }
+                        >
+                          Administración Dashboard
+                        </MenuItem>
+                      )}
+                      <MenuItem onClick={logoutClickHandler}>
+                        Cerrar Sesion
+                      </MenuItem>
+                    </Menu>
+                  </>
+                ) : (
+                  <Link href="/login" passHref>
+                    <a className="pt-4">
+                      <Userbtn className="h-10 w-10 text-cyan" />
+                    </a>
+                  </Link>
+                )}
+
+                <div className="mt-12">
+                  <ButtonDarkM />
+                </div>
+              </div>
             </Drawer>
 
             {/* ********* buscador *********** */}
 
-            <div className="w-4/12">
+            <div className="md:w-4/12">
               <form
                 onSubmit={submitHandler}
                 className="flex items-center justify-between"
@@ -216,11 +283,13 @@ export default function Layout({ title, description, children }) {
             {/* ********* darkmode carrito usuario ********* */}
 
             <div className="w-64  flex justify-between">
-              <ButtonDarkM />
+              <div className="invisible md:visible">
+                <ButtonDarkM />
+              </div>
 
               <Link href="/cart" passHref>
-                <a className="p-2 ">
-                  Carrito
+                <a className="p-2 invisible md:visible">
+                  <CartBtn className="text-white h-6 w-6" />
                   {cart.cartItems.length > 0 && (
                     <span className="ml-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white">
                       {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
@@ -276,7 +345,9 @@ export default function Layout({ title, description, children }) {
                 </>
               ) : (
                 <Link href="/login" passHref>
-                  <a className="p-2">Ingresar</a>
+                  <a className="p-2 invisible md:visible">
+                    <Userbtn className="text-white h-6 w-6" />
+                  </a>
                 </Link>
               )}
             </div>

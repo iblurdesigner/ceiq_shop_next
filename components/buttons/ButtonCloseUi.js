@@ -1,12 +1,13 @@
 import React from "react";
 
-const ButtonCloseUi = () => {
+const ButtonCloseUi = ({ className }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="h-5 w-5"
+      className={`${className}`}
       viewBox="0 0 20 20"
       fill="currentColor"
+      alt="Cerrar"
     >
       <path
         fillRule="evenodd"
