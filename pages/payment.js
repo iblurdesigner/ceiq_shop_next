@@ -81,7 +81,7 @@ export default function Payment() {
           </ListItem>
           <ListItem>
             <button
-              className="dark:text-black bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow"
+              className="dark:text-black bg-green rounded-full w-full md:w-1/2 mt-10 px-3 py-1 shadow-xl hover:bg-yellow"
               type="submit"
             >
               Continuar
@@ -89,7 +89,7 @@ export default function Payment() {
           </ListItem>
           <ListItem>
             <button
-              className="dark:text-black bg-gray-200 rounded-full px-3 py-1 hover:bg-yellow"
+              className="dark:text-black bg-gray-200 w-1/2 rounded-full mt-10 px-3 py-1 hover:bg-yellow"
               type="button"
               onClick={() => router.push("/shipping")}
             >

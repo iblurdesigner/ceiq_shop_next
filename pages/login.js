@@ -48,9 +48,9 @@ function Login() {
   };
 
   return (
-    <Layout title="Ingresar">
+    <Layout title="Ingreso de usuario al sistema">
       <div className="flex justify-center">
-        <div className="card w-4/12 ">
+        <div className="card md:w-4/12 ">
           <form
             onSubmit={handleSubmit(submitHandler)}
             className="rounded px-8 pt-6 pb-8 mb-4"
@@ -117,7 +117,7 @@ function Login() {
               </ListItem>
               <ListItem>
                 <button
-                  className="bg-green py-2 px-8 shadow-md rounded-full hover:bg-cyan"
+                  className="bg-green py-2 px-8 w-full shadow-md rounded-full hover:bg-cyan"
                   type="submit"
                 >
                   Ingresar

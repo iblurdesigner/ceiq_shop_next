@@ -210,7 +210,10 @@ function Order({ params }) {
 
   return (
     <Layout title={`Orden ${orderId}`}>
-      <h1 className="text-4xl py-4">Orden {orderId}</h1>
+      <h1 className="text-4xl py-4">
+        Orden
+        <p className="text-xl text-gray-400 ">{orderId}</p>
+      </h1>
 
       {loading ? (
         <CircularProgress />
@@ -324,7 +327,7 @@ function Order({ params }) {
             </div>
 
             <>
-              <div className="card h-min">
+              <div className="card col-span-2 md:col-auto h-min">
                 <div className="grid grid-flow-row-dense grid-cols-3 p-5 gap-y-4">
                   <h2 className="col-span-3 font-bold text-2xl">
                     Resumen del pedido
@@ -349,7 +352,7 @@ function Order({ params }) {
                     {isPending ? (
                       <CircularProgress />
                     ) : (
-                      // boton PayPal
+                      // botones PayPal - cryto
                       <>
                         <div>
                           <PayPalButtons
@@ -358,12 +361,13 @@ function Order({ params }) {
                             onError={onError}
                             className="mx-5"
                           ></PayPalButtons>
-                        </div>
 
-                        <StoreEth
-                          paymentProcessor={paymentProcessor}
-                          dai={dai}
-                        />
+                          <StoreEth
+                            paymentProcessor={paymentProcessor}
+                            dai={dai}
+                            className="w-full text-lg mt-8 font-bold"
+                          />
+                        </div>
                       </>
                     )}
                   </li>
@@ -372,7 +376,7 @@ function Order({ params }) {
                   <li>
                     {loadingDeliver && <CircularProgress />}
                     <button
-                      className="bg-green rounded-full px-3 py-1 shadow-xl w-full hover:bg-yellow"
+                      className="bg-green font-semibold text-lg rounded-full px-3 py-1 shadow-xl w-full hover:bg-yellow"
                       onClick={deliverOrderHandler}
                     >
                       Entregar órden

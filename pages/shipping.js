@@ -80,7 +80,7 @@ function Shipping() {
     <Layout title="Dirección de envío">
       <CheckoutWizard activeStep={1}></CheckoutWizard>
       <div className="flex justify-center mt-10">
-        <div className="card w-6/12 ">
+        <div className="card md:w-6/12 ">
           <form
             onSubmit={handleSubmit(submitHandler)}
             className="rounded px-8 pt-6 pb-8 mb-4"
@@ -228,10 +228,10 @@ function Shipping() {
                 ></Controller>
               </ListItem>
 
-              <ListItem>
-                <ul className="mr-8">
+              <ListItem className="flex flex-col">
+                <ul>
                   <button
-                    className="bg-yellow rounded-full px-3 py-1 shadow-xl hover:bg-green"
+                    className="bg-yellow w-full rounded-full px-3 py-1 shadow-xl hover:bg-green"
                     type="button"
                     onClick={chooseLocationHandler}
                   >
@@ -240,7 +240,7 @@ function Shipping() {
                   <p>{location.lat && `${location.lat}, ${location.lat}`}</p>
                 </ul>
                 <button
-                  className="bg-green py-2 px-8 shadow-md rounded-full hover:bg-cyan"
+                  className="bg-green mt-10 py-2 px-8 shadow-md w-full rounded-full hover:bg-cyan"
                   type="submit"
                 >
                   Continuar

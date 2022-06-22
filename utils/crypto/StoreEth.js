@@ -15,7 +15,7 @@ const ITEMS = [
   },
 ];
 
-function StoreEth({ paymentProcessor, dai }) {
+function StoreEth({ paymentProcessor, dai, className }) {
   const buy = async (item) => {
     const response1 = await axios.get(`${API_URL}/api/getPaymentId/${item.id}`);
     console.log(response1);
@@ -44,7 +44,7 @@ function StoreEth({ paymentProcessor, dai }) {
   return (
     <button
       type="button"
-      className="bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow"
+      className={`bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow ${className}`}
       onClick={() => buy(ITEMS[0])}
     >
       Pagar en Metamask
