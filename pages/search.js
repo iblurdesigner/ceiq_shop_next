@@ -14,7 +14,7 @@ import {
   Rating,
   Pagination,
 } from "@mui/material";
-import ButtonCloseUi from "../components/ButtonCloseUi";
+import ButtonCloseUi from "../components/buttons/ButtonCloseUi";
 
 const PAGE_SIZE = 3;
 
