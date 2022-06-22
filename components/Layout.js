@@ -174,19 +174,6 @@ export default function Layout({ title, description, children }) {
               </List>
               <Divider light />
               <div className="p-2 flex flex-col justify-around items-center">
-                <div className="mb-6 p-2">
-                  <Link href="/cart" passHref>
-                    <a className="p-2">
-                      <CartBtn className="h-10 w-10 text-cyan" />
-                      {cart.cartItems.length > 0 && (
-                        <span className="ml-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white">
-                          {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
-                        </span>
-                      )}
-                    </a>
-                  </Link>
-                </div>
-
                 {userInfo ? (
                   <>
                     <button
@@ -246,110 +233,114 @@ export default function Layout({ title, description, children }) {
               </div>
             </Drawer>
 
-            {/* ********* buscador *********** */}
+            {/* ********* BUSCARDOR - DARKMODE - CARRITO - LOGIN *********** */}
 
-            <div className="md:w-4/12">
-              <form
-                onSubmit={submitHandler}
-                className="flex items-center justify-between"
-              >
-                <InputBase
-                  className="bg-white rounded-l-lg p-4 h-6 m-0 text-gray-300 hover:text-cyan w-full"
-                  name="query"
-                  placeholder="Buscar productos"
-                  onChange={queryChangeHandler}
-                />
-                <IconButton type="submit" aria-label="search">
-                  <Button className="bg-cyan rounded-r-lg">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-5 text-white "
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </Button>
-                </IconButton>
-              </form>
-            </div>
+            <div className="w-fit md:w-4/6 flex flex-wrap justify-between items-center md:px-6">
+              <div className=" md:w-4/6 order-1">
+                <form
+                  onSubmit={submitHandler}
+                  className="flex items-center justify-between"
+                >
+                  <InputBase
+                    className="bg-white rounded-l-lg p-4 h-6 m-0 text-gray-300 hover:text-cyan w-full"
+                    name="query"
+                    placeholder="Buscar productos"
+                    onChange={queryChangeHandler}
+                  />
+                  <IconButton type="submit" aria-label="search">
+                    <Button className="bg-cyan rounded-r-lg">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-5 text-white "
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </Button>
+                  </IconButton>
+                </form>
+              </div>
 
-            {/* ********* buscador *********** */}
+              {/* ********* darkmode carrito usuario ********* */}
 
-            {/* ********* darkmode carrito usuario ********* */}
-
-            <div className="w-64  flex justify-between">
-              <div className="invisible md:visible">
+              <div className="invisible md:visible order-3 md:order-2">
                 <ButtonDarkM />
               </div>
 
-              <Link href="/cart" passHref>
-                <a className="p-2 invisible md:visible">
-                  <CartBtn className="text-white h-6 w-6" />
-                  {cart.cartItems.length > 0 && (
-                    <span className="ml-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white">
-                      {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
-                    </span>
-                  )}
-                </a>
-              </Link>
-
-              {userInfo ? (
-                <>
-                  <button
-                    className="hover:text-green mx-6"
-                    type="button"
-                    aria-controls="simple-menu"
-                    aria-haspopup="true"
-                    onClick={loginClickHandler}
-                  >
-                    {userInfo.name}
-                  </button>
-
-                  <Menu
-                    id="simple-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={loginMenuCloseHandler}
-                  >
-                    <MenuItem
-                      onClick={(e) => loginMenuCloseHandler(e, "/profile")}
-                    >
-                      Perfil
-                    </MenuItem>
-                    <MenuItem
-                      onClick={(e) =>
-                        loginMenuCloseHandler(e, "/order-history")
-                      }
-                    >
-                      Historial de órdenes
-                    </MenuItem>
-                    {userInfo.isAdmin && (
-                      <MenuItem
-                        onClick={(e) =>
-                          loginMenuCloseHandler(e, "/admin/dashboard")
-                        }
-                      >
-                        Administración Dashboard
-                      </MenuItem>
-                    )}
-                    <MenuItem onClick={logoutClickHandler}>
-                      Cerrar Sesion
-                    </MenuItem>
-                  </Menu>
-                </>
-              ) : (
-                <Link href="/login" passHref>
-                  <a className="p-2 invisible md:visible">
-                    <Userbtn className="text-white h-6 w-6" />
+              <div className="order-2 md:order-3">
+                <Link href="/cart" passHref>
+                  <a className="p-2 md:visible">
+                    <div className="flex">
+                      <CartBtn className="text-white h-6 w-6" />
+                      {cart.cartItems.length > 0 && (
+                        <span className="ml-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white">
+                          {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                        </span>
+                      )}
+                    </div>
                   </a>
                 </Link>
-              )}
+              </div>
+
+              <div className="order-last">
+                {userInfo ? (
+                  <>
+                    <button
+                      className="hover:text-green mx-6"
+                      type="button"
+                      aria-controls="simple-menu"
+                      aria-haspopup="true"
+                      onClick={loginClickHandler}
+                    >
+                      {userInfo.name}
+                    </button>
+
+                    <Menu
+                      id="simple-menu"
+                      anchorEl={anchorEl}
+                      keepMounted
+                      open={Boolean(anchorEl)}
+                      onClose={loginMenuCloseHandler}
+                    >
+                      <MenuItem
+                        onClick={(e) => loginMenuCloseHandler(e, "/profile")}
+                      >
+                        Perfil
+                      </MenuItem>
+                      <MenuItem
+                        onClick={(e) =>
+                          loginMenuCloseHandler(e, "/order-history")
+                        }
+                      >
+                        Historial de órdenes
+                      </MenuItem>
+                      {userInfo.isAdmin && (
+                        <MenuItem
+                          onClick={(e) =>
+                            loginMenuCloseHandler(e, "/admin/dashboard")
+                          }
+                        >
+                          Administración Dashboard
+                        </MenuItem>
+                      )}
+                      <MenuItem onClick={logoutClickHandler}>
+                        Cerrar Sesion
+                      </MenuItem>
+                    </Menu>
+                  </>
+                ) : (
+                  <Link href="/login" passHref>
+                    <a className="p-2 invisible md:visible">
+                      <Userbtn className="text-white h-6 w-6" />
+                    </a>
+                  </Link>
+                )}
+              </div>
             </div>
           </nav>
         </header>
