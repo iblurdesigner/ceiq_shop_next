@@ -77,8 +77,8 @@ function AdminDashboard() {
   return (
     <>
       <Layout title="Dashboard">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
-          <div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
+          <div className="w-full h-fit">
             <div className="card p-6">
               <List>
                 <Link href="/admin/dashboard" passHref>
@@ -106,7 +106,7 @@ function AdminDashboard() {
           </div>
 
           <div className="col-span-3">
-            <div className="card p-6">
+            <div className="card w-full p-6">
               <ul>
                 <li>
                   {loading ? (
@@ -115,7 +115,7 @@ function AdminDashboard() {
                     <p>{error}</p>
                   ) : (
                     <>
-                      <div className="grid grid-cols-4 gap-6">
+                      <div className="grid grid-flow-row md:grid-cols-4 gap-6">
                         <div className="card shadow-2xl p-6">
                           <h1 className="text-4xl py-4">
                             ${summary.ordersPrice}

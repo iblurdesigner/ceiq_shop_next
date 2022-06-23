@@ -91,8 +91,8 @@ function AdminUsers() {
   return (
     <>
       <Layout title="Órdenes">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
-          <div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
+          <div className="w-full h-fit">
             <div className="card p-6">
               <List>
                 <Link href="/admin/dashboard" passHref>
@@ -120,7 +120,7 @@ function AdminUsers() {
           </div>
 
           <div className="col-span-3">
-            <div className="card p-6">
+            <div className="card w-full p-6">
               <ul>
                 <li>
                   <h1 className="text-4xl py-4">Usuarios</h1>
@@ -134,45 +134,73 @@ function AdminUsers() {
                     <p>{error}</p>
                   ) : (
                     <>
-                      <table className="table-fixed tableInfo">
-                        <thead>
-                          <tr>
-                            <th className="py-2">ID</th>
-                            <th className="py-2">NOMBRE</th>
-                            <th className="py-2">EMAIL</th>
-                            <th className="py-2">ADMINISTRADOR</th>
-                            <th className="py-2">ACCIONES</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {users.map((user) => (
-                            <tr
-                              key={user._id}
-                              className="divide-y divide-sky-300"
-                            >
-                              <td className="py-6">
+                      <div className="w-full bg-gray-100">
+                        <div className="w-full text-lg font-bold flex flex-row flex-wrap justify-between invisible md:visible">
+                          <p className="py-2">ID</p>
+                          <p className="py-2">NOMBRE</p>
+                          <p className="py-2">EMAIL</p>
+                          <p className="py-2">ADMINISTRADOR</p>
+                          <p className="basis-2/6 py-2">ACCIONES</p>
+                        </div>
+                      </div>
+                      <div>
+                        {users.map((user) => (
+                          <div
+                            key={user._id}
+                            className="card md:flex md:flex-row md:justify-items-stretch md:justify-between px-2 py-6"
+                          >
+                            <div className="flex justify-between">
+                              <p className="md:order-2 visible md:invisible">
+                                ID
+                              </p>
+                              <p className="md:order-1">
                                 {user._id.substring(20, 24)}
-                              </td>
-                              <td>{user.name}</td>
-                              <td>{user.email}</td>
-                              <td>{user.isAdmin ? "SI" : "NO"}</td>
-                              <td>
-                                <Link href={`/admin/user/${user._id}`} passHref>
-                                  <button className="bg-cyan rounded-full px-3 py-1 shadow-xl hover:bg-green">
-                                    Editar
-                                  </button>
-                                </Link>{" "}
-                                <button
-                                  onClick={() => deleteHandler(user._id)}
-                                  className="bg-red-400 rounded-full px-3 py-1 shadow-xl hover:bg-red-200"
-                                >
-                                  Eliminar
+                              </p>
+                            </div>
+
+                            <div className="flex justify-between ">
+                              <p className="md:order-2 text-sm visible md:invisible">
+                                NOMBRE
+                              </p>
+                              <p className="md:order-1 text-2xl md:text-base">
+                                {user.name}
+                              </p>
+                            </div>
+
+                            <div className="flex justify-between">
+                              <p className="md:order-2 text-sm visible md:invisible">
+                                EMAIL
+                              </p>
+                              <p className="md:order-1 text-2xl md:text-base">
+                                {user.email}
+                              </p>
+                            </div>
+
+                            <div className="flex justify-between">
+                              <p className="md:order-2 text-sm visible md:invisible">
+                                ADMINISTRADOR
+                              </p>
+                              <p className="md:order-1 text-2xl md:text-base">
+                                {user.isAdmin ? "SI" : "NO"}
+                              </p>
+                            </div>
+
+                            <div className="flex justify-between basis-2/6">
+                              <Link href={`/admin/user/${user._id}`} passHref>
+                                <button className="bg-cyan w-full mt-4 md:mr-2  rounded-full px-3 py-1 shadow-xl hover:bg-green">
+                                  Editar
                                 </button>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                              </Link>{" "}
+                              <button
+                                onClick={() => deleteHandler(user._id)}
+                                className="bg-red-400 w-full mt-4  rounded-full px-3 py-1 shadow-xl hover:bg-red-200"
+                              >
+                                Eliminar
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </>
                   )}
                 </li>
