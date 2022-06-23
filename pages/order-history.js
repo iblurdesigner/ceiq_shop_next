@@ -75,7 +75,9 @@ function OrderHistory() {
             <div className="card w-full p-6">
               <ul>
                 <li>
-                  <h1 className="text-4xl py-4">Historial de compras</h1>
+                  <h1 className="text-4xl dark:text-cyan py-4">
+                    Historial de compras
+                  </h1>
                 </li>
 
                 <li>
@@ -85,7 +87,7 @@ function OrderHistory() {
                     <p>{error}</p>
                   ) : (
                     <div>
-                      <div className="w-full bg-gray-100">
+                      <div className="w-full dark:bg-transparent bg-gray-100">
                         <div className="w-full text-lg font-bold flex flex-row flex-wrap justify-between invisible md:visible">
                           <p className="w-10 py-2">ID</p>
                           <p className="basis-1/6 py-2">FECHA</p>
@@ -101,7 +103,7 @@ function OrderHistory() {
                             key={order._id}
                             className="card md:flex md:flex-row md:justify-items-stretch md:justify-between px-2 py-6"
                           >
-                            <div className="flex justify-between bg-amber-100">
+                            <div className="flex justify-between dark:bg-transparent bg-amber-100">
                               <span className="md:order-2 visible md:invisible">
                                 ID
                               </span>
@@ -110,7 +112,7 @@ function OrderHistory() {
                               </p>
                             </div>
 
-                            <div className="flex justify-between basis-1/6 bg-pink-100">
+                            <div className="flex justify-between basis-1/6 dark:bg-transparent bg-pink-100">
                               <span className="md:order-2 visible md:invisible">
                                 FECHA
                               </span>
@@ -119,7 +121,7 @@ function OrderHistory() {
                               </p>
                             </div>
 
-                            <div className="flex justify-between basis-1/6 bg-orange-100">
+                            <div className="flex justify-between basis-1/6 dark:bg-transparent bg-orange-100">
                               <span className="md:order-2 visible md:invisible">
                                 TOTAL
                               </span>
@@ -128,7 +130,7 @@ function OrderHistory() {
                               </p>
                             </div>
 
-                            <div className="basis-1/6 bg-purple-100">
+                            <div className="basis-1/6 dark:bg-transparent bg-purple-100">
                               {order.isPaid ? (
                                 <div className="flex justify-between">
                                   <span className="md:order-2 visible md:invisible">
@@ -150,7 +152,7 @@ function OrderHistory() {
                               )}
                             </div>
 
-                            <div className="w-50 text-center bg-sky-100">
+                            <div className="w-50 text-center dark:bg-transparent bg-sky-100">
                               {order.isDelivered ? (
                                 <div className="flex justify-between">
                                   <span className="md:order-2 visible md:invisible">

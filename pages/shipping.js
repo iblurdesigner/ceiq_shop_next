@@ -100,6 +100,7 @@ function Shipping() {
                     <TextField
                       variant="outlined"
                       fullWidth
+                      className="dark:bg-gray-50 dark:text-black dark:rounded"
                       id="fullName"
                       label="Nombre completo (Nombre y apellidos)"
                       error={Boolean(errors.fullName)}
@@ -128,6 +129,7 @@ function Shipping() {
                     <TextField
                       variant="outlined"
                       fullWidth
+                      className="dark:bg-gray-50 dark:text-black dark:rounded"
                       id="address"
                       label="Dirección"
                       error={Boolean(errors.address)}
@@ -156,6 +158,7 @@ function Shipping() {
                     <TextField
                       variant="outlined"
                       fullWidth
+                      className="dark:bg-gray-50 dark:text-black dark:rounded"
                       id="city"
                       label="Ciudad"
                       error={Boolean(errors.city)}
@@ -184,6 +187,7 @@ function Shipping() {
                     <TextField
                       variant="outlined"
                       fullWidth
+                      className="dark:bg-gray-50 dark:text-black dark:rounded"
                       id="postalCode"
                       label="Código Postal"
                       error={Boolean(errors.postalCode)}
@@ -212,6 +216,7 @@ function Shipping() {
                     <TextField
                       variant="outlined"
                       fullWidth
+                      className="dark:bg-gray-50 dark:text-black dark:rounded"
                       id="country"
                       label="País"
                       error={Boolean(errors.country)}
@@ -231,7 +236,7 @@ function Shipping() {
               <ListItem className="flex flex-col">
                 <ul>
                   <button
-                    className="bg-yellow w-full rounded-full px-3 py-1 shadow-xl hover:bg-green"
+                    className="bg-yellow dark:text-black w-full rounded-full px-3 py-1 shadow-xl hover:bg-green"
                     type="button"
                     onClick={chooseLocationHandler}
                   >
@@ -240,7 +245,7 @@ function Shipping() {
                   <p>{location.lat && `${location.lat}, ${location.lat}`}</p>
                 </ul>
                 <button
-                  className="bg-green mt-10 py-2 px-8 shadow-md w-full rounded-full hover:bg-cyan"
+                  className="bg-green dark:text-black mt-10 py-2 px-8 shadow-md w-full rounded-full hover:bg-cyan"
                   type="submit"
                 >
                   Continuar

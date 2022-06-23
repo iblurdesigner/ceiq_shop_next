@@ -6,14 +6,7 @@ import Product from "../models/Product";
 import ProductItem from "../components/ProductItem";
 import { Store } from "../utils/Store";
 import axios from "axios";
-import {
-  Box,
-  Button,
-  MenuItem,
-  Select,
-  Rating,
-  Pagination,
-} from "@mui/material";
+import { Box, MenuItem, Select, Rating, Pagination } from "@mui/material";
 import ButtonCloseUi from "../components/buttons/ButtonCloseUi";
 
 const PAGE_SIZE = 3;
@@ -111,12 +104,14 @@ export default function Search(props) {
   };
   return (
     <Layout title="Búsqueda">
-      <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
-        <div>
-          <ul>
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
+        <div className="h-fit bg-gray-100 md:bg-gray-50 p-1 md:p-0">
+          <ul className="flex flex-wrap justify-between  md:flex-col">
             <li className="mb-6">
               <Box className="w-full">
-                <p className="text-xl font-light mb-2">Categorías</p>
+                <p className="text-xl font-semibold text-blue mb-2">
+                  Categorías
+                </p>
                 <Select
                   className="w-full h-10"
                   value={category}
@@ -134,7 +129,7 @@ export default function Search(props) {
             </li>
             <li className="mb-6">
               <Box>
-                <p className="text-xl font-light mb-2">Marcas</p>
+                <p className="text-xl font-semibold text-blue mb-2">Marcas</p>
                 <Select
                   value={brand}
                   onChange={brandHandler}
@@ -152,7 +147,7 @@ export default function Search(props) {
             </li>
             <li className="mb-6">
               <Box>
-                <p className="text-xl font-light mb-2">Precios</p>
+                <p className="text-xl font-semibold text-blue mb-2">Precios</p>
                 <Select
                   value={price}
                   onChange={priceHandler}
@@ -169,7 +164,9 @@ export default function Search(props) {
             </li>
             <li className="mb-6">
               <Box>
-                <p className="text-xl font-light mb-2">Calificaciones</p>
+                <p className="text-xl font-semibold text-blue mb-2">
+                  Calificaciones
+                </p>
                 <Select
                   value={rating}
                   onChange={ratingHandler}
@@ -187,8 +184,9 @@ export default function Search(props) {
             </li>
           </ul>
         </div>
+
         <div className="col-span-3">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between flex-col md:flex-row items-center">
             <div className="bg-gray-200 rounded-full py-2 px-4 text-blue">
               {products.length === 0 ? "No hay" : countProducts} Resultados
               {query !== "all" && query !== "" && " : " + query}
@@ -201,14 +199,15 @@ export default function Search(props) {
               brand !== "all" ||
               rating !== "all" ||
               price !== "all" ? (
-                <Button
+                <button
                   onClick={() => router.push("/search")}
-                  className="bg-green"
+                  className="px-4 rounded hover:text-cyan"
                 >
-                  <ButtonCloseUi />
-                </Button>
+                  <ButtonCloseUi className="h-8 w-8 md:h-6 md:w-6" />
+                </button>
               ) : null}
             </div>
+
             <div className="flex justify-between items-center">
               <p className="text-lg mr-4">Ordenar por</p>
               <Select value={sort} onChange={sortHandler} className="h-8">

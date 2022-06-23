@@ -105,7 +105,7 @@ function CartScreen() {
                       <td>${item.price}</td>
                       <td>
                         <button
-                          className="bg-green py-2 px-8 shadow-md rounded-full hover:bg-red-400"
+                          className="bg-green dark:text-black py-2 px-8 shadow-md rounded-full hover:bg-red-400"
                           type="button"
                           onClick={() => removeItemHandler(item)}
                         >
@@ -131,7 +131,7 @@ function CartScreen() {
                     .toFixed(2)}
                 </h2>
                 <button
-                  className="bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow"
+                  className="bg-green dark:text-blue rounded-full px-3 py-1 shadow-xl hover:bg-yellow"
                   onClick={checkoutHandler}
                 >
                   Pagar

@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 
 import dynamic from "next/dynamic";
-import Button from "./buttons/Button";
+
 import { useSnackbar } from "notistack";
 import axios from "axios";
 import ButtonCloseUi from "./buttons/ButtonCloseUi";
@@ -147,9 +147,9 @@ export default function Layout({ title, description, children }) {
                       aria-label="close"
                       onClick={sidebarCloseHandler}
                     >
-                      <Button className="text-green hover:bg-green hover:text-blue">
+                      <div className="text-green hover:bg-green hover:rounded-full hover:text-blue">
                         <ButtonCloseUi className="h-10 w-10 md:h-6 md:w-6" />
-                      </Button>
+                      </div>
                     </IconButton>
                   </Box>
                 </ListItem>
@@ -248,7 +248,7 @@ export default function Layout({ title, description, children }) {
                     onChange={queryChangeHandler}
                   />
                   <IconButton type="submit" aria-label="search">
-                    <Button className="bg-cyan rounded-r-lg">
+                    <button className="bg-cyan px-2 py-2 rounded-r-lg">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-4 w-5 text-white "
@@ -261,7 +261,7 @@ export default function Layout({ title, description, children }) {
                           clipRule="evenodd"
                         />
                       </svg>
-                    </Button>
+                    </button>
                   </IconButton>
                 </form>
               </div>
@@ -287,7 +287,7 @@ export default function Layout({ title, description, children }) {
                 </Link>
               </div>
 
-              <div className="order-last">
+              <div className="order-last invisible md:visible">
                 {userInfo ? (
                   <>
                     <button

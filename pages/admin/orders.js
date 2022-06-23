@@ -85,7 +85,7 @@ function AdminOrders() {
             <div className="card w-full p-6">
               <ul>
                 <li>
-                  <h1 className="text-4xl py-4">Órdenes</h1>
+                  <h1 className="text-4xl dark:text-cyan py-4">Órdenes</h1>
                 </li>
 
                 <li>
@@ -95,7 +95,7 @@ function AdminOrders() {
                     <p>{error}</p>
                   ) : (
                     <div>
-                      <div className="w-full bg-gray-100">
+                      <div className="w-full dark:bg-transparent bg-gray-100">
                         <div className="w-full text-lg font-bold flex flex-row flex-wrap justify-between invisible md:visible">
                           <p className="py-2">ID</p>
                           <p className="py-2">USUARIO</p>
@@ -112,7 +112,7 @@ function AdminOrders() {
                             key={order._id}
                             className="md:flex md:flex-row md:justify-items-stretch md:justify-between px-2 py-6"
                           >
-                            <div className="flex justify-between bg-amber-100">
+                            <div className="flex justify-between dark:bg-transparent bg-amber-100">
                               <span className="md:order-2 visible md:invisible">
                                 ID
                               </span>
@@ -121,7 +121,7 @@ function AdminOrders() {
                               </p>
                             </div>
 
-                            <div className="flex justify-between basis-1/6 bg-pink-100">
+                            <div className="flex justify-between basis-1/6 dark:bg-transparent bg-pink-100">
                               <span className="md:order-2 visible md:invisible">
                                 USUARIO
                               </span>
@@ -133,7 +133,7 @@ function AdminOrders() {
                               </p>
                             </div>
 
-                            <div className="flex justify-between basis-1/6 bg-orange-100">
+                            <div className="flex justify-between basis-1/6 dark:bg-transparent bg-orange-100">
                               <span className="md:order-2 visible md:invisible">
                                 FECHA
                               </span>
@@ -143,7 +143,7 @@ function AdminOrders() {
                               </p>
                             </div>
 
-                            <div className="flex justify-between basis-1/6 bg-purple-100">
+                            <div className="flex justify-between basis-1/6 dark:bg-transparent bg-purple-100">
                               <span className="md:order-2 visible md:invisible">
                                 TOTAL
                               </span>
@@ -153,7 +153,7 @@ function AdminOrders() {
                               </p>
                             </div>
 
-                            <div className="flex justify-between basis-1/6 bg-sky-100">
+                            <div className="flex justify-between basis-1/6 dark:bg-transparent bg-sky-100">
                               <span className="md:order-2 visible md:invisible">
                                 PAGO
                               </span>
@@ -165,7 +165,7 @@ function AdminOrders() {
                               </p>
                             </div>
 
-                            <div className="flex justify-between basis-1/6 bg-emerald-100">
+                            <div className="flex justify-between basis-1/6 dark:bg-transparent bg-emerald-100">
                               <span className="md:order-2 visible md:invisible">
                                 ENTREGA
                               </span>
@@ -179,7 +179,7 @@ function AdminOrders() {
 
                             <div>
                               <Link href={`/order/${order._id}`} passHref>
-                                <button className="bg-green w-full mt-4 md:mt-0 rounded-full px-3 py-1 shadow-xl hover:bg-yellow">
+                                <button className="bg-green dark:text-black text-xl font-semibold md:text-base w-full mt-4 md:mt-0 rounded-full px-3 py-1 shadow-xl hover:bg-yellow">
                                   Detalles
                                 </button>
                               </Link>

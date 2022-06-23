@@ -123,7 +123,7 @@ function AdminUsers() {
             <div className="card w-full p-6">
               <ul>
                 <li>
-                  <h1 className="text-4xl py-4">Usuarios</h1>
+                  <h1 className="text-4xl dark:text-cyan py-4">Usuarios</h1>
                   {loadingDelete && <CircularProgress />}
                 </li>
 
@@ -134,7 +134,7 @@ function AdminUsers() {
                     <p>{error}</p>
                   ) : (
                     <>
-                      <div className="w-full bg-gray-100">
+                      <div className="w-full dark:bg-transparent bg-gray-100">
                         <div className="w-full text-lg font-bold flex flex-row flex-wrap justify-between invisible md:visible">
                           <p className="py-2">ID</p>
                           <p className="py-2">NOMBRE</p>

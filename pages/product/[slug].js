@@ -145,7 +145,7 @@ export default function ProductScreen(props) {
               </div>
             </div>
             <button
-              className="primary-button w-full"
+              className="bg-green dark:text-blue rounded-full w-full px-3 py-1 shadow-xl hover:bg-yellow"
               onClick={addToCartHandler}
             >
               Añadir al carrito
@@ -225,7 +225,7 @@ export default function ProductScreen(props) {
               </ul>
             </form>
           ) : (
-            <p className="my-6">
+            <p className="my-6 dark:text-black">
               Por favor{" "}
               <Link href={`/login?redirect=/product/${product.slug}`} passHref>
                 <a className="text-cyan hover:text-yellow">Inicie Sesión</a>

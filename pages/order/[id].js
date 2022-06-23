@@ -329,21 +329,33 @@ function Order({ params }) {
             <>
               <div className="card col-span-2 md:col-auto h-min">
                 <div className="grid grid-flow-row-dense grid-cols-3 p-5 gap-y-4">
-                  <h2 className="col-span-3 font-bold text-2xl">
+                  <h2 className="dark:text-yellow col-span-3 font-bold text-2xl">
                     Resumen del pedido
                   </h2>
-                  <p className="col-span-2 bg-gray-100">Items:</p>
-                  <p className="text-right bg-sky-50">${itemsPrice}</p>
-                  <p className="col-span-2 bg-gray-100">Impuesto:</p>
-                  <p className="text-right bg-sky-50">${taxPrice}</p>
+                  <p className="col-span-2 dark:bg-transparent bg-gray-100">
+                    Items:
+                  </p>
+                  <p className="text-right dark:bg-transparent bg-sky-50">
+                    ${itemsPrice}
+                  </p>
+                  <p className="col-span-2 dark:bg-transparent bg-gray-100">
+                    Impuesto:
+                  </p>
+                  <p className="text-right dark:bg-transparent bg-sky-50">
+                    ${taxPrice}
+                  </p>
 
-                  <p className="col-span-2 bg-gray-100">Envío:</p>
-                  <p className="text-right bg-sky-50">${shippingPrice}</p>
+                  <p className="col-span-2 dark:bg-transparent bg-gray-100">
+                    Envío:
+                  </p>
+                  <p className="text-right dark:bg-transparent bg-sky-50">
+                    ${shippingPrice}
+                  </p>
 
-                  <p className="col-span-2 bg-gray-100 text-lg font-bold">
+                  <p className="col-span-2 dark:bg-transparent bg-gray-100 text-lg font-bold">
                     Total:
                   </p>
-                  <p className="text-right bg-sky-50 text-lg font-bold">
+                  <p className="text-right dark:bg-transparent bg-sky-50 text-lg font-bold">
                     ${totalPrice}
                   </p>
                 </div>

@@ -89,7 +89,9 @@ function Profile() {
             <div className="card w-full p-6">
               <ul>
                 <li>
-                  <h1 className="text-4xl py-4">Perfil de usuario</h1>
+                  <h1 className="text-4xl dark:text-cyan py-4">
+                    Perfil de usuario
+                  </h1>
                 </li>
                 <li>
                   <div className="flex justify-center">
@@ -112,6 +114,7 @@ function Profile() {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   id="name"
                                   label="Nombre"
                                   inputProps={{ type: "name" }}
@@ -142,6 +145,7 @@ function Profile() {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   id="email"
                                   label="Email"
                                   inputProps={{ type: "email" }}
@@ -173,6 +177,7 @@ function Profile() {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   id="password"
                                   label="Contraseña"
                                   inputProps={{ type: "password" }}
@@ -202,6 +207,7 @@ function Profile() {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   id="confirmPassword"
                                   label="Confirmar Contraseña"
                                   inputProps={{ type: "password" }}
@@ -218,7 +224,7 @@ function Profile() {
                           </ListItem>
                           <ListItem>
                             <button
-                              className="bg-green w-full md:w-1/3 py-2 px-8 mt-10 shadow-md rounded-full hover:bg-cyan"
+                              className="bg-green dark:text-black w-full md:w-1/3 py-2 px-8 mt-10 shadow-md rounded-full hover:bg-cyan"
                               type="submit"
                             >
                               Actualizar

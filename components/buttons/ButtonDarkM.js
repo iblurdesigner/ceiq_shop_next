@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import { useTheme } from "next-themes";
-import Button from "./Button";
 
 export default function ButtonDarkM() {
   const { systemTheme, theme, setTheme } = useTheme();
@@ -21,7 +20,7 @@ export default function ButtonDarkM() {
 
     if (currentTheme === "dark") {
       return (
-        <Button onClick={() => setTheme("light")}>
+        <button onClick={() => setTheme("light")}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-10 w-10 md:h-5 md:w-5 text-yellow"
@@ -35,11 +34,11 @@ export default function ButtonDarkM() {
               clipRule="evenodd"
             />
           </svg>
-        </Button>
+        </button>
       );
     } else {
       return (
-        <Button onClick={() => setTheme("dark")}>
+        <button onClick={() => setTheme("dark")}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-10 w-10 md:h-5 md:w-5 "
@@ -49,7 +48,7 @@ export default function ButtonDarkM() {
           >
             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
           </svg>
-        </Button>
+        </button>
       );
     }
   };

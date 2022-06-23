@@ -70,6 +70,7 @@ function Login() {
                     <TextField
                       variant="outlined"
                       fullWidth
+                      className="dark:bg-gray-50 dark:text-black dark:rounded"
                       id="email"
                       label="Email"
                       inputProps={{ type: "email" }}
@@ -99,6 +100,7 @@ function Login() {
                     <TextField
                       variant="outlined"
                       fullWidth
+                      className="dark:bg-gray-50 dark:rounded"
                       id="password"
                       label="Contraseña"
                       inputProps={{ type: "password" }}
@@ -117,14 +119,16 @@ function Login() {
               </ListItem>
               <ListItem>
                 <button
-                  className="bg-green py-2 px-8 w-full shadow-md rounded-full hover:bg-cyan"
+                  className="bg-green dark:text-black py-2 px-8 w-full shadow-md rounded-full hover:bg-cyan"
                   type="submit"
                 >
                   Ingresar
                 </button>
               </ListItem>
               <ListItem>
-                <p className="mx-2">¿Aún no tienes una cuenta?</p>
+                <p className="mx-2 dark:text-white">
+                  ¿Aún no tienes una cuenta?
+                </p>
                 <Link href={`/register?redirect=${redirect || "/"}`} passHref>
                   <a className="text-green">Registrarse</a>
                 </Link>

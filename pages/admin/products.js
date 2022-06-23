@@ -151,10 +151,10 @@ function AdminProducts() {
               <ul>
                 <li>
                   <div className="flex justify-between items-center">
-                    <h1 className="text-4xl py-4">Productos</h1>
+                    <h1 className="text-4xl dark:text-cyan py-4">Productos</h1>
                     {loadingDelete && <CircularProgress />}
                     <button
-                      className="bg-yellow rounded-full px-3 py-1 h-fit shadow-xl hover:bg-green"
+                      className="bg-yellow dark:text-black rounded-full px-3 py-1 h-fit shadow-xl hover:bg-green"
                       onClick={createHandler}
                     >
                       Crear Producto
@@ -170,7 +170,7 @@ function AdminProducts() {
                     <p>{error}</p>
                   ) : (
                     <div>
-                      <div className="w-full bg-gray-100">
+                      <div className="w-full dark:bg-transparent bg-gray-100">
                         <div className="w-full text-lg font-bold flex flex-row flex-wrap justify-between invisible md:visible">
                           <div className="py-2">ID</div>
                           <div className="py-2">NOMBRE</div>
@@ -187,7 +187,7 @@ function AdminProducts() {
                             key={product._id}
                             className="card md:flex md:flex-row md:justify-items-stretch md:justify-between px-2 py-6"
                           >
-                            <div className="flex justify-between bg-gray-50">
+                            <div className="flex justify-between">
                               <span className="md:order-2 visible md:invisible">
                                 ID
                               </span>
@@ -196,13 +196,13 @@ function AdminProducts() {
                               </p>
                             </div>
 
-                            <div className="flex justify-between basis-1/6 bg-gray-100">
-                              <p className="text-2xl md:text-base">
+                            <div className="flex justify-between basis-1/6">
+                              <p className="text-2xl text-cyan md:text-base">
                                 {product.name}
                               </p>
                             </div>
 
-                            <div className="flex justify-between basis-1/6 bg-gray-200">
+                            <div className="flex justify-between basis-1/6 dark:bg-transparent bg-sky-200">
                               <span className="md:order-2 visible md:invisible">
                                 PRECIO
                               </span>
@@ -211,7 +211,7 @@ function AdminProducts() {
                               </p>
                             </div>
 
-                            <div className="flex justify-between basis-1/6 bg-sky-50">
+                            <div className="flex justify-between basis-1/6 dark:bg-transparent bg-sky-100">
                               <p className="md:order-2 mr-4 md:mr-0 text-sm visible md:invisible">
                                 CATEGORÍA
                               </p>
@@ -220,7 +220,7 @@ function AdminProducts() {
                               </p>
                             </div>
 
-                            <div className="flex justify-between basis-1/6 bg-sky-100">
+                            <div className="flex justify-between basis-1/6 dark:bg-transparent bg-sky-50">
                               <span className="md:order-2 visible md:invisible">
                                 CANTIDAD
                               </span>
@@ -229,7 +229,7 @@ function AdminProducts() {
                               </p>
                             </div>
 
-                            <div className="flex justify-between basis-1/6 bg-sky-200">
+                            <div className="flex justify-between basis-1/6 dark:bg-transparent bg-gray-100">
                               <span className="md:order-2 visible md:invisible">
                                 RATING
                               </span>
@@ -243,7 +243,7 @@ function AdminProducts() {
                                 href={`/admin/product/${product._id}`}
                                 passHref
                               >
-                                <button className="bg-cyan w-full mt-4 md:mt-0 rounded-full px-3 py-1 shadow-xl hover:bg-green">
+                                <button className="bg-cyan dark:text-black text-xl font-semibold  md:text-base w-full mt-4 md:mt-0 rounded-full px-3 py-1 shadow-xl hover:bg-green">
                                   Editar
                                 </button>
                               </Link>{" "}
@@ -253,7 +253,7 @@ function AdminProducts() {
                               >
                                 <button
                                   onClick={() => deleteHandler(product._id)}
-                                  className="bg-red-400 w-full mt-4 md:mt-2 rounded-full px-3 py-1 shadow-xl hover:bg-red-200"
+                                  className="bg-red-400 dark:text-black text-xl font-semibold md:text-base w-full mt-4 md:mt-2 rounded-full px-3 py-1 shadow-xl hover:bg-red-200"
                                 >
                                   Eliminar
                                 </button>

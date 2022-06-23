@@ -175,8 +175,8 @@ function ProductEdit({ params }) {
   return (
     <>
       <Layout title={`Editar Producto ${productId}`}>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
-          <div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
+          <div className="w-full h-fit">
             <div className="card p-6">
               <List>
                 <Link href="/admin/dashboard" passHref>
@@ -204,11 +204,12 @@ function ProductEdit({ params }) {
           </div>
 
           <div className="col-span-3">
-            <div className="card p-6">
+            <div className="card w-full p-6">
               <ul>
                 <li>
                   <h1 className="text-4xl py-4">
-                    Editar Producto ${productId}
+                    Editar Producto
+                    <p className="text-sm">${productId}</p>
                   </h1>
                 </li>
                 <li>
@@ -217,7 +218,7 @@ function ProductEdit({ params }) {
                 </li>
                 <li>
                   <div className="flex justify-center">
-                    <div className="card w-8/12 ">
+                    <div className="card  md:w-8/12 ">
                       <form
                         onSubmit={handleSubmit(submitHandler)}
                         className="rounded px-8 pt-6 pb-8 mb-4"
@@ -235,6 +236,7 @@ function ProductEdit({ params }) {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   id="name"
                                   label="Nombre"
                                   error={Boolean(errors.name)}
@@ -258,6 +260,7 @@ function ProductEdit({ params }) {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   id="slug"
                                   label="Slug"
                                   error={Boolean(errors.slug)}
@@ -281,6 +284,7 @@ function ProductEdit({ params }) {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   id="price"
                                   label="Precio"
                                   error={Boolean(errors.price)}
@@ -304,6 +308,7 @@ function ProductEdit({ params }) {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   id="image"
                                   label="Imagen"
                                   error={Boolean(errors.image)}
@@ -329,7 +334,7 @@ function ProductEdit({ params }) {
                           </ListItem>
                           <ListItem>
                             <FormControlLabel
-                              label="Is Featured"
+                              label="destacada"
                               control={
                                 <Checkbox
                                   onClick={(e) =>
@@ -337,6 +342,7 @@ function ProductEdit({ params }) {
                                   }
                                   checked={isFeatured}
                                   name="isFeatured"
+                                  className="dark:bg-white"
                                 />
                               }
                             ></FormControlLabel>
@@ -354,6 +360,7 @@ function ProductEdit({ params }) {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   id="featuredImage"
                                   label="Foto destacada"
                                   error={Boolean(errors.image)}
@@ -394,6 +401,7 @@ function ProductEdit({ params }) {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   id="category"
                                   label="Categoría"
                                   error={Boolean(errors.category)}
@@ -419,6 +427,7 @@ function ProductEdit({ params }) {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   id="brand"
                                   label="Marca"
                                   error={Boolean(errors.brand)}
@@ -442,6 +451,7 @@ function ProductEdit({ params }) {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   id="rating"
                                   label="rating"
                                   error={Boolean(errors.rating)}
@@ -467,6 +477,7 @@ function ProductEdit({ params }) {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   id="numReviews"
                                   label="Número de revisiones"
                                   error={Boolean(errors.numReviews)}
@@ -492,6 +503,7 @@ function ProductEdit({ params }) {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   id="countInStock"
                                   label="Cantidad"
                                   error={Boolean(errors.countInStock)}
@@ -517,6 +529,7 @@ function ProductEdit({ params }) {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   multiline
                                   id="description"
                                   label="Descripción"
@@ -534,7 +547,7 @@ function ProductEdit({ params }) {
 
                           <ListItem>
                             <button
-                              className="bg-green py-2 px-8 shadow-md rounded-full hover:bg-cyan"
+                              className="bg-green dark:text-black py-2 px-8 shadow-md rounded-full hover:bg-cyan"
                               type="submit"
                             >
                               Actualizar

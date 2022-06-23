@@ -44,7 +44,7 @@ function StoreEth({ paymentProcessor, dai, className }) {
   return (
     <button
       type="button"
-      className={`bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow ${className}`}
+      className={`bg-green dark:text-black rounded-full px-3 py-1 shadow-xl hover:bg-yellow ${className}`}
       onClick={() => buy(ITEMS[0])}
     >
       Pagar en Metamask

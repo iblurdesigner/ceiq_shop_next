@@ -120,7 +120,7 @@ function AdminDashboard() {
                           <h1 className="text-4xl py-4">
                             ${summary.ordersPrice}
                           </h1>
-                          <p className="text-xl pb-10">Ventas</p>
+                          <p className="text-xl text-cyan pb-10">Ventas</p>
                           <Link href="/admin/orders" passHref>
                             <button className="bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow">
                               Ver ventas
@@ -132,7 +132,7 @@ function AdminDashboard() {
                           <h1 className="text-4xl py-4">
                             {summary.ordersCount}
                           </h1>
-                          <p className="text-xl pb-10">Órdenes</p>
+                          <p className="text-xl text-cyan pb-10">Órdenes</p>
                           <Link href="/admin/orders" passHref>
                             <button className="bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow">
                               Ver órdenes
@@ -144,7 +144,7 @@ function AdminDashboard() {
                           <h1 className="text-4xl py-4">
                             {summary.productsCount}
                           </h1>
-                          <p className="text-xl pb-10">Productos</p>
+                          <p className="text-xl text-cyan pb-10">Productos</p>
                           <Link href="/admin/products" passHref>
                             <button className="bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow">
                               Ver productos
@@ -156,7 +156,7 @@ function AdminDashboard() {
                           <h1 className="text-4xl py-4">
                             {summary.usersCount}
                           </h1>
-                          <p className="text-xl pb-10">Usuarios</p>
+                          <p className="text-xl text-cyan pb-10">Usuarios</p>
                           <Link href="/admin/users" passHref>
                             <button className="bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow">
                               Ver usuarios
