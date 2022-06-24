@@ -210,7 +210,11 @@ export default function Search(props) {
 
             <div className="flex justify-between items-center">
               <p className="text-lg mr-4">Ordenar por</p>
-              <Select value={sort} onChange={sortHandler} className="h-8">
+              <Select
+                value={sort}
+                onChange={sortHandler}
+                className="h-8 dark:bg-gray-50"
+              >
                 <MenuItem value="featured">Filtrado por:</MenuItem>
                 <MenuItem value="lowest">Precio: bajo a alto</MenuItem>
                 <MenuItem value="highest">Precio: alto a bajo</MenuItem>
