@@ -165,8 +165,8 @@ function UserEdit({ params }) {
   return (
     <>
       <Layout title={`Editar usuario ${userId}`}>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
-          <div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
+          <div className="w-full h-fit">
             <div className="card p-6">
               <List>
                 <Link href="/admin/dashboard" passHref>
@@ -197,7 +197,10 @@ function UserEdit({ params }) {
             <div className="card p-6">
               <ul>
                 <li>
-                  <h1 className="text-4xl py-4">Editar usuario ${userId}</h1>
+                  <h1 className="text-4xl py-4">
+                    Editar usuario
+                    <p className="text-sm">${userId}</p>
+                  </h1>
                 </li>
                 <li>
                   {loading && <CircularProgress></CircularProgress>}
@@ -205,7 +208,7 @@ function UserEdit({ params }) {
                 </li>
                 <li>
                   <div className="flex justify-center">
-                    <div className="card w-8/12 ">
+                    <div className="card md:w-8/12 ">
                       <form
                         onSubmit={handleSubmit(submitHandler)}
                         className="rounded px-8 pt-6 pb-8 mb-4"
@@ -223,6 +226,7 @@ function UserEdit({ params }) {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   id="name"
                                   label="Nombre"
                                   error={Boolean(errors.name)}
@@ -247,6 +251,7 @@ function UserEdit({ params }) {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   id="image"
                                   label="Imagen"
                                   error={Boolean(errors.image)}

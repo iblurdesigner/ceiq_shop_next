@@ -21,11 +21,16 @@ import {
 } from "@mui/material";
 
 import dynamic from "next/dynamic";
-import Button from "./Button";
+
 import { useSnackbar } from "notistack";
 import axios from "axios";
-import ButtonCloseUi from "./ButtonCloseUi";
-const ButtonDarkM = dynamic(() => import("./ButtonDarkM"), { ssr: false });
+import ButtonCloseUi from "./buttons/ButtonCloseUi";
+import CartBtn from "../components/buttons/CartBtn";
+import Userbtn from "../components/buttons/Userbtn";
+import HamburgerBtn from "./buttons/hamburgerBtn";
+const ButtonDarkM = dynamic(() => import("../components/buttons/ButtonDarkM"), {
+  ssr: false,
+});
 
 export default function Layout({ title, description, children }) {
   const router = useRouter();
@@ -103,27 +108,15 @@ export default function Layout({ title, description, children }) {
         data-testid="test-layout"
       >
         <header>
-          <nav className="flex h-12 items-center px-4 justify-between shadow-md navbar">
+          <nav className="flex navbar items-center px-4 justify-center flex-wrap md:justify-between shadow-md h-40 md:h-28">
             <Box display="flex" alignItems="center">
               <IconButton
                 edge="start"
                 aria-label="open drawer"
                 onClick={sidebarOpenHandler}
               >
-                <Button className="text-white px-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </Button>
+                <HamburgerBtn className="text-white px-2 h-12 w-12" />
+
                 <Link href="/" passHref>
                   <a className="text-lg font-bold">
                     <Image
@@ -157,9 +150,9 @@ export default function Layout({ title, description, children }) {
                       aria-label="close"
                       onClick={sidebarCloseHandler}
                     >
-                      <Button className="text-green hover:bg-green hover:text-blue">
-                        <ButtonCloseUi />
-                      </Button>
+                      <div className="text-green hover:bg-green hover:rounded-full hover:text-blue">
+                        <ButtonCloseUi className="h-10 w-10 md:h-6 md:w-6" />
+                      </div>
                     </IconButton>
                   </Box>
                 </ListItem>
@@ -170,118 +163,187 @@ export default function Layout({ title, description, children }) {
                     href={`/search?category=${category}`}
                     passHref
                   >
-                    <ListItem
-                      button
-                      component="a"
-                      onClick={sidebarCloseHandler}
-                    >
-                      <ListItemText primary={category}></ListItemText>
-                    </ListItem>
+                    <div className="h-20">
+                      <ListItem
+                        button
+                        component="a"
+                        onClick={sidebarCloseHandler}
+                      >
+                        <ListItemText primary={category}></ListItemText>
+                      </ListItem>
+                    </div>
                   </Link>
                 ))}
               </List>
-            </Drawer>
-
-            {/* ********* buscador *********** */}
-
-            <div className="w-4/12">
-              <form
-                onSubmit={submitHandler}
-                className="flex items-center justify-between"
-              >
-                <InputBase
-                  className="bg-white rounded-l-lg p-4 h-6 m-0 text-gray-300 hover:text-cyan w-full"
-                  name="query"
-                  placeholder="Buscar productos"
-                  onChange={queryChangeHandler}
-                />
-                <IconButton type="submit" aria-label="search">
-                  <Button className="bg-cyan rounded-r-lg">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-5 text-white "
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
+              <Divider light />
+              <div className="p-2 flex flex-col justify-around items-center">
+                {userInfo ? (
+                  <>
+                    <button
+                      className="hover:text-green mx-6"
+                      type="button"
+                      aria-controls="simple-menu"
+                      aria-haspopup="true"
+                      onClick={loginClickHandler}
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </Button>
-                </IconButton>
-              </form>
-            </div>
+                      {userInfo.name}
+                    </button>
 
-            {/* ********* buscador *********** */}
-
-            {/* ********* darkmode carrito usuario ********* */}
-
-            <div className="w-64  flex justify-between">
-              <ButtonDarkM />
-
-              <Link href="/cart" passHref>
-                <a className="p-2 ">
-                  Carrito
-                  {cart.cartItems.length > 0 && (
-                    <span className="ml-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white">
-                      {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
-                    </span>
-                  )}
-                </a>
-              </Link>
-
-              {userInfo ? (
-                <>
-                  <button
-                    className="hover:text-green mx-6"
-                    type="button"
-                    aria-controls="simple-menu"
-                    aria-haspopup="true"
-                    onClick={loginClickHandler}
-                  >
-                    {userInfo.name}
-                  </button>
-
-                  <Menu
-                    id="simple-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={loginMenuCloseHandler}
-                  >
-                    <MenuItem
-                      onClick={(e) => loginMenuCloseHandler(e, "/profile")}
+                    <Menu
+                      id="simple-menu"
+                      anchorEl={anchorEl}
+                      keepMounted
+                      open={Boolean(anchorEl)}
+                      onClose={loginMenuCloseHandler}
                     >
-                      Perfil
-                    </MenuItem>
-                    <MenuItem
-                      onClick={(e) =>
-                        loginMenuCloseHandler(e, "/order-history")
-                      }
-                    >
-                      Historial de órdenes
-                    </MenuItem>
-                    {userInfo.isAdmin && (
+                      <MenuItem
+                        onClick={(e) => loginMenuCloseHandler(e, "/profile")}
+                      >
+                        Perfil
+                      </MenuItem>
                       <MenuItem
                         onClick={(e) =>
-                          loginMenuCloseHandler(e, "/admin/dashboard")
+                          loginMenuCloseHandler(e, "/order-history")
                         }
                       >
-                        Administración Dashboard
+                        Historial de órdenes
                       </MenuItem>
-                    )}
-                    <MenuItem onClick={logoutClickHandler}>
-                      Cerrar Sesion
-                    </MenuItem>
-                  </Menu>
-                </>
-              ) : (
-                <Link href="/login" passHref>
-                  <a className="p-2">Ingresar</a>
+                      {userInfo.isAdmin && (
+                        <MenuItem
+                          onClick={(e) =>
+                            loginMenuCloseHandler(e, "/admin/dashboard")
+                          }
+                        >
+                          Administración Dashboard
+                        </MenuItem>
+                      )}
+                      <MenuItem onClick={logoutClickHandler}>
+                        Cerrar Sesion
+                      </MenuItem>
+                    </Menu>
+                  </>
+                ) : (
+                  <Link href="/login" passHref>
+                    <a className="pt-4">
+                      <Userbtn className="h-10 w-10 text-cyan" />
+                    </a>
+                  </Link>
+                )}
+
+                <div className="mt-12">
+                  <ButtonDarkM />
+                </div>
+              </div>
+            </Drawer>
+
+            {/* ********* BUSCARDOR - DARKMODE - CARRITO - LOGIN *********** */}
+
+            <div className="w-fit md:w-4/6 flex flex-wrap justify-between items-center md:px-6">
+              <div className=" md:w-4/6 order-1">
+                <form
+                  onSubmit={submitHandler}
+                  className="flex items-center justify-between"
+                >
+                  <InputBase
+                    className="bg-white rounded-l-lg p-4 h-6 m-0 text-gray-300 hover:text-cyan w-full"
+                    name="query"
+                    placeholder="Buscar productos"
+                    onChange={queryChangeHandler}
+                  />
+                  <IconButton type="submit" aria-label="search">
+                    <button className="bg-cyan px-2 py-2 rounded-r-lg">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-5 text-white "
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </IconButton>
+                </form>
+              </div>
+
+              {/* ********* darkmode carrito usuario ********* */}
+
+              <div className="invisible md:visible order-3 md:order-2">
+                <ButtonDarkM />
+              </div>
+
+              <div className="order-2 md:order-3">
+                <Link href="/cart" passHref>
+                  <a className="p-2 md:visible">
+                    <div className="flex">
+                      <CartBtn className="text-white h-6 w-6" />
+                      {cart.cartItems.length > 0 && (
+                        <span className="ml-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white">
+                          {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                        </span>
+                      )}
+                    </div>
+                  </a>
                 </Link>
-              )}
+              </div>
+
+              <div className="order-last invisible md:visible">
+                {userInfo ? (
+                  <>
+                    <button
+                      className="hover:text-green mx-6"
+                      type="button"
+                      aria-controls="simple-menu"
+                      aria-haspopup="true"
+                      onClick={loginClickHandler}
+                    >
+                      {userInfo.name}
+                    </button>
+
+                    <Menu
+                      id="simple-menu"
+                      anchorEl={anchorEl}
+                      keepMounted
+                      open={Boolean(anchorEl)}
+                      onClose={loginMenuCloseHandler}
+                    >
+                      <MenuItem
+                        onClick={(e) => loginMenuCloseHandler(e, "/profile")}
+                      >
+                        Perfil
+                      </MenuItem>
+                      <MenuItem
+                        onClick={(e) =>
+                          loginMenuCloseHandler(e, "/order-history")
+                        }
+                      >
+                        Historial de órdenes
+                      </MenuItem>
+                      {userInfo.isAdmin && (
+                        <MenuItem
+                          onClick={(e) =>
+                            loginMenuCloseHandler(e, "/admin/dashboard")
+                          }
+                        >
+                          Administración Dashboard
+                        </MenuItem>
+                      )}
+                      <MenuItem onClick={logoutClickHandler}>
+                        Cerrar Sesion
+                      </MenuItem>
+                    </Menu>
+                  </>
+                ) : (
+                  <Link href="/login" passHref>
+                    <a className="p-2 invisible md:visible" id="usuario">
+                      <Userbtn className="text-white h-6 w-6" />
+                    </a>
+                  </Link>
+                )}
+              </div>
             </div>
           </nav>
         </header>

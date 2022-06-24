@@ -118,8 +118,8 @@ function AdminProducts() {
   return (
     <>
       <Layout title="Órdenes">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
-          <div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
+          <div className="w-full h-fit">
             <div className="card p-6">
               <List>
                 <Link href="/admin/dashboard" passHref>
@@ -147,14 +147,14 @@ function AdminProducts() {
           </div>
 
           <div className="col-span-3">
-            <div className="card p-6">
+            <div className="card w-full p-6">
               <ul>
                 <li>
                   <div className="flex justify-between items-center">
-                    <h1 className="text-4xl py-4">Productos</h1>
+                    <h1 className="text-4xl dark:text-cyan py-4">Productos</h1>
                     {loadingDelete && <CircularProgress />}
                     <button
-                      className="bg-yellow rounded-full px-3 py-1 h-fit shadow-xl hover:bg-green"
+                      className="bg-yellow dark:text-black rounded-full px-3 py-1 h-fit shadow-xl hover:bg-green"
                       onClick={createHandler}
                     >
                       Crear Producto
@@ -169,59 +169,100 @@ function AdminProducts() {
                   ) : error ? (
                     <p>{error}</p>
                   ) : (
-                    <>
-                      <table className="table-fixed tableInfo">
-                        <thead>
-                          <tr>
-                            <th className="py-2">ID</th>
-                            <th className="py-2">NOMBRE</th>
-                            <th className="py-2">PRECIO</th>
-                            <th className="py-2">CATEGORIA</th>
-                            <th className="py-2">CANTIDAD</th>
-                            <th className="py-2">RATING</th>
-                            <th className="py-2">ACCIONES</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {products.map((product) => (
-                            <tr
-                              key={product._id}
-                              className="divide-y divide-sky-300"
-                            >
-                              <td className="py-6">
+                    <div>
+                      <div className="w-full dark:bg-transparent bg-gray-100">
+                        <div className="w-full text-lg font-bold flex flex-row flex-wrap justify-between invisible md:visible">
+                          <div className="py-2">ID</div>
+                          <div className="py-2">NOMBRE</div>
+                          <div className="py-2">PRECIO</div>
+                          <div className="py-2">CATEGORIA</div>
+                          <div className="py-2">CANTIDAD</div>
+                          <div className="py-2">RATING</div>
+                          <div className="py-2">ACCIONES</div>
+                        </div>
+                      </div>
+                      <div>
+                        {products.map((product) => (
+                          <div
+                            key={product._id}
+                            className="card md:flex md:flex-row md:justify-items-stretch md:justify-between px-2 py-6"
+                          >
+                            <div className="flex justify-between">
+                              <span className="md:order-2 visible md:invisible">
+                                ID
+                              </span>
+                              <p className="md:order-1">
                                 {product._id.substring(20, 24)}
-                              </td>
-                              <td>{product.name}</td>
-                              <td>${product.price}</td>
-                              <td>{product.category}</td>
-                              <td>{product.countInStock}</td>
-                              <td>{product.rating}</td>
-                              <td>
-                                <Link
-                                  href={`/admin/product/${product._id}`}
-                                  passHref
+                              </p>
+                            </div>
+
+                            <div className="flex justify-between basis-1/6">
+                              <p className="text-2xl text-cyan md:text-base">
+                                {product.name}
+                              </p>
+                            </div>
+
+                            <div className="flex justify-between basis-1/6 dark:bg-transparent bg-sky-200">
+                              <span className="md:order-2 visible md:invisible">
+                                PRECIO
+                              </span>
+                              <p className="md:order-1 text-2xl font-semibold">
+                                ${product.price}
+                              </p>
+                            </div>
+
+                            <div className="flex justify-between basis-1/6 dark:bg-transparent bg-sky-100">
+                              <p className="md:order-2 mr-4 md:mr-0 text-sm visible md:invisible">
+                                CATEGORÍA
+                              </p>
+                              <p className="md:order-1 text-lg md:text-base">
+                                {product.category}
+                              </p>
+                            </div>
+
+                            <div className="flex justify-between basis-1/6 dark:bg-transparent bg-sky-50">
+                              <span className="md:order-2 visible md:invisible">
+                                CANTIDAD
+                              </span>
+                              <p className="md:order-1 text-2xl md:text-base">
+                                {product.countInStock}
+                              </p>
+                            </div>
+
+                            <div className="flex justify-between basis-1/6 dark:bg-transparent bg-gray-100">
+                              <span className="md:order-2 visible md:invisible">
+                                RATING
+                              </span>
+                              <p className="md:order-1 text-2xl md:text-base">
+                                {product.rating}
+                              </p>
+                            </div>
+
+                            <div>
+                              <Link
+                                href={`/admin/product/${product._id}`}
+                                passHref
+                              >
+                                <button className="bg-cyan dark:text-black text-xl font-semibold  md:text-base w-full mt-4 md:mt-0 rounded-full px-3 py-1 shadow-xl hover:bg-green">
+                                  Editar
+                                </button>
+                              </Link>{" "}
+                              <Link
+                                href={`/admin/product/${product._id}`}
+                                passHref
+                              >
+                                <button
+                                  onClick={() => deleteHandler(product._id)}
+                                  className="bg-red-400 dark:text-black text-xl font-semibold md:text-base w-full mt-4 md:mt-2 rounded-full px-3 py-1 shadow-xl hover:bg-red-200"
                                 >
-                                  <button className="bg-cyan rounded-full px-3 py-1 shadow-xl hover:bg-green">
-                                    Editar
-                                  </button>
-                                </Link>{" "}
-                                <Link
-                                  href={`/admin/product/${product._id}`}
-                                  passHref
-                                >
-                                  <button
-                                    onClick={() => deleteHandler(product._id)}
-                                    className="bg-red-400 rounded-full px-3 py-1 shadow-xl hover:bg-red-200"
-                                  >
-                                    Eliminar
-                                  </button>
-                                </Link>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </>
+                                  Eliminar
+                                </button>
+                              </Link>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   )}
                 </li>
               </ul>
@@ -229,18 +270,6 @@ function AdminProducts() {
           </div>
         </div>
       </Layout>
-
-      <style jsx>
-        {`
-          .tableInfo {
-            width: -webkit-fill-available;
-          }
-
-          th {
-            text-align: initial;
-          }
-        `}
-      </style>
     </>
   );
 }

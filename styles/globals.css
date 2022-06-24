@@ -23,7 +23,6 @@ a {
   background-color: #282560;
   color: white;
   border-bottom: #03c2f3 solid 15px;
-  height: 100px;
 }
 
 @layer base {

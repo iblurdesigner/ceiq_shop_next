@@ -77,8 +77,8 @@ function AdminDashboard() {
   return (
     <>
       <Layout title="Dashboard">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
-          <div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
+          <div className="w-full h-fit">
             <div className="card p-6">
               <List>
                 <Link href="/admin/dashboard" passHref>
@@ -106,7 +106,7 @@ function AdminDashboard() {
           </div>
 
           <div className="col-span-3">
-            <div className="card p-6">
+            <div className="card w-full p-6">
               <ul>
                 <li>
                   {loading ? (
@@ -115,12 +115,12 @@ function AdminDashboard() {
                     <p>{error}</p>
                   ) : (
                     <>
-                      <div className="grid grid-cols-4 gap-6">
+                      <div className="grid grid-flow-row md:grid-cols-4 gap-6">
                         <div className="card shadow-2xl p-6">
                           <h1 className="text-4xl py-4">
                             ${summary.ordersPrice}
                           </h1>
-                          <p className="text-xl pb-10">Ventas</p>
+                          <p className="text-xl text-cyan pb-10">Ventas</p>
                           <Link href="/admin/orders" passHref>
                             <button className="bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow">
                               Ver ventas
@@ -132,7 +132,7 @@ function AdminDashboard() {
                           <h1 className="text-4xl py-4">
                             {summary.ordersCount}
                           </h1>
-                          <p className="text-xl pb-10">Órdenes</p>
+                          <p className="text-xl text-cyan pb-10">Órdenes</p>
                           <Link href="/admin/orders" passHref>
                             <button className="bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow">
                               Ver órdenes
@@ -144,7 +144,7 @@ function AdminDashboard() {
                           <h1 className="text-4xl py-4">
                             {summary.productsCount}
                           </h1>
-                          <p className="text-xl pb-10">Productos</p>
+                          <p className="text-xl text-cyan pb-10">Productos</p>
                           <Link href="/admin/products" passHref>
                             <button className="bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow">
                               Ver productos
@@ -156,7 +156,7 @@ function AdminDashboard() {
                           <h1 className="text-4xl py-4">
                             {summary.usersCount}
                           </h1>
-                          <p className="text-xl pb-10">Usuarios</p>
+                          <p className="text-xl text-cyan pb-10">Usuarios</p>
                           <Link href="/admin/users" passHref>
                             <button className="bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow">
                               Ver usuarios

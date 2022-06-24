@@ -28,7 +28,7 @@ function PlaceOrder() {
   const itemsPrice = round2(
     cartItems.reduce((a, c) => a + c.price * c.quantity, 0)
   );
-  const shippingPrice = itemsPrice > 200 ? 0 : 15;
+  const shippingPrice = itemsPrice > 200 ? 0 : 5;
   const taxPrice = round2(itemsPrice * 0.12);
   const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
 
@@ -82,7 +82,7 @@ function PlaceOrder() {
       <h1 className="text-4xl py-4">Realizar Pedido</h1>
       <>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
-          <div className="col-span-3">
+          <div className="col-span-2 md:col-span-3">
             <div className="card p-6">
               <ul>
                 <li>
@@ -165,28 +165,40 @@ function PlaceOrder() {
           </div>
 
           <>
-            <div className="card h-min">
+            <div className="card col-span-2 md:col-auto h-min">
               <div className="grid grid-flow-row-dense grid-cols-3 p-5 gap-y-4">
-                <h2 className="col-span-3 font-bold text-2xl">
+                <h2 className="dark:text-black col-span-3 font-bold text-2xl text-center p-2 w-full rounded-lg bg-sky-300">
                   Resumen del pedido
                 </h2>
-                <p className="col-span-2 bg-gray-100">Items:</p>
-                <p className="text-right bg-sky-50">${itemsPrice}</p>
-                <p className="col-span-2 bg-gray-100">Impuesto:</p>
-                <p className="text-right bg-sky-50">${taxPrice}</p>
+                <p className="col-span-2 dark:bg-transparent bg-gray-100">
+                  Items:
+                </p>
+                <p className="text-right dark:bg-transparent bg-sky-50">
+                  ${itemsPrice}
+                </p>
+                <p className="col-span-2 dark:bg-transparent bg-gray-100">
+                  Impuesto:
+                </p>
+                <p className="text-right dark:bg-transparent bg-sky-50">
+                  ${taxPrice}
+                </p>
 
-                <p className="col-span-2 bg-gray-100">Envío:</p>
-                <p className="text-right bg-sky-50">${shippingPrice}</p>
+                <p className="col-span-2 dark:bg-transparent bg-gray-100">
+                  Envío:
+                </p>
+                <p className="text-right dark:bg-transparent bg-sky-50">
+                  ${shippingPrice}
+                </p>
 
-                <p className="col-span-2 bg-gray-100 text-lg font-bold">
+                <p className="col-span-2 dark:bg-transparent bg-gray-100 text-lg font-bold">
                   Total:
                 </p>
-                <p className="text-right bg-sky-50 text-lg font-bold">
+                <p className="text-right dark:bg-transparent bg-sky-50 text-lg font-bold">
                   ${totalPrice}
                 </p>
 
                 <button
-                  className="bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow col-span-3"
+                  className="bg-green dark:text-black rounded-full px-3 py-1 shadow-xl hover:bg-yellow col-span-3"
                   onClick={placeOrderHandler}
                 >
                   Realizar Pedido

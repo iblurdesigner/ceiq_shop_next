@@ -53,8 +53,8 @@ function AdminOrders() {
   return (
     <>
       <Layout title="Órdenes">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
-          <div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
+          <div className="w-full h-fit">
             <div className="card p-6">
               <List>
                 <Link href="/admin/dashboard" passHref>
@@ -82,10 +82,10 @@ function AdminOrders() {
           </div>
 
           <div className="col-span-3">
-            <div className="card p-6">
+            <div className="card w-full p-6">
               <ul>
                 <li>
-                  <h1 className="text-4xl py-4">Órdenes</h1>
+                  <h1 className="text-4xl dark:text-cyan py-4">Órdenes</h1>
                 </li>
 
                 <li>
@@ -94,57 +94,100 @@ function AdminOrders() {
                   ) : error ? (
                     <p>{error}</p>
                   ) : (
-                    <>
-                      <table className="table-fixed tableInfo">
-                        <thead>
-                          <tr>
-                            <th className="py-2">ID</th>
-                            <th className="py-2">USUARIO</th>
-                            <th className="py-2">FECHA</th>
-                            <th className="py-2">TOTAL</th>
-                            <th className="py-2">PAGO</th>
-                            <th className="py-2">ENTREGA</th>
-                            <th className="py-2">ACCION</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {orders.map((order) => (
-                            <tr
-                              key={order._id}
-                              className="divide-y divide-sky-300"
-                            >
-                              <td className="py-6">
+                    <div>
+                      <div className="w-full dark:bg-transparent bg-gray-100">
+                        <div className="w-full text-lg font-bold flex flex-row flex-wrap justify-between invisible md:visible">
+                          <p className="py-2">ID</p>
+                          <p className="py-2">USUARIO</p>
+                          <p className="py-2">FECHA</p>
+                          <p className="py-2">TOTAL</p>
+                          <p className="py-2">PAGO</p>
+                          <p className="py-2">ENTREGA</p>
+                          <p className="py-2">ACCION</p>
+                        </div>
+                      </div>
+                      <div>
+                        {orders.map((order) => (
+                          <div
+                            key={order._id}
+                            className="md:flex md:flex-row md:justify-items-stretch md:justify-between px-2 py-6"
+                          >
+                            <div className="flex justify-between dark:bg-transparent bg-amber-100">
+                              <span className="md:order-2 visible md:invisible">
+                                ID
+                              </span>
+                              <p className="md:order-1">
                                 {order._id.substring(20, 24)}
-                              </td>
-                              <td>
+                              </p>
+                            </div>
+
+                            <div className="flex justify-between basis-1/6 dark:bg-transparent bg-pink-100">
+                              <span className="md:order-2 visible md:invisible">
+                                USUARIO
+                              </span>
+
+                              <p className="md:order-1 text-2xl md:text-base">
                                 {order.user
                                   ? order.user.name
                                   : "ELIMINAR USUARIO"}
-                              </td>
-                              <td>{order.createdAt}</td>
-                              <td>${order.totalPrice}</td>
-                              <td>
+                              </p>
+                            </div>
+
+                            <div className="flex justify-between basis-1/6 dark:bg-transparent bg-orange-100">
+                              <span className="md:order-2 visible md:invisible">
+                                FECHA
+                              </span>
+
+                              <p className="md:order-1 text-2xl md:text-base">
+                                {order.createdAt.substring(0, 10)}
+                              </p>
+                            </div>
+
+                            <div className="flex justify-between basis-1/6 dark:bg-transparent bg-purple-100">
+                              <span className="md:order-2 visible md:invisible">
+                                TOTAL
+                              </span>
+
+                              <p className="md:order-1 text-2xl font-semibold">
+                                ${order.totalPrice}
+                              </p>
+                            </div>
+
+                            <div className="flex justify-between basis-1/6 dark:bg-transparent bg-sky-100">
+                              <span className="md:order-2 visible md:invisible">
+                                PAGO
+                              </span>
+
+                              <p className="md:order-1 text-2xl md:text-base">
                                 {order.isPaid
-                                  ? `pagado el ${order.paidAt}`
+                                  ? `${order.paidAt.substring(0, 10)}`
                                   : "sin pago"}
-                              </td>
-                              <td>
+                              </p>
+                            </div>
+
+                            <div className="flex justify-between basis-1/6 dark:bg-transparent bg-emerald-100">
+                              <span className="md:order-2 visible md:invisible">
+                                ENTREGA
+                              </span>
+
+                              <p className="md:order-1 text-2xl md:text-base">
                                 {order.isDelivered
-                                  ? `entregado en ${order.deliveredAt}`
+                                  ? `${order.deliveredAt.substring(0, 10)}`
                                   : "sin entrega"}
-                              </td>
-                              <td>
-                                <Link href={`/order/${order._id}`} passHref>
-                                  <button className="bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow">
-                                    Detalles
-                                  </button>
-                                </Link>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </>
+                              </p>
+                            </div>
+
+                            <div>
+                              <Link href={`/order/${order._id}`} passHref>
+                                <button className="bg-green dark:text-black text-xl font-semibold md:text-base w-full mt-4 md:mt-0 rounded-full px-3 py-1 shadow-xl hover:bg-yellow">
+                                  Detalles
+                                </button>
+                              </Link>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   )}
                 </li>
               </ul>
@@ -152,18 +195,6 @@ function AdminOrders() {
           </div>
         </div>
       </Layout>
-
-      <style jsx>
-        {`
-          .tableInfo {
-            width: -webkit-fill-available;
-          }
-
-          th {
-            text-align: initial;
-          }
-        `}
-      </style>
     </>
   );
 }

@@ -49,20 +49,25 @@ function CartScreen() {
       ) : (
         <>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
-            <div className="col-span-3">
-              <table className="table-fixed tableInfo">
+            <div className="md:col-span-3">
+              <table className="tableInfo table-auto">
                 <thead>
                   <tr>
-                    <th className="py-2">Imagen</th>
-                    <th className="py-2">Nombre</th>
-                    <th className="py-2">Cantidad</th>
-                    <th className="py-2">Precio</th>
-                    <th className="py-2">Acción</th>
+                    <th className="invisible md:visible md:text-lg py-2">
+                      Imagen
+                    </th>
+                    <th className="text-xs md:text-lg py-2">Nombre</th>
+                    <th className="text-xs md:text-lg py-2">Cantidad</th>
+                    <th className="text-xs md:text-lg py-2">Precio</th>
+                    <th className="invisible md:visible text-xs md:text-lg py-2">
+                      Acción
+                    </th>
                   </tr>
                 </thead>
+
                 <tbody>
                   {cartItems.map((item) => (
-                    <tr key={item._id} className="divide-y divide-sky-300">
+                    <tr key={item._id} className="divide-y  divide-sky-300">
                       <td className="py-6">
                         <Link href={`/product/${item.slug}`} passHref>
                           <a>
@@ -100,7 +105,7 @@ function CartScreen() {
                       <td>${item.price}</td>
                       <td>
                         <button
-                          className="bg-green py-2 px-8 shadow-md rounded-full hover:bg-red-400"
+                          className="bg-green dark:text-black py-2 px-8 shadow-md rounded-full hover:bg-red-400"
                           type="button"
                           onClick={() => removeItemHandler(item)}
                         >
@@ -119,10 +124,14 @@ function CartScreen() {
                 <h2 variant="h2">
                   <span className="text-lg font-bold">Subtotal </span>(
                   {cartItems.reduce((a, c) => a + c.quantity, 0)} items) : $
-                  {cartItems.reduce((a, c) => a + c.quantity * c.price, 0)}
+                  {cartItems
+                    .reduce((a, c) => {
+                      return a + c.quantity * c.price;
+                    }, 0)
+                    .toFixed(2)}
                 </h2>
                 <button
-                  className="bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow"
+                  className="bg-green dark:text-blue rounded-full px-3 py-1 shadow-xl hover:bg-yellow"
                   onClick={checkoutHandler}
                 >
                   Pagar

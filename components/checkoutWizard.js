@@ -12,7 +12,9 @@ export default function CheckoutWizard({ activeStep = 0 }) {
         "Realizar Pedido",
       ].map((step) => (
         <Step key={step}>
-          <StepLabel>{step}</StepLabel>
+          <StepLabel>
+            <p className="dark:text-white">{step}</p>
+          </StepLabel>
         </Step>
       ))}
     </Stepper>

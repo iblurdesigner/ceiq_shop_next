@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import { Store } from "../../utils/Store";
@@ -12,6 +12,9 @@ import axios from "axios";
 import { getError } from "../../utils/error";
 import { CircularProgress } from "@mui/material";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+
+import getBlockchain from "../ethereum.js";
+import StoreEth from "../../utils/crypto/StoreEth";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -54,6 +57,10 @@ function Order({ params }) {
   const router = useRouter();
   const { state } = useContext(Store);
   const { userInfo } = state;
+
+  // crypto
+  const [paymentProcessor, setPaymentProcessor] = useState(undefined);
+  const [dai, setDai] = useState(undefined);
 
   const [
     { loading, error, order, successPay, loadingDeliver, successDeliver },
@@ -122,6 +129,14 @@ function Order({ params }) {
       };
       loadPaypalScript();
     }
+
+    // crypto
+    const init = async () => {
+      const { paymentProcessor, dai } = await getBlockchain();
+      setPaymentProcessor(paymentProcessor);
+      setDai(dai);
+    };
+    init();
   }, [order, successPay, successDeliver]);
 
   const { enqueueSnackbar } = useSnackbar();
@@ -139,6 +154,11 @@ function Order({ params }) {
       .then((orderID) => {
         return orderID;
       });
+  }
+
+  // crypto
+  if (typeof window.ethereum === "undefined") {
+    return <p>Necesita instalar la última versión de Metamask</p>;
   }
 
   // para una vez aprobado
@@ -190,7 +210,10 @@ function Order({ params }) {
 
   return (
     <Layout title={`Orden ${orderId}`}>
-      <h1 className="text-4xl py-4">Orden {orderId}</h1>
+      <h1 className="text-4xl py-4">
+        Orden
+        <p className="text-xl text-gray-400 ">{orderId}</p>
+      </h1>
 
       {loading ? (
         <CircularProgress />
@@ -304,23 +327,35 @@ function Order({ params }) {
             </div>
 
             <>
-              <div className="card h-min">
+              <div className="card col-span-2 md:col-auto h-min">
                 <div className="grid grid-flow-row-dense grid-cols-3 p-5 gap-y-4">
-                  <h2 className="col-span-3 font-bold text-2xl">
+                  <h2 className="dark:text-yellow col-span-3 font-bold text-2xl">
                     Resumen del pedido
                   </h2>
-                  <p className="col-span-2 bg-gray-100">Items:</p>
-                  <p className="text-right bg-sky-50">${itemsPrice}</p>
-                  <p className="col-span-2 bg-gray-100">Impuesto:</p>
-                  <p className="text-right bg-sky-50">${taxPrice}</p>
+                  <p className="col-span-2 dark:bg-transparent bg-gray-100">
+                    Items:
+                  </p>
+                  <p className="text-right dark:bg-transparent bg-sky-50">
+                    ${itemsPrice}
+                  </p>
+                  <p className="col-span-2 dark:bg-transparent bg-gray-100">
+                    Impuesto:
+                  </p>
+                  <p className="text-right dark:bg-transparent bg-sky-50">
+                    ${taxPrice}
+                  </p>
 
-                  <p className="col-span-2 bg-gray-100">Envío:</p>
-                  <p className="text-right bg-sky-50">${shippingPrice}</p>
+                  <p className="col-span-2 dark:bg-transparent bg-gray-100">
+                    Envío:
+                  </p>
+                  <p className="text-right dark:bg-transparent bg-sky-50">
+                    ${shippingPrice}
+                  </p>
 
-                  <p className="col-span-2 bg-gray-100 text-lg font-bold">
+                  <p className="col-span-2 dark:bg-transparent bg-gray-100 text-lg font-bold">
                     Total:
                   </p>
-                  <p className="text-right bg-sky-50 text-lg font-bold">
+                  <p className="text-right dark:bg-transparent bg-sky-50 text-lg font-bold">
                     ${totalPrice}
                   </p>
                 </div>
@@ -329,14 +364,23 @@ function Order({ params }) {
                     {isPending ? (
                       <CircularProgress />
                     ) : (
-                      <div>
-                        <PayPalButtons
-                          createOrder={createOrder}
-                          onApprove={onApprove}
-                          onError={onError}
-                          className="mx-5"
-                        ></PayPalButtons>
-                      </div>
+                      // botones PayPal - cryto
+                      <>
+                        <div>
+                          <PayPalButtons
+                            createOrder={createOrder}
+                            onApprove={onApprove}
+                            onError={onError}
+                            className="mx-5"
+                          ></PayPalButtons>
+
+                          <StoreEth
+                            paymentProcessor={paymentProcessor}
+                            dai={dai}
+                            className="w-full text-lg mt-8 font-bold"
+                          />
+                        </div>
+                      </>
                     )}
                   </li>
                 )}
@@ -344,7 +388,7 @@ function Order({ params }) {
                   <li>
                     {loadingDeliver && <CircularProgress />}
                     <button
-                      className="bg-green rounded-full px-3 py-1 shadow-xl w-full hover:bg-yellow"
+                      className="bg-green font-semibold text-lg rounded-full px-3 py-1 shadow-xl w-full hover:bg-yellow"
                       onClick={deliverOrderHandler}
                     >
                       Entregar órden

@@ -8,7 +8,7 @@ describe("CEIQ shop its alive", () => {
   });
 
   it("user can be logged", () => {
-    cy.contains("Ingresar").click();
+    cy.get("#usuario").click();
     cy.get('[name="email"]').type("admin@marlin.com");
     cy.get('[name="password"]').type("123456");
     cy.get(".bg-green").click();

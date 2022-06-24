@@ -67,8 +67,8 @@ function Profile() {
   return (
     <>
       <Layout title="Perfil">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
-          <div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 min-h-screen">
+          <div className="w-full h-fit">
             <div className="card p-6">
               <List>
                 <Link href="/profile" passHref>
@@ -86,17 +86,19 @@ function Profile() {
           </div>
 
           <div className="col-span-3">
-            <div className="card p-6">
+            <div className="card w-full p-6">
               <ul>
                 <li>
-                  <h1 className="text-4xl py-4">Perfil de usuario</h1>
+                  <h1 className="text-4xl dark:text-cyan py-4">
+                    Perfil de usuario
+                  </h1>
                 </li>
                 <li>
                   <div className="flex justify-center">
-                    <div className="card w-8/12 ">
+                    <div className="card w-full md:w-8/12 ">
                       <form
                         onSubmit={handleSubmit(submitHandler)}
-                        className="rounded px-8 pt-6 pb-8 mb-4"
+                        className="rounded w-full md:px-8 pt-6 pb-8 mb-4"
                       >
                         <List>
                           <ListItem>
@@ -112,6 +114,7 @@ function Profile() {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   id="name"
                                   label="Nombre"
                                   inputProps={{ type: "name" }}
@@ -142,6 +145,7 @@ function Profile() {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   id="email"
                                   label="Email"
                                   inputProps={{ type: "email" }}
@@ -173,6 +177,7 @@ function Profile() {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   id="password"
                                   label="Contraseña"
                                   inputProps={{ type: "password" }}
@@ -202,6 +207,7 @@ function Profile() {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  className="dark:bg-gray-50 dark:rounded"
                                   id="confirmPassword"
                                   label="Confirmar Contraseña"
                                   inputProps={{ type: "password" }}
@@ -218,7 +224,7 @@ function Profile() {
                           </ListItem>
                           <ListItem>
                             <button
-                              className="bg-green py-2 px-8 shadow-md rounded-full hover:bg-cyan"
+                              className="bg-green dark:text-black w-full md:w-1/3 py-2 px-8 mt-10 shadow-md rounded-full hover:bg-cyan"
                               type="submit"
                             >
                               Actualizar
@@ -234,18 +240,6 @@ function Profile() {
           </div>
         </div>
       </Layout>
-
-      <style jsx>
-        {`
-          .tableInfo {
-            width: -webkit-fill-available;
-          }
-
-          th {
-            text-align: initial;
-          }
-        `}
-      </style>
     </>
   );
 }
