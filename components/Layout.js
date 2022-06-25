@@ -103,9 +103,9 @@ export default function Layout({ title, description, children }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="dark:flex min-h-screen flex-col justify-between ">
+      <div className="dark:flex min-h-screen flex-col justify-between">
         <header>
-          <nav className="flex navbar items-center px-4 justify-center flex-wrap md:justify-between shadow-md h-40 md:h-28">
+          <nav className="flex navbar items-center px-4 justify-center flex-wrap sm:flex-nowrap md:justify-between shadow-md h-40 md:h-28">
             <Box display="flex" alignItems="center">
               <IconButton
                 edge="start"
@@ -236,8 +236,8 @@ export default function Layout({ title, description, children }) {
 
             {/* ********* BUSCARDOR - DARKMODE - CARRITO - LOGIN *********** */}
 
-            <div className="w-fit md:w-4/6 flex flex-wrap justify-between items-center md:px-6">
-              <div className=" md:w-4/6 order-1">
+            <div className="lg:w-4/6 flex sm:flex-wrap justify-between items-center md:px-6">
+              <div className="md:w-4/6 order-1">
                 <form
                   onSubmit={submitHandler}
                   className="flex items-center justify-between"
