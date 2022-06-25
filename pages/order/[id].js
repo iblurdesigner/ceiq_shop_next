@@ -221,7 +221,7 @@ function Order({ params }) {
         <p>{error}</p>
       ) : (
         <>
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
+          <div className="sm:grid md:flex lg:grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
             <div className="col-span-3">
               <div className="card p-6">
                 <ul>

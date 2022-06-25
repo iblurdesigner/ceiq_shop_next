@@ -6,12 +6,12 @@ import Layout from "../components/Layout";
 import { Store } from "../utils/Store";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
-import dynamic from "next/dynamic";
+
 import { Controller, useForm } from "react-hook-form";
 import { useSnackbar } from "notistack";
 import { getError } from "../utils/error";
 
-function Login() {
+export default function Login() {
   const {
     handleSubmit,
     control,
@@ -50,7 +50,7 @@ function Login() {
   return (
     <Layout title="Ingreso de usuario al sistema">
       <div className="flex justify-center">
-        <div className="card md:w-4/12 ">
+        <div className="card lg:w-4/12 ">
           <form
             onSubmit={handleSubmit(submitHandler)}
             className="rounded px-8 pt-6 pb-8 mb-4"
@@ -140,7 +140,3 @@ function Login() {
     </Layout>
   );
 }
-
-// esto es para evitar el error de Hydration
-
-export default dynamic(() => Promise.resolve(Login), { ssr: false });

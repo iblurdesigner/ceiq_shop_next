@@ -104,9 +104,9 @@ export default function Search(props) {
   };
   return (
     <Layout title="Búsqueda">
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
-        <div className="h-fit bg-gray-100 md:bg-gray-50 p-1 md:p-0">
-          <ul className="flex flex-wrap justify-between  md:flex-col">
+      <div className="grid grid-cols-1 lg:gap-8 md:grid-cols-3 lg:grid-cols-4 ">
+        <div className="h-fit md:bg-gray-50 p-1 md:p-0 col-span-3 lg:col-span-1">
+          <ul className="flex flex-wrap justify-between lg:flex-col">
             <li className="mb-6">
               <Box className="w-full">
                 <p className="text-xl font-semibold text-blue mb-2">
@@ -185,7 +185,7 @@ export default function Search(props) {
           </ul>
         </div>
 
-        <div className="col-span-3">
+        <div className="col-span-3 md:mt-8 lg:mt-0">
           <div className="flex justify-between flex-col md:flex-row items-center">
             <div className="bg-gray-200 rounded-full py-2 px-4 text-blue">
               {products.length === 0 ? "No hay" : countProducts} Resultados

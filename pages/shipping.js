@@ -4,12 +4,11 @@ import Layout from "../components/Layout";
 import { Store } from "../utils/Store";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
-import dynamic from "next/dynamic";
 import { Controller, useForm } from "react-hook-form";
 import CheckoutWizard from "../components/CheckoutWizard";
 // import CheckoutWizard from '../components/CheckoutWizard';
 
-function Shipping() {
+export default function Shipping() {
   const {
     handleSubmit,
     control,
@@ -80,7 +79,7 @@ function Shipping() {
     <Layout title="Dirección de envío">
       <CheckoutWizard activeStep={1}></CheckoutWizard>
       <div className="flex justify-center mt-10">
-        <div className="card md:w-6/12 ">
+        <div className="card md:w-8/12 lg:w-6/12 ">
           <form
             onSubmit={handleSubmit(submitHandler)}
             className="rounded px-8 pt-6 pb-8 mb-4"
@@ -258,7 +257,3 @@ function Shipping() {
     </Layout>
   );
 }
-
-// esto es para evitar el error de Hydration
-
-export default dynamic(() => Promise.resolve(Shipping), { ssr: false });

@@ -48,7 +48,7 @@ function CartScreen() {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
+          <div className="sm:grid md:flex lg:grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
             <div className="md:col-span-3">
               <table className="tableInfo table-auto">
                 <thead>
@@ -89,7 +89,7 @@ function CartScreen() {
                       </td>
                       <td>
                         <Select
-                          className="h-8 dark:bg-green bg-gray-200 dark:text-black border border-emerald-300   px-4 rounded-full leading-tight"
+                          className="h-8 dark:bg-green w-11 md:w-20 bg-gray-200 dark:text-black border border-emerald-300   px-4 rounded-full leading-tight"
                           value={item.quantity}
                           onChange={(e) =>
                             updateCartHandler(item, e.target.value)

@@ -6,7 +6,7 @@ import ProductItem from "../components/ProductItem";
 import axios from "axios";
 import db from "../utils/db";
 import Product from "../models/Product";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { Store } from "../utils/Store";
 import Carousel from "react-material-ui-carousel";
@@ -14,7 +14,7 @@ import Link from "next/link";
 
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
 
-function Home(props) {
+export default function Home(props) {
   // Ya no necesitaremos pedir desde la base de datos estatica si no mediante las props
   const { topRatedProducts, featuredProducts } = props;
   const router = useRouter();
@@ -83,6 +83,3 @@ export async function getServerSideProps() {
     },
   };
 }
-
-// esto es para evitar el error de Hydration
-export default dynamic(() => Promise.resolve(Home), { ssr: false });

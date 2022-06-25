@@ -81,7 +81,7 @@ function PlaceOrder() {
       <CheckoutWizard activeStep={3}></CheckoutWizard>
       <h1 className="text-4xl py-4">Realizar Pedido</h1>
       <>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
+        <div className="sm:grid md:flex lg:grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
           <div className="col-span-2 md:col-span-3">
             <div className="card p-6">
               <ul>
@@ -110,7 +110,7 @@ function PlaceOrder() {
             <div className="card p-6">
               <ul>
                 <li>
-                  <h2 className="text-2xl font-bold mb-8">Ordenes</h2>
+                  <h2 className="text-2xl font-bold mb-8">Órdenes</h2>
                 </li>
                 <li>
                   <div>

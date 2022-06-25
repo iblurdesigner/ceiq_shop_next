@@ -6,12 +6,11 @@ import Layout from "../components/Layout";
 import { Store } from "../utils/Store";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
-import dynamic from "next/dynamic";
 import { Controller, useForm } from "react-hook-form";
 import { useSnackbar } from "notistack";
 import { getError } from "../utils/error";
 
-function Register() {
+export default function Register() {
   const {
     handleSubmit,
     control,
@@ -203,7 +202,3 @@ function Register() {
     </Layout>
   );
 }
-
-// esto es para evitar el error de Hydration
-
-export default dynamic(() => Promise.resolve(Register), { ssr: false });

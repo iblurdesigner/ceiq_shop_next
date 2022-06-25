@@ -32,7 +32,7 @@ const ButtonDarkM = dynamic(() => import("../components/buttons/ButtonDarkM"), {
   ssr: false,
 });
 
-export default function Layout({ title, description, children }) {
+function Layout({ title, description, children }) {
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
   const { cart, userInfo } = state;
@@ -237,7 +237,7 @@ export default function Layout({ title, description, children }) {
             {/* ********* BUSCARDOR - DARKMODE - CARRITO - LOGIN *********** */}
 
             <div className="lg:w-4/6 flex sm:flex-wrap justify-between items-center md:px-6">
-              <div className="md:w-4/6 order-1">
+              <div className="md:w-3/6 lg:w-4/6 order-1">
                 <form
                   onSubmit={submitHandler}
                   className="flex items-center justify-between"
@@ -357,3 +357,6 @@ export default function Layout({ title, description, children }) {
     </>
   );
 }
+
+// esto es para evitar el error de Hydration
+export default dynamic(() => Promise.resolve(Layout), { ssr: false });
