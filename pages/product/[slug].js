@@ -12,8 +12,9 @@ import { getError } from "../../utils/error";
 import { useRouter } from "next/router";
 import { CircularProgress, Rating, TextField } from "@mui/material";
 import { useSnackbar } from "notistack";
+import dynamic from "next/dynamic";
 
-export default function ProductScreen(props) {
+function ProductScreen(props) {
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
   const { userInfo } = state;
@@ -99,6 +100,7 @@ export default function ProductScreen(props) {
             width={200}
             height={200}
             layout="responsive"
+            priority
           ></Image>
         </div>
         <div className="md:col-span-2 md:ml-10 mb-4 mt-4 md:mt-0">
@@ -252,3 +254,6 @@ export async function getServerSideProps(context) {
     },
   };
 }
+
+// esto es para evitar el error de Hydration
+export default dynamic(() => Promise.resolve(ProductScreen), { ssr: false });
