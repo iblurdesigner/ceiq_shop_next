@@ -132,10 +132,12 @@ function Map() {
               <div className="w-80 h-30 bg-blue rounded-lg p-4 inputMap">
                 <input
                   type="text"
+                  data-test="addr-button"
                   placeholder="Ingrese su dirección"
                   className="p-2 mr-2"
                 ></input>
                 <button
+                  data-test="confirm-map-button"
                   type="button"
                   className="bg-green rounded-full px-3 py-1 shadow-xl hover:bg-yellow"
                   onClick={onConfirm}

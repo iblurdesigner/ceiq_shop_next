@@ -87,7 +87,7 @@ export default function ProductScreen(props) {
         <Link href="/" passHref>
           <a className="text-cyan text-xl md:text-lg flex items-center">
             <span className="text-6xl mr-4 md:text-2xl">↞</span>
-            <p>Regresar a productos</p>
+            <p data-test="text-return">Regresar a productos</p>
           </a>
         </Link>
       </div>
@@ -128,7 +128,9 @@ export default function ProductScreen(props) {
             </li>
 
             <li>
-              <p className="font-semibold text-lg mt-6">Descripción:</p>
+              <p data-test="desc-title" className="font-semibold text-lg mt-6">
+                Descripción:
+              </p>
               <p>{product.description}</p>
             </li>
           </ul>
@@ -146,6 +148,7 @@ export default function ProductScreen(props) {
               </div>
             </div>
             <button
+              data-test="button-add"
               className="bg-green dark:text-blue rounded-full w-full px-3 py-1 shadow-xl hover:bg-yellow"
               onClick={addToCartHandler}
             >

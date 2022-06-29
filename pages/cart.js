@@ -43,7 +43,10 @@ function CartScreen() {
         <div>
           El carrito se encuentra vacío.
           <Link href="/" passHref>
-            <a className="text-sky-400"> Ir a comprar</a>
+            <a data-test="go-buy" className="text-sky-400">
+              {" "}
+              Ir a comprar
+            </a>
           </Link>
         </div>
       ) : (
@@ -89,6 +92,7 @@ function CartScreen() {
                       </td>
                       <td>
                         <Select
+                          data-test="value-button"
                           className="h-8 dark:bg-green w-11 md:w-20 bg-gray-200 dark:text-black border border-emerald-300   px-4 rounded-full leading-tight"
                           value={item.quantity}
                           onChange={(e) =>
@@ -105,6 +109,7 @@ function CartScreen() {
                       <td>${item.price}</td>
                       <td>
                         <button
+                          data-test="delete-button"
                           className="bg-green dark:text-black py-2 px-8 shadow-md rounded-full hover:bg-red-400"
                           type="button"
                           onClick={() => removeItemHandler(item)}
@@ -131,6 +136,7 @@ function CartScreen() {
                     .toFixed(2)}
                 </h2>
                 <button
+                  data-test="buy-button"
                   className="bg-green dark:text-blue rounded-full px-3 py-1 shadow-xl hover:bg-yellow"
                   onClick={checkoutHandler}
                 >

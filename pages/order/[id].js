@@ -15,6 +15,7 @@ import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 
 import getBlockchain from "../ethereum.js";
 import StoreEth from "../../utils/crypto/StoreEth";
+import PagoPlux from "../../components/PagoPlux";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -378,6 +379,16 @@ function Order({ params }) {
                             paymentProcessor={paymentProcessor}
                             dai={dai}
                             className="w-full text-lg mt-8 font-bold"
+                            createOrder={createOrder}
+                            onApprove={onApprove}
+                            onError={onError}
+                          />
+
+                          <PagoPlux
+                            createOrder={createOrder}
+                            onApprove={onApprove}
+                            onError={onError}
+                            className="text-lg mt-8 font-bold w-full"
                           />
                         </div>
                       </>

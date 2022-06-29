@@ -294,6 +294,7 @@ function Layout({ title, description, children }) {
                 {userInfo ? (
                   <>
                     <button
+                      data-test="user-button"
                       className="hover:text-green mx-6"
                       type="button"
                       aria-controls="simple-menu"
@@ -331,7 +332,10 @@ function Layout({ title, description, children }) {
                           Administración Dashboard
                         </MenuItem>
                       )}
-                      <MenuItem onClick={logoutClickHandler}>
+                      <MenuItem
+                        data-test="logout-button"
+                        onClick={logoutClickHandler}
+                      >
                         Cerrar Sesion
                       </MenuItem>
                     </Menu>

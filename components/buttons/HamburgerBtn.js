@@ -8,6 +8,7 @@ export default function HamburgerBtn({ className }) {
       viewBox="0 0 20 20"
       fill="currentColor"
       alt="menu"
+      data-test="hamburger-button"
     >
       <path
         fillRule="evenodd"

@@ -20,7 +20,7 @@ export default function ButtonDarkM() {
 
     if (currentTheme === "dark") {
       return (
-        <button onClick={() => setTheme("light")}>
+        <button data-test="darkmode-button" onClick={() => setTheme("light")}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-10 w-10 md:h-5 md:w-5 text-yellow"

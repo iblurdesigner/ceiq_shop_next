@@ -79,14 +79,19 @@ function PlaceOrder() {
   return (
     <Layout title="Realizar Pedido">
       <CheckoutWizard activeStep={3}></CheckoutWizard>
-      <h1 className="text-4xl py-4">Realizar Pedido</h1>
+      <h1 data-test="title" className="text-4xl py-4">
+        Realizar Pedido
+      </h1>
       <>
         <div className="sm:grid md:flex lg:grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
           <div className="col-span-2 md:col-span-3">
             <div className="card p-6">
               <ul>
                 <li>
-                  <h2 className="text-2xl mb-2 text-gray-300 font-bold">
+                  <h2
+                    data-test="address"
+                    className="text-2xl mb-2 text-gray-300 font-bold"
+                  >
                     Dirección de envío
                   </h2>
                 </li>
@@ -100,7 +105,10 @@ function PlaceOrder() {
             <div className="card p-6">
               <ul>
                 <li>
-                  <h2 className="text-2xl mb-2 font-bold text-gray-300">
+                  <h2
+                    data-test="method"
+                    className="text-2xl mb-2 font-bold text-gray-300"
+                  >
                     Método de Pago
                   </h2>
                 </li>
@@ -110,7 +118,9 @@ function PlaceOrder() {
             <div className="card p-6">
               <ul>
                 <li>
-                  <h2 className="text-2xl font-bold mb-8">Órdenes</h2>
+                  <h2 data-test="orders" className="text-2xl font-bold mb-8">
+                    Órdenes
+                  </h2>
                 </li>
                 <li>
                   <div>
@@ -167,7 +177,10 @@ function PlaceOrder() {
           <>
             <div className="card col-span-2 md:col-auto h-min">
               <div className="grid grid-flow-row-dense grid-cols-3 p-5 gap-y-4">
-                <h2 className="dark:text-black col-span-3 font-bold text-2xl text-center p-2 w-full rounded-lg bg-sky-300">
+                <h2
+                  data-test="resume"
+                  className="dark:text-black col-span-3 font-bold text-2xl text-center p-2 w-full rounded-lg bg-sky-300"
+                >
                   Resumen del pedido
                 </h2>
                 <p className="col-span-2 dark:bg-transparent bg-gray-100">
@@ -198,6 +211,7 @@ function PlaceOrder() {
                 </p>
 
                 <button
+                  data-test="go-button"
                   className="bg-green dark:text-black rounded-full px-3 py-1 shadow-xl hover:bg-yellow col-span-3"
                   onClick={placeOrderHandler}
                 >

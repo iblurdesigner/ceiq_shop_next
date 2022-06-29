@@ -8,6 +8,7 @@ const ButtonCloseUi = ({ className }) => {
       viewBox="0 0 20 20"
       fill="currentColor"
       alt="Cerrar"
+      data-test="closeui-button"
     >
       <path
         fillRule="evenodd"

@@ -22,7 +22,10 @@ export default function ProductItem({ product, addToCartHandler }) {
           <div className="grid content-between p-4">
             <Link href={`/product/${product.slug}`} passHref>
               <a>
-                <h2 className="dark:text-white text-xl font-medium text-blue hover:text-cyan pb-2">
+                <h2
+                  data-test="name-productitem"
+                  className="dark:text-white text-xl font-medium text-blue hover:text-cyan pb-2"
+                >
                   {product.name}
                 </h2>
                 <li className="flex items-center">

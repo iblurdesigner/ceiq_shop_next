@@ -29,4 +29,11 @@ module.exports = {
     "react/prop-types": RULES.OFF,
     "react/react-in-jsx-scope": RULES.OFF,
   },
+  globals: {
+    Cypress: true,
+    cy: true,
+    describe: true,
+    beforeEach: true,
+    it: true,
+  },
 };

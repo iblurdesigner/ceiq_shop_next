@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { Store } from "../utils/Store";
 import Carousel from "react-material-ui-carousel";
 import Link from "next/link";
+import Script from "next/script";
 
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
 
@@ -37,6 +38,9 @@ export default function Home(props) {
 
   return (
     <Layout title="Pagina de inicio">
+      <Script src="https://sandbox-paybox.pagoplux.com/paybox/index.js" />
+      <Script src="https://code.jquery.com/jquery-3.4.1.min.js" />
+
       <Carousel animation="slide" className="rounded-lg">
         {featuredProducts.map((product) => (
           <Link key={product._id} href={`/product/${product.slug}`} passHref>
@@ -48,7 +52,10 @@ export default function Home(props) {
       </Carousel>
 
       <h1 className="text-2xl font-semibold my-6">Productos más vendidos</h1>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+      <div
+        data-test="div-productitem"
+        className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4"
+      >
         {topRatedProducts.map((product) => (
           <ProductItem
             product={product}

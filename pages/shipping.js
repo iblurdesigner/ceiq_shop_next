@@ -84,7 +84,9 @@ export default function Shipping() {
             onSubmit={handleSubmit(submitHandler)}
             className="rounded px-8 pt-6 pb-8 mb-4"
           >
-            <h1 className="text-4xl py-4">Dirección de envío</h1>
+            <h1 data-test="title" className="text-4xl py-4">
+              Dirección de envío
+            </h1>
             <List>
               <ListItem>
                 <Controller
@@ -235,6 +237,7 @@ export default function Shipping() {
               <ListItem className="flex flex-col">
                 <ul>
                   <button
+                    data-test="map-button"
                     className="bg-yellow dark:text-black w-full rounded-full px-3 py-1 shadow-xl hover:bg-green"
                     type="button"
                     onClick={chooseLocationHandler}
@@ -244,6 +247,7 @@ export default function Shipping() {
                   <p>{location.lat && `${location.lat}, ${location.lat}`}</p>
                 </ul>
                 <button
+                  data-test="continue-button"
                   className="bg-green dark:text-black mt-10 py-2 px-8 shadow-md w-full rounded-full hover:bg-cyan"
                   type="submit"
                 >

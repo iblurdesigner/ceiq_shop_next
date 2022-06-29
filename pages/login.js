@@ -68,6 +68,7 @@ export default function Login() {
                   }}
                   render={({ field }) => (
                     <TextField
+                      data-test="email-input"
                       variant="outlined"
                       fullWidth
                       className="dark:bg-gray-50 dark:text-black dark:rounded"
@@ -98,6 +99,7 @@ export default function Login() {
                   }}
                   render={({ field }) => (
                     <TextField
+                      data-test="password-input"
                       variant="outlined"
                       fullWidth
                       className="dark:bg-gray-50 dark:rounded"
@@ -121,6 +123,7 @@ export default function Login() {
                 <button
                   className="bg-green dark:text-black py-2 px-8 w-full shadow-md rounded-full hover:bg-cyan"
                   type="submit"
+                  data-test="submit-button"
                 >
                   Ingresar
                 </button>

@@ -10,6 +10,7 @@ export default function Userbtn({ className }) {
       stroke="currentColor"
       strokeWidth="2"
       alt="usuario"
+      data-test="usericon-button"
     >
       <path
         strokeLinecap="round"

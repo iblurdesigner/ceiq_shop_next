@@ -10,6 +10,7 @@ export default function CartBtn({ className }) {
       stroke="currentColor"
       strokeWidth="2"
       alt="carrito de compras"
+      data-test="cart-button"
     >
       <path
         strokeLinecap="round"
