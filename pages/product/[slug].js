@@ -95,6 +95,9 @@ export default function ProductScreen(props) {
         <div className="md:col-span-1">
           <Image
             src={product.image}
+            placeholder="blur"
+            blurDataURL={product.image}
+            quality={50}
             alt={product.name}
             width={200}
             height={200}

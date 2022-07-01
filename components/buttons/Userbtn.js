@@ -9,7 +9,8 @@ export default function Userbtn({ className }) {
       viewBox="0 0 24 24"
       stroke="currentColor"
       strokeWidth="2"
-      alt="usuario"
+      alt="boton usuario"
+      aria-describedby="boton-de-usuario"
       data-test="usericon-button"
     >
       <path

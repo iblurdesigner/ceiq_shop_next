@@ -7,10 +7,11 @@ import Image from "next/image";
 import { Select, MenuItem } from "@mui/material";
 import dynamic from "next/dynamic";
 import axios from "axios";
+import Head from "next/head";
 
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
 
-function CartScreen() {
+function CartScreen({ description }) {
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
   const {
@@ -36,131 +37,139 @@ function CartScreen() {
   };
 
   return (
-    <Layout title="Carrito de compras">
-      <h1 className="text-4xl py-4">Carrito de compras</h1>
+    <>
+      <Head>
+        {description && <meta name="description" content={description} />}
+      </Head>
+      <Layout title="Carrito de compras">
+        <h1 className="text-4xl py-4">Carrito de compras</h1>
 
-      {cartItems.length === 0 ? (
-        <div>
-          El carrito se encuentra vacío.
-          <Link href="/" passHref>
-            <a data-test="go-buy" className="text-sky-400">
-              {" "}
-              Ir a comprar
-            </a>
-          </Link>
-        </div>
-      ) : (
-        <>
-          <div className="sm:grid md:flex lg:grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-            <div className="md:col-span-3">
-              <table className="tableInfo table-auto">
-                <thead>
-                  <tr>
-                    <th className="invisible md:visible md:text-lg py-2">
-                      Imagen
-                    </th>
-                    <th className="text-xs md:text-lg py-2">Nombre</th>
-                    <th className="text-xs md:text-lg py-2">Cantidad</th>
-                    <th className="text-xs md:text-lg py-2">Precio</th>
-                    <th className="invisible md:visible text-xs md:text-lg py-2">
-                      Acción
-                    </th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {cartItems.map((item) => (
-                    <tr key={item._id} className="divide-y  divide-sky-300">
-                      <td className="py-6">
-                        <Link href={`/product/${item.slug}`} passHref>
-                          <a>
-                            <Image
-                              src={item.image}
-                              alt={item.name}
-                              width={50}
-                              height={50}
-                            ></Image>
-                          </a>
-                        </Link>
-                      </td>
-                      <td>
-                        <Link href={`/product/${item.slug}`} passHref>
-                          <a>
-                            <p className="text-sky-600">{item.name}</p>
-                          </a>
-                        </Link>
-                      </td>
-                      <td>
-                        <Select
-                          data-test="value-button"
-                          className="h-8 dark:bg-green w-11 md:w-20 bg-gray-200 dark:text-black border border-emerald-300   px-4 rounded-full leading-tight"
-                          value={item.quantity}
-                          onChange={(e) =>
-                            updateCartHandler(item, e.target.value)
-                          }
-                        >
-                          {[...Array(item.countInStock).keys()].map((x) => (
-                            <MenuItem key={x + 1} value={x + 1}>
-                              {x + 1}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </td>
-                      <td>${item.price}</td>
-                      <td>
-                        <button
-                          data-test="delete-button"
-                          className="bg-green dark:text-black py-2 px-8 shadow-md rounded-full hover:bg-red-400"
-                          type="button"
-                          onClick={() => removeItemHandler(item)}
-                        >
-                          x
-                        </button>
-                      </td>
+        {cartItems.length === 0 ? (
+          <div>
+            El carrito se encuentra vacío.
+            <Link href="/" passHref>
+              <a data-test="go-buy" className="text-sky-400">
+                {" "}
+                Ir a comprar
+              </a>
+            </Link>
+          </div>
+        ) : (
+          <>
+            <div className="sm:grid md:flex lg:grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+              <div className="md:col-span-3">
+                <table className="tableInfo table-auto">
+                  <thead>
+                    <tr>
+                      <th className="invisible md:visible md:text-lg py-2">
+                        Imagen
+                      </th>
+                      <th className="text-xs md:text-lg py-2">Nombre</th>
+                      <th className="text-xs md:text-lg py-2">Cantidad</th>
+                      <th className="text-xs md:text-lg py-2">Precio</th>
+                      <th className="invisible md:visible text-xs md:text-lg py-2">
+                        Acción
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
 
-            {/* card */}
-            <div className="card h-min">
-              <div className="flex flex-col justify-around p-5 gap-y-4">
-                <h2 variant="h2">
-                  <span className="text-lg font-bold">Subtotal </span>(
-                  {cartItems.reduce((a, c) => a + c.quantity, 0)} items) : $
-                  {cartItems
-                    .reduce((a, c) => {
-                      return a + c.quantity * c.price;
-                    }, 0)
-                    .toFixed(2)}
-                </h2>
-                <button
-                  data-test="buy-button"
-                  className="bg-green dark:text-blue rounded-full px-3 py-1 shadow-xl hover:bg-yellow"
-                  onClick={checkoutHandler}
-                >
-                  Pagar
-                </button>
+                  <tbody>
+                    {cartItems.map((item) => (
+                      <tr key={item._id} className="divide-y  divide-sky-300">
+                        <td className="py-6">
+                          <Link href={`/product/${item.slug}`} passHref>
+                            <a>
+                              <Image
+                                src={item.image}
+                                placeholder="blur"
+                                blurDataURL={item.image}
+                                quality={50}
+                                alt={item.name}
+                                width={50}
+                                height={50}
+                              ></Image>
+                            </a>
+                          </Link>
+                        </td>
+                        <td>
+                          <Link href={`/product/${item.slug}`} passHref>
+                            <a>
+                              <p className="text-sky-600">{item.name}</p>
+                            </a>
+                          </Link>
+                        </td>
+                        <td>
+                          <Select
+                            data-test="value-button"
+                            className="h-8 dark:bg-green w-11 md:w-20 bg-gray-200 dark:text-black border border-emerald-300   px-4 rounded-full leading-tight"
+                            value={item.quantity}
+                            onChange={(e) =>
+                              updateCartHandler(item, e.target.value)
+                            }
+                          >
+                            {[...Array(item.countInStock).keys()].map((x) => (
+                              <MenuItem key={x + 1} value={x + 1}>
+                                {x + 1}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </td>
+                        <td>${item.price}</td>
+                        <td>
+                          <button
+                            data-test="delete-button"
+                            className="bg-green dark:text-black py-2 px-8 shadow-md rounded-full hover:bg-red-400"
+                            type="button"
+                            onClick={() => removeItemHandler(item)}
+                          >
+                            x
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* card */}
+              <div className="card h-min">
+                <div className="flex flex-col justify-around p-5 gap-y-4">
+                  <h2 variant="h2">
+                    <span className="text-lg font-bold">Subtotal </span>(
+                    {cartItems.reduce((a, c) => a + c.quantity, 0)} items) : $
+                    {cartItems
+                      .reduce((a, c) => {
+                        return a + c.quantity * c.price;
+                      }, 0)
+                      .toFixed(2)}
+                  </h2>
+                  <button
+                    data-test="buy-button"
+                    className="bg-green dark:text-blue rounded-full px-3 py-1 shadow-xl hover:bg-yellow"
+                    onClick={checkoutHandler}
+                  >
+                    Pagar
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* clases con JSX */}
-          <style jsx>
-            {`
-              .tableInfo {
-                width: -webkit-fill-available;
-              }
+            {/* clases con JSX */}
+            <style jsx>
+              {`
+                .tableInfo {
+                  width: -webkit-fill-available;
+                }
 
-              th {
-                text-align: initial;
-              }
-            `}
-          </style>
-        </>
-      )}
-    </Layout>
+                th {
+                  text-align: initial;
+                }
+              `}
+            </style>
+          </>
+        )}
+      </Layout>
+    </>
   );
 }
 

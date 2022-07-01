@@ -144,6 +144,9 @@ function PlaceOrder() {
                                 <a>
                                   <Image
                                     src={item.image}
+                                    placeholder="blur"
+                                    blurDataURL={item.image}
+                                    quality={50}
                                     alt={item.name}
                                     width={50}
                                     height={50}

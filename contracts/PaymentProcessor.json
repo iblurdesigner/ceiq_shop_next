@@ -3031,24 +3031,15 @@
   "ast": {
     "absolutePath": "project:/contracts/PaymentProcessor.sol",
     "exportedSymbols": {
-      "IERC20": [
-        663
-      ],
-      "PaymentProcessor": [
-        833
-      ]
+      "IERC20": [663],
+      "PaymentProcessor": [833]
     },
     "id": 834,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 772,
-        "literals": [
-          "solidity",
-          "^",
-          "0.8",
-          ".15"
-        ],
+        "literals": ["solidity", "^", "0.8", ".15"],
         "nodeType": "PragmaDirective",
         "src": "0:24:6"
       },
@@ -3072,9 +3063,7 @@
         "contractKind": "contract",
         "fullyImplemented": true,
         "id": 833,
-        "linearizedBaseContracts": [
-          833
-        ],
+        "linearizedBaseContracts": [833],
         "name": "PaymentProcessor",
         "nameLocation": "93:16:6",
         "nodeType": "ContractDefinition",

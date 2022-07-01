@@ -9901,33 +9901,18 @@
   "ast": {
     "absolutePath": "project:/contracts/Dai.sol",
     "exportedSymbols": {
-      "Context": [
-        710
-      ],
-      "Dai": [
-        737
-      ],
-      "ERC20": [
-        585
-      ],
-      "IERC20": [
-        663
-      ],
-      "IERC20Metadata": [
-        688
-      ]
+      "Context": [710],
+      "Dai": [737],
+      "ERC20": [585],
+      "IERC20": [663],
+      "IERC20Metadata": [688]
     },
     "id": 738,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 712,
-        "literals": [
-          "solidity",
-          "^",
-          "0.8",
-          ".15"
-        ],
+        "literals": ["solidity", "^", "0.8", ".15"],
         "nodeType": "PragmaDirective",
         "src": "0:24:4"
       },
@@ -9964,13 +9949,7 @@
         "contractKind": "contract",
         "fullyImplemented": true,
         "id": 737,
-        "linearizedBaseContracts": [
-          737,
-          585,
-          688,
-          663,
-          710
-        ],
+        "linearizedBaseContracts": [737, 585, 688, 663, 710],
         "name": "Dai",
         "nameLocation": "91:3:4",
         "nodeType": "ContractDefinition",

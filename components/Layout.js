@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 // import { useTheme } from 'next-themes';
 import Head from "next/head";
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import { Store } from "../utils/Store";
@@ -28,6 +27,7 @@ import ButtonCloseUi from "./buttons/ButtonCloseUi";
 import CartBtn from "../components/buttons/CartBtn";
 import Userbtn from "../components/buttons/Userbtn";
 import HamburgerBtn from "./buttons/hamburgerBtn";
+import LogoCeiq from "./LogoCeiq";
 const ButtonDarkM = dynamic(() => import("../components/buttons/ButtonDarkM"), {
   ssr: false,
 });
@@ -100,7 +100,7 @@ function Layout({ title, description, children }) {
         <title>{title ? title + " - CEIQ Shop" : "CEIQ Shop"}</title>
         {description && <meta name="description" content={description} />}
 
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon01.svg" />
       </Head>
 
       <div className="dark:flex min-h-screen flex-col justify-between">
@@ -108,21 +108,24 @@ function Layout({ title, description, children }) {
           <nav className="flex navbar items-center px-4 justify-center flex-wrap sm:flex-nowrap md:justify-between shadow-md h-40 md:h-28">
             <Box display="flex" alignItems="center">
               <IconButton
+                alt="boton hamgurguesa"
                 edge="start"
                 type="button"
                 aria-label="open drawer"
                 onClick={sidebarOpenHandler}
               >
-                <HamburgerBtn className="text-white px-2 h-12 w-12" />
+                <HamburgerBtn
+                  alt="boton hamgurguesa"
+                  className="text-white px-2 h-12 w-12"
+                />
 
                 <Link href="/" passHref>
-                  <a className="text-lg font-bold">
-                    <Image
-                      src="/logo_ceiqShop.svg"
-                      width={280}
-                      height={64}
-                      alt="logo"
-                    />
+                  <a
+                    alt="logo-de-ceiq"
+                    aria-describedby="logo-de-ceiq"
+                    className="text-lg font-bold"
+                  >
+                    <LogoCeiq />
                   </a>
                 </Link>
               </IconButton>
@@ -145,11 +148,15 @@ function Layout({ title, description, children }) {
                       Búsqueda por categoría
                     </p>
                     <IconButton
+                      alt="boton cerrar"
                       aria-label="close"
                       onClick={sidebarCloseHandler}
                     >
                       <div className="text-green hover:bg-green hover:rounded-full hover:text-blue">
-                        <ButtonCloseUi className="h-10 w-10 md:h-6 md:w-6" />
+                        <ButtonCloseUi
+                          alt="boton cerrar"
+                          className="h-10 w-10 md:h-6 md:w-6"
+                        />
                       </div>
                     </IconButton>
                   </Box>
@@ -180,6 +187,7 @@ function Layout({ title, description, children }) {
                     <button
                       className="hover:text-green mx-6"
                       type="button"
+                      alt="boton usuario"
                       aria-controls="simple-menu"
                       aria-haspopup="true"
                       onClick={loginClickHandler}
@@ -223,13 +231,19 @@ function Layout({ title, description, children }) {
                 ) : (
                   <Link href="/login" passHref>
                     <a className="pt-4">
-                      <Userbtn className="h-10 w-10 text-cyan" />
+                      <Userbtn
+                        alt="boton usuario"
+                        className="h-10 w-10 text-cyan"
+                      />
                     </a>
                   </Link>
                 )}
 
                 <div className="mt-12">
-                  <ButtonDarkM />
+                  <ButtonDarkM
+                    aria-describedby="boton-modo-oscuro"
+                    alt="boton modo oscuro"
+                  />
                 </div>
               </div>
             </Drawer>
@@ -251,6 +265,8 @@ function Layout({ title, description, children }) {
                   <button
                     className="bg-cyan px-2 py-2 rounded-r-lg"
                     type="submit"
+                    alt="boton buscador"
+                    aria-describedby="boton-buscador"
                     aria-label="search"
                   >
                     <svg
@@ -272,14 +288,20 @@ function Layout({ title, description, children }) {
               {/* ********* darkmode carrito usuario ********* */}
 
               <div className="invisible md:visible order-3 md:order-2">
-                <ButtonDarkM />
+                <ButtonDarkM
+                  aria-describedby="boton-modo-oscuro"
+                  alt="boton modo oscuro"
+                />
               </div>
 
               <div className="order-2 md:order-3">
                 <Link href="/cart" passHref>
                   <a className="p-2 md:visible">
                     <div className="flex">
-                      <CartBtn className="text-white h-6 w-6" />
+                      <CartBtn
+                        alt="boton carrito de compras"
+                        className="text-white h-6 w-6"
+                      />
                       {cart.cartItems.length > 0 && (
                         <span className="ml-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white">
                           {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
@@ -297,6 +319,7 @@ function Layout({ title, description, children }) {
                       data-test="user-button"
                       className="hover:text-green mx-6"
                       type="button"
+                      alt="boton usuario"
                       aria-controls="simple-menu"
                       aria-haspopup="true"
                       onClick={loginClickHandler}
@@ -343,7 +366,10 @@ function Layout({ title, description, children }) {
                 ) : (
                   <Link href="/login" passHref>
                     <a className="p-2 invisible md:visible">
-                      <Userbtn className="text-white h-6 w-6" />
+                      <Userbtn
+                        alt="boton usuario"
+                        className="text-white h-6 w-6"
+                      />
                     </a>
                   </Link>
                 )}

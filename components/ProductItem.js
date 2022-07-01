@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { Rating } from "@mui/material";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function ProductItem({ product, addToCartHandler }) {
@@ -10,10 +11,17 @@ export default function ProductItem({ product, addToCartHandler }) {
           <div>
             <Link href={`/product/${product.slug}`} passHref>
               <a>
-                <img
+                <Image
                   src={product.image}
+                  placeholder="blur"
+                  blurDataURL={product.image}
+                  quality={50}
                   alt={product.name}
+                  width={400}
+                  height={400}
                   className="rounded-t-lg shadow"
+                  layout="responsive"
+                  objectFit="contain"
                 />
               </a>
             </Link>
@@ -31,14 +39,14 @@ export default function ProductItem({ product, addToCartHandler }) {
                 <li className="flex items-center">
                   <Rating value={product.rating} readOnly></Rating>
                   <Link href="#reviews" passHref>
-                    <p className="text-cyan ml-4 font-bold">
+                    <p className="text-sky-500 ml-4 font-bold">
                       {product.numReviews} revisiones
                     </p>
                   </Link>
                 </li>
               </a>
             </Link>
-            <p className="mb-2 text-gray-400">{product.brand}</p>
+            <p className="mb-2 text-gray-600">{product.brand}</p>
             <p className="text-3xl font-semibold h-12">
               <span className="font-normal text-base">US$</span>
               {product.price}

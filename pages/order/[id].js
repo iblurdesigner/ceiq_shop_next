@@ -13,7 +13,7 @@ import { getError } from "../../utils/error";
 import { CircularProgress } from "@mui/material";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 
-import getBlockchain from "../ethereum.js";
+import getBlockchain from "../../components/ethereum.js";
 import StoreEth from "../../utils/crypto/StoreEth";
 import PagoPlux from "../../components/PagoPlux";
 
@@ -298,6 +298,9 @@ function Order({ params }) {
                                     <Image
                                       src={item.image}
                                       alt={item.name}
+                                      placeholder="blur"
+                                      blurDataURL={item.image}
+                                      quality={50}
                                       width={50}
                                       height={50}
                                     ></Image>

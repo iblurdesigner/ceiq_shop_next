@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useTheme } from "next-themes";
 
-export default function ButtonDarkM() {
+export default function ButtonDarkM({ alt }) {
   const { systemTheme, theme, setTheme } = useTheme();
 
   // esto es para que el color del icono cambie correctamente
@@ -20,13 +20,19 @@ export default function ButtonDarkM() {
 
     if (currentTheme === "dark") {
       return (
-        <button data-test="darkmode-button" onClick={() => setTheme("light")}>
+        <button
+          alt="boton modo oscuro"
+          aria-labelledby="boton modo oscuro"
+          aria-describedby="boton-modo-oscuro"
+          data-test="darkmode-button"
+          onClick={() => setTheme("light")}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-10 w-10 md:h-5 md:w-5 text-yellow"
             viewBox="0 0 20 20"
             fill="currentColor"
-            alt="modo oscuro"
+            alt={`${alt}`}
           >
             <path
               fillRule="evenodd"
