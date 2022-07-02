@@ -59,9 +59,5 @@ export default function ButtonDarkM({ alt }) {
     }
   };
 
-  // const darkModeChangeHandler = () => {
-  //   setTheme(theme === 'dark' ? 'light' : 'dark');
-  // };
-
   return <>{renderThemeChanger()}</>;
 }

@@ -6,11 +6,13 @@ import Layout from "../components/Layout";
 import { Store } from "../utils/Store";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
-
 import { Controller, useForm } from "react-hook-form";
 import { useSnackbar } from "notistack";
 import { getError } from "../utils/error";
 import Head from "next/head";
+export const config = {
+  unstable_runtimeJS: false,
+};
 
 export default function Login({ description }) {
   const {

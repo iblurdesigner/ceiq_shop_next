@@ -10,7 +10,9 @@ import axios from "axios";
 import Head from "next/head";
 
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
-
+export const config = {
+  unstable_runtimeJS: false,
+};
 function CartScreen({ description }) {
   const router = useRouter();
   const { state, dispatch } = useContext(Store);

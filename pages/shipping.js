@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import { Controller, useForm } from "react-hook-form";
 import CheckoutWizard from "../components/CheckoutWizard";
-// import CheckoutWizard from '../components/CheckoutWizard';
 
 export default function Shipping() {
   const {

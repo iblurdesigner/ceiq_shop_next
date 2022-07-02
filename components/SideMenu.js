@@ -1,6 +1,5 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { Store } from "../utils/Store";
 import { getError } from "../utils/error";
 import { useSnackbar } from "notistack";
 import axios from "axios";
@@ -14,12 +13,11 @@ import {
   ListItemText,
 } from "@mui/material";
 import Link from "next/link";
-import UserLogin from "./UserLogin";
 const ButtonCloseUi = dynamic(() => import("./buttons/ButtonCloseUi"), {
   suspense: true,
   ssr: false,
 });
-const HamburgerBtn = dynamic(() => import("./buttons/hamburgerBtn"), {
+const HamburgerBtn = dynamic(() => import("./buttons/HamburgerBtn"), {
   suspense: true,
   ssr: false,
 });
@@ -32,10 +30,12 @@ const ButtonDarkM = dynamic(() => import("../components/buttons/ButtonDarkM"), {
   ssr: false,
 });
 
+export const config = {
+  unstable_runtimeJS: false,
+};
+
 export default function SideMenu() {
   const [sidbarVisible, setSidebarVisible] = useState(false);
-  const { state, dispatch } = useContext(Store);
-  const { userInfo } = state;
 
   const [categories, setCategories] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
@@ -126,20 +126,15 @@ export default function SideMenu() {
         </List>
         <Divider light />
         <div className="p-2 flex flex-col justify-around items-center">
-          <UserLogin className="text-blue" props={(dispatch, userInfo)} />
-
+          {/* <UserLogin className="text-blue" props={(dispatch, userInfo)} />
           <div className="mt-12">
-            <ButtonDarkM
-              aria-describedby="boton-modo-oscuro"
-              alt="boton modo oscuro"
-            />
-          </div>
+          </div> */}
+          <ButtonDarkM
+            aria-describedby="boton-modo-oscuro"
+            alt="boton modo oscuro"
+          />
         </div>
       </Drawer>
     </>
   );
 }
-
-export const config = {
-  unstable_runtimeJS: false,
-};

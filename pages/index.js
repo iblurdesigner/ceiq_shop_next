@@ -17,7 +17,6 @@ const CarouselC = dynamic(() => import("../components/CarouselC"), {
 });
 
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
-
 function Home({ title, description, ...props }) {
   // Ya no necesitaremos pedir desde la base de datos estatica si no mediante las props
   const { topRatedProducts, featuredProducts } = props;
@@ -78,7 +77,7 @@ export async function getServerSideProps() {
     "-reviews"
   )
     .lean()
-    .limit(3);
+    .limit(5);
   const topRatedProductsDocs = await Product.find({}, "-reviews")
     .lean()
     .sort({
@@ -95,3 +94,7 @@ export async function getServerSideProps() {
 }
 
 export default dynamic(() => Promise.resolve(Home), { ssr: false });
+
+// export const config = {
+//   unstable_runtimeJS: false,
+// };
