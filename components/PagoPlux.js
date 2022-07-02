@@ -1,7 +1,12 @@
-import React from "react";
-// import $ from 'jquery';
+import React, { useEffect } from "react";
+import jQuery from "jquery";
 
 export default function PagoPlux({ className }) {
+  const $ = jQuery;
+  useEffect(() => {
+    console.log($("#ButtonPaybox"));
+  }, []);
+
   // const data = {
   //   /* Requerido. Email de la cuenta PagoPlux del Establecimiento o Id/Class del elemento html que posee el valor */
 

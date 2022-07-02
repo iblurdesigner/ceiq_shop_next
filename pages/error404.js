@@ -1,9 +1,9 @@
-import React from "react";
+import $ from "jquery";
+import { useEffect } from "react";
 
 export default function error404() {
-  return (
-    <>
-      <div id="prueba">Lo sentimos esta página no existe</div>
-    </>
-  );
+  useEffect(() => {
+    console.log($("#prueba"));
+  }, []);
+  return <div id="prueba">error404</div>;
 }

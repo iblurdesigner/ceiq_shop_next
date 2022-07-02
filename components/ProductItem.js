@@ -36,14 +36,16 @@ export default function ProductItem({ product, addToCartHandler }) {
                 >
                   {product.name}
                 </h2>
-                <li className="flex items-center">
-                  <Rating value={product.rating} readOnly></Rating>
-                  <Link href="#reviews" passHref>
-                    <p className="text-sky-500 ml-4 font-bold">
-                      {product.numReviews} revisiones
-                    </p>
-                  </Link>
-                </li>
+                <ul>
+                  <li className="flex items-center">
+                    <Rating value={product.rating} readOnly></Rating>
+                    <Link href="#reviews" passHref>
+                      <p className="text-sky-500 ml-4 font-bold">
+                        {product.numReviews} revisiones
+                      </p>
+                    </Link>
+                  </li>
+                </ul>
               </a>
             </Link>
             <p className="mb-2 text-gray-600">{product.brand}</p>

@@ -1,22 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useContext } from "react";
+import React, { useContext, Suspense } from "react";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 import Layout from "../components/Layout";
-import ProductItem from "../components/ProductItem";
-// import data from '../utils/data';
 import axios from "axios";
 import db from "../utils/db";
 import Product from "../models/Product";
-// import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
 import { Store } from "../utils/Store";
-import Script from "next/script";
-import dynamic from "next/dynamic";
 import Head from "next/head";
-import CarouselC from "../components/CarouselC";
+const ProductItem = dynamic(() => import("../components/ProductItem"), {
+  suspense: true,
+});
+const CarouselC = dynamic(() => import("../components/CarouselC"), {
+  suspense: true,
+  ssr: false,
+});
 
-// const JQueryPPlux = dynamic(() => import('jquery'), {
-//   ssr: false,
-// });
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
 
 function Home({ title, description, ...props }) {
@@ -45,26 +44,28 @@ function Home({ title, description, ...props }) {
       <Head>
         <title>{title ? title + " - CEIQ Shop" : "CEIQ Shop"}</title>
         {description && <meta name="description" content={description} />}
-        {/* <JQueryPPlux /> */}
       </Head>
       <Layout title="Pagina de inicio">
-        <Script src="https://sandbox-paybox.pagoplux.com/paybox/index.js" />
+        <Suspense fallback={`Loading...`}>
+          <CarouselC featuredProducts={featuredProducts} />
 
-        <CarouselC featuredProducts={featuredProducts} />
+          <h1 id="productos-title" className="text-2xl font-semibold my-6">
+            Productos más vendidos
+          </h1>
 
-        <h1 className="text-2xl font-semibold my-6">Productos más vendidos</h1>
-        <div
-          data-test="div-productitem"
-          className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4"
-        >
-          {topRatedProducts.map((product) => (
-            <ProductItem
-              product={product}
-              key={product.slug}
-              addToCartHandler={addToCartHandler}
-            ></ProductItem>
-          ))}
-        </div>
+          <div
+            data-test="div-productitem"
+            className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4"
+          >
+            {topRatedProducts.map((product) => (
+              <ProductItem
+                product={product}
+                key={product.slug}
+                addToCartHandler={addToCartHandler}
+              ></ProductItem>
+            ))}
+          </div>
+        </Suspense>
       </Layout>
     </>
   );
@@ -93,5 +94,4 @@ export async function getServerSideProps() {
   };
 }
 
-// esto es para evitar el error de Hydration
 export default dynamic(() => Promise.resolve(Home), { ssr: false });

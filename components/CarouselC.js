@@ -2,9 +2,8 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Carousel from "react-material-ui-carousel";
-import dynamic from "next/dynamic";
 
-function CarouselC({ featuredProducts }) {
+export default function CarouselC({ featuredProducts }) {
   return (
     <Carousel animation="slide" className="rounded-lg">
       {featuredProducts.map((product) => (
@@ -14,7 +13,7 @@ function CarouselC({ featuredProducts }) {
               src={product.featuredImage}
               placeholder="blur"
               blurDataURL={product.featuredImage}
-              quality={50}
+              quality={25}
               alt={product.name}
               width={1500}
               height={400}
@@ -25,6 +24,3 @@ function CarouselC({ featuredProducts }) {
     </Carousel>
   );
 }
-
-// esto es para evitar el error de Hydration
-export default dynamic(() => Promise.resolve(CarouselC), { ssr: false });
