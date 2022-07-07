@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 import Layout from "../components/Layout";
 import db from "../utils/db";
 import Product from "../models/Product";
-import ProductItem from "../components/ProductItem";
 import { Store } from "../utils/Store";
 import axios from "axios";
 import { Box, MenuItem, Select, Rating, Pagination } from "@mui/material";
 import ButtonCloseUi from "../components/buttons/ButtonCloseUi";
+import ProductItem from "../components/ProductItem/ProductItem";
 
 const PAGE_SIZE = 3;
 
