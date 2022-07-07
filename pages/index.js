@@ -8,16 +8,15 @@ import db from "../utils/db";
 import Product from "../models/Product";
 import { Store } from "../utils/Store";
 import Head from "next/head";
-const ProductItem = dynamic(() => import("../components/ProductItem"), {
-  suspense: true,
-});
+import ProductItem from "../components/ProductItem/ProductItem";
+
 const CarouselC = dynamic(() => import("../components/CarouselC"), {
   suspense: true,
   ssr: false,
 });
 
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
-function Home({ title, description, ...props }) {
+export default function Home({ title, description, ...props }) {
   // Ya no necesitaremos pedir desde la base de datos estatica si no mediante las props
   const { topRatedProducts, featuredProducts } = props;
   const router = useRouter();
@@ -92,8 +91,6 @@ export async function getServerSideProps() {
     },
   };
 }
-
-export default dynamic(() => Promise.resolve(Home), { ssr: false });
 
 // export const config = {
 //   unstable_runtimeJS: false,
