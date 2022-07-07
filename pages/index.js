@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useContext, Suspense } from "react";
-import dynamic from "next/dynamic";
+import React, { useContext } from "react";
 import { useRouter } from "next/router";
 import Layout from "../components/Layout";
 import axios from "axios";
@@ -9,11 +8,7 @@ import Product from "../models/Product";
 import { Store } from "../utils/Store";
 import Head from "next/head";
 import ProductItem from "../components/ProductItem/ProductItem";
-
-const CarouselC = dynamic(() => import("../components/CarouselC"), {
-  suspense: true,
-  ssr: false,
-});
+import CarouselC from "../components/CarouselC/CarouselC";
 
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
 export default function Home({ title, description, ...props }) {
@@ -44,26 +39,24 @@ export default function Home({ title, description, ...props }) {
         {description && <meta name="description" content={description} />}
       </Head>
       <Layout title="Pagina de inicio">
-        <Suspense fallback={`Loading...`}>
-          <CarouselC featuredProducts={featuredProducts} />
+        <CarouselC featuredProducts={featuredProducts} />
 
-          <h1 id="productos-title" className="text-2xl font-semibold my-6">
-            Productos más vendidos
-          </h1>
+        <h1 id="productos-title" className="text-2xl font-semibold my-6">
+          Productos más vendidos
+        </h1>
 
-          <div
-            data-test="div-productitem"
-            className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4"
-          >
-            {topRatedProducts.map((product) => (
-              <ProductItem
-                product={product}
-                key={product.slug}
-                addToCartHandler={addToCartHandler}
-              ></ProductItem>
-            ))}
-          </div>
-        </Suspense>
+        <div
+          data-test="div-productitem"
+          className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4"
+        >
+          {topRatedProducts.map((product) => (
+            <ProductItem
+              product={product}
+              key={product.slug}
+              addToCartHandler={addToCartHandler}
+            ></ProductItem>
+          ))}
+        </div>
       </Layout>
     </>
   );
