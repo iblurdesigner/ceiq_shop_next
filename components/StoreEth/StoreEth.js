@@ -40,6 +40,10 @@ function StoreEth({ paymentProcessor, dai, className }) {
     console.log(response2);
     // console.log(response2.data.url);
   };
+  // crypto
+  if (typeof window.ethereum === "undefined") {
+    return <p>Necesita instalar la última versión de Metamask</p>;
+  }
 
   return (
     <button

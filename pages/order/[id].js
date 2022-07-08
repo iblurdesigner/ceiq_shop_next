@@ -20,8 +20,8 @@ import { CircularProgress } from "@mui/material";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 
 import getBlockchain from "../../components/ethereum.js";
-import StoreEth from "../../components/StoreEth/StoreEth";
 import PagoPlux from "../../components/PagoPlux";
+import StoreEth from "../../components/StoreEth/StoreEth";
 
 function reducer(state, action) {
   switch (action.type) {
