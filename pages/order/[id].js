@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useReducer, useState } from "react";
+import React, {
+  Suspense,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import { Store } from "../../utils/Store";
@@ -14,7 +20,7 @@ import { CircularProgress } from "@mui/material";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 
 import getBlockchain from "../../components/ethereum.js";
-import StoreEth from "../../utils/crypto/StoreEth";
+import StoreEth from "../../components/StoreEth/StoreEth";
 import PagoPlux from "../../components/PagoPlux";
 
 function reducer(state, action) {
@@ -155,11 +161,6 @@ function Order({ params }) {
       .then((orderID) => {
         return orderID;
       });
-  }
-
-  // crypto
-  if (typeof window.ethereum === "undefined") {
-    return <p>Necesita instalar la última versión de Metamask</p>;
   }
 
   // para una vez aprobado
@@ -378,14 +379,16 @@ function Order({ params }) {
                             className="mx-5"
                           ></PayPalButtons>
 
-                          <StoreEth
-                            paymentProcessor={paymentProcessor}
-                            dai={dai}
-                            className="w-full text-lg mt-8 font-bold"
-                            createOrder={createOrder}
-                            onApprove={onApprove}
-                            onError={onError}
-                          />
+                          <Suspense fallback={`Cargando...`}>
+                            <StoreEth
+                              paymentProcessor={paymentProcessor}
+                              dai={dai}
+                              className="w-full text-lg mt-8 font-bold"
+                              createOrder={createOrder}
+                              onApprove={onApprove}
+                              onError={onError}
+                            />
+                          </Suspense>
 
                           <PagoPlux
                             createOrder={createOrder}

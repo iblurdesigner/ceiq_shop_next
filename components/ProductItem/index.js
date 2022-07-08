@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import useNearScreen from "hooks/useNearScreen";
+import useNearScreen from "../../hooks/useNearScreen";
 import dynamic from "next/dynamic";
 
 const ProductItem = dynamic(() => import("./ProductItem"), { suspense: true });
