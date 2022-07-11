@@ -1,29 +1,29 @@
 import React, {
   Suspense,
+  useState,
   useContext,
   useEffect,
   useReducer,
-  useState,
 } from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import { Store } from "../../utils/Store";
-
 import { useSnackbar } from "notistack";
 import Link from "next/link";
 import Image from "next/image";
-
 import dynamic from "next/dynamic";
 import axios from "axios";
 import { getError } from "../../utils/error";
 import { CircularProgress } from "@mui/material";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
-
 import getBlockchain from "../../components/ethereum.js";
 import PagoPlux from "../../components/PagoPlux";
-import StoreEth from "../../components/StoreEth/StoreEth";
 import Head from "next/head";
 import jQuery from "jquery";
+
+const StoreEth = dynamic(() => import("../../utils/crypto/StoreEth"), {
+  suspense: true,
+});
 
 function reducer(state, action) {
   switch (action.type) {
@@ -67,6 +67,7 @@ function Order({ params }) {
   const { state } = useContext(Store);
   const { userInfo } = state;
   const $ = jQuery;
+
   // crypto
   const [paymentProcessor, setPaymentProcessor] = useState(undefined);
   const [dai, setDai] = useState(undefined);
@@ -146,6 +147,7 @@ function Order({ params }) {
       setDai(dai);
     };
     init();
+
     console.log($("esta activo el jquery"));
   }, [order, successPay, successDeliver]);
 

@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useContext } from "react";
+import React, { startTransition, useContext } from "react";
 import { useRouter } from "next/router";
 import Layout from "../components/Layout";
 import axios from "axios";
@@ -8,7 +8,7 @@ import Product from "../models/Product";
 import { Store } from "../utils/Store";
 import Head from "next/head";
 import ProductItem from "../components/ProductItem/ProductItem";
-import CarouselC from "../components/CarouselC/CarouselC";
+import CarouselC from "../components/CarouselC";
 
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
 export default function Home({ title, description, ...props }) {
@@ -18,18 +18,24 @@ export default function Home({ title, description, ...props }) {
   const { state, dispatch } = useContext(Store);
 
   const addToCartHandler = async (product) => {
-    // esto es para sumar un item adicional si ya estaba en el carrito
-    const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
-    const quantity = existItem ? existItem.quantity + 1 : 1;
+    startTransition(async () => {
+      // esto es para sumar un item adicional si ya estaba en el carrito
+      const existItem = state.cart.cartItems.find(
+        (x) => x.slug === product.slug
+      );
+      const quantity = existItem ? existItem.quantity + 1 : 1;
 
-    const { data } = await axios.get(`/api/products/${product._id}`);
-    if (data.countInStock < quantity) {
-      window.alert("Lo sentimos. La cantidad que solicita sobrepasa el stock");
-      return;
-    }
+      const { data } = await axios.get(`/api/products/${product._id}`);
+      if (data.countInStock < quantity) {
+        window.alert(
+          "Lo sentimos. La cantidad que solicita sobrepasa el stock"
+        );
+        return;
+      }
 
-    dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity } });
-    router.push("/cart");
+      dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity } });
+      router.push("/cart");
+    });
   };
 
   return (
