@@ -1,7 +1,6 @@
 import { Step, StepLabel, Stepper } from "@mui/material";
 import React from "react";
 
-// habia que renombrar el archivo con letra mayuscula al inicio
 export default function CheckoutWizard({ activeStep = 0 }) {
   return (
     <Stepper activeStep={activeStep} alternativeLabel>
