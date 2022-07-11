@@ -22,6 +22,8 @@ import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import getBlockchain from "../../components/ethereum.js";
 import PagoPlux from "../../components/PagoPlux";
 import StoreEth from "../../components/StoreEth/StoreEth";
+import Head from "next/head";
+import jQuery from "jquery";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -64,7 +66,7 @@ function Order({ params }) {
   const router = useRouter();
   const { state } = useContext(Store);
   const { userInfo } = state;
-
+  const $ = jQuery;
   // crypto
   const [paymentProcessor, setPaymentProcessor] = useState(undefined);
   const [dai, setDai] = useState(undefined);
@@ -144,6 +146,7 @@ function Order({ params }) {
       setDai(dai);
     };
     init();
+    console.log($("esta activo el jquery"));
   }, [order, successPay, successDeliver]);
 
   const { enqueueSnackbar } = useSnackbar();
@@ -186,6 +189,40 @@ function Order({ params }) {
     });
   }
 
+  const onAuthorize = function (actions, response) {
+    // La variable response posee un Objeto con la respuesta de PagoPlux.
+    if (response.status === "succeeded") {
+      // Si el pago fue exitoso se ejecutará el código contenido en este if.
+      // VALORES OBTENIDOS EN CASO DE ÉXITO, PARA VALIDAR TRANSACCIONES
+      // response.detail.token;
+      // response.detail.amount;
+      // response.detail.fecha;
+
+      return actions.order.capture().then(async function (details) {
+        try {
+          dispatch({ type: "PAY_REQUEST" });
+          const { data } = await axios.put(
+            `/api/orders/${order._id}/pay`,
+            details,
+            {
+              headers: { authorization: `Bearer ${userInfo.token}` },
+            }
+          );
+          dispatch({ type: "PAY_SUCCESS", payload: data });
+          enqueueSnackbar("Transferencia exitosa! La orden ha sido pagada!", {
+            variant: "success",
+          });
+          return (
+            response.detail.token, response.detail.amount, response.detail.fecha
+          );
+        } catch (err) {
+          dispatch({ type: "PAY_FAIL", payload: getError(err) });
+          enqueueSnackbar(getError(err), { variant: "error" });
+        }
+      });
+    }
+  };
+
   function onError(err) {
     enqueueSnackbar(getError(err), { variant: "error" });
   }
@@ -211,226 +248,234 @@ function Order({ params }) {
   }
 
   return (
-    <Layout title={`Orden ${orderId}`}>
-      <h1 className="text-4xl py-4">
-        Orden
-        <p className="text-xl text-gray-400 ">{orderId}</p>
-      </h1>
+    <>
+      <Head>
+        <script src="https://sandbox-paybox.pagoplux.com/paybox/index.js"></script>
+      </Head>
 
-      {loading ? (
-        <CircularProgress />
-      ) : error ? (
-        <p>{error}</p>
-      ) : (
-        <>
-          <div className="sm:grid md:flex lg:grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
-            <div className="col-span-3">
-              <div className="card p-6">
-                <ul>
-                  <li>
-                    <h2 className="text-2xl mb-2 text-gray-300 font-bold">
-                      Dirección de envío
-                    </h2>
-                  </li>
-                  <li>
-                    {shippingAddress.fullName}, {shippingAddress.address},{" "}
-                    {shippingAddress.city}, {shippingAddress.postalCode},{" "}
-                    {shippingAddress.country}
-                    &nbsp;
-                    {shippingAddress.location && (
-                      <Link
-                        variant="button"
-                        target="_new"
-                        href={`https://maps.google.com?q=${shippingAddress.location.lat},${shippingAddress.location.lng}`}
-                        passHref
-                      >
-                        <a className="ml-2 text-cyan text-xl font-medium ">
-                          Localizar en el mapa
-                        </a>
-                      </Link>
-                    )}
-                  </li>
-                  <li>
-                    Estado:{" "}
-                    {isDelivered
-                      ? `entregado el ${deliveredAt}`
-                      : "Sin entregar"}
-                  </li>
-                </ul>
-              </div>
-              <div className="card p-6">
-                <ul>
-                  <li>
-                    <h2 className="text-2xl mb-2 font-bold text-gray-300">
-                      Método de Pago
-                    </h2>
-                  </li>
-                  <li>{paymentMethod}</li>
-                  <li>
-                    Estado: {isPaid ? `pagado en ${paidAt}` : "Falta el pago"}
-                  </li>
-                </ul>
-              </div>
-              <div className="card p-6">
-                <ul>
-                  <li>
-                    <h2 className="text-2xl font-bold mb-8">Ordenes</h2>
-                  </li>
-                  <li>
-                    <div>
-                      <table className="table-fixed tableInfo">
-                        <thead>
-                          <tr>
-                            <th className="py-2">Imagen</th>
-                            <th className="py-2">Nombre</th>
-                            <th className="py-2">Cantidad</th>
-                            <th className="py-2">Precio</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {orderItems.map((item) => (
-                            <tr
-                              key={item._id}
-                              className="divide-y divide-sky-300"
-                            >
-                              <td className="py-6">
-                                <Link href={`/product/${item.slug}`} passHref>
-                                  <a>
-                                    <Image
-                                      src={item.image}
-                                      alt={item.name}
-                                      placeholder="blur"
-                                      blurDataURL={item.image}
-                                      quality={50}
-                                      width={50}
-                                      height={50}
-                                    ></Image>
-                                  </a>
-                                </Link>
-                              </td>
-                              <td>
-                                <Link href={`/product/${item.slug}`} passHref>
-                                  <a>
-                                    <p className="text-sky-600">{item.name}</p>
-                                  </a>
-                                </Link>
-                              </td>
-                              <td>
-                                <h2>{item.quantity}</h2>
-                              </td>
-                              <td>
-                                <h2>${item.price}</h2>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
+      <Layout title={`Orden ${orderId}`}>
+        <h1 className="text-4xl py-4">
+          Orden
+          <p className="text-xl text-gray-400 ">{orderId}</p>
+        </h1>
 
-            <>
-              <div className="card col-span-2 md:col-auto h-min">
-                <div className="grid grid-flow-row-dense grid-cols-3 p-5 gap-y-4">
-                  <h2 className="dark:text-yellow col-span-3 font-bold text-2xl">
-                    Resumen del pedido
-                  </h2>
-                  <p className="col-span-2 dark:bg-transparent bg-gray-100">
-                    Items:
-                  </p>
-                  <p className="text-right dark:bg-transparent bg-sky-50">
-                    ${itemsPrice}
-                  </p>
-                  <p className="col-span-2 dark:bg-transparent bg-gray-100">
-                    Impuesto:
-                  </p>
-                  <p className="text-right dark:bg-transparent bg-sky-50">
-                    ${taxPrice}
-                  </p>
-
-                  <p className="col-span-2 dark:bg-transparent bg-gray-100">
-                    Envío:
-                  </p>
-                  <p className="text-right dark:bg-transparent bg-sky-50">
-                    ${shippingPrice}
-                  </p>
-
-                  <p className="col-span-2 dark:bg-transparent bg-gray-100 text-lg font-bold">
-                    Total:
-                  </p>
-                  <p className="text-right dark:bg-transparent bg-sky-50 text-lg font-bold">
-                    ${totalPrice}
-                  </p>
+        {loading ? (
+          <CircularProgress />
+        ) : error ? (
+          <p>{error}</p>
+        ) : (
+          <>
+            <div className="sm:grid md:flex lg:grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 min-h-screen">
+              <div className="col-span-3">
+                <div className="card p-6">
+                  <ul>
+                    <li>
+                      <h2 className="text-2xl mb-2 text-gray-300 font-bold">
+                        Dirección de envío
+                      </h2>
+                    </li>
+                    <li>
+                      {shippingAddress.fullName}, {shippingAddress.address},{" "}
+                      {shippingAddress.city}, {shippingAddress.postalCode},{" "}
+                      {shippingAddress.country}
+                      &nbsp;
+                      {shippingAddress.location && (
+                        <Link
+                          variant="button"
+                          target="_new"
+                          href={`https://maps.google.com?q=${shippingAddress.location.lat},${shippingAddress.location.lng}`}
+                          passHref
+                        >
+                          <a className="ml-2 text-cyan text-xl font-medium ">
+                            Localizar en el mapa
+                          </a>
+                        </Link>
+                      )}
+                    </li>
+                    <li>
+                      Estado:{" "}
+                      {isDelivered
+                        ? `entregado el ${deliveredAt}`
+                        : "Sin entregar"}
+                    </li>
+                  </ul>
                 </div>
-                {!isPaid && (
-                  <li>
-                    {isPending ? (
-                      <CircularProgress />
-                    ) : (
-                      // botones PayPal - cryto
-                      <>
-                        <div>
-                          <PayPalButtons
-                            createOrder={createOrder}
-                            onApprove={onApprove}
-                            onError={onError}
-                            className="mx-5"
-                          ></PayPalButtons>
+                <div className="card p-6">
+                  <ul>
+                    <li>
+                      <h2 className="text-2xl mb-2 font-bold text-gray-300">
+                        Método de Pago
+                      </h2>
+                    </li>
+                    <li>{paymentMethod}</li>
+                    <li>
+                      Estado: {isPaid ? `pagado en ${paidAt}` : "Falta el pago"}
+                    </li>
+                  </ul>
+                </div>
+                <div className="card p-6">
+                  <ul>
+                    <li>
+                      <h2 className="text-2xl font-bold mb-8">Ordenes</h2>
+                    </li>
+                    <li>
+                      <div>
+                        <table className="table-fixed tableInfo">
+                          <thead>
+                            <tr>
+                              <th className="py-2">Imagen</th>
+                              <th className="py-2">Nombre</th>
+                              <th className="py-2">Cantidad</th>
+                              <th className="py-2">Precio</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {orderItems.map((item) => (
+                              <tr
+                                key={item._id}
+                                className="divide-y divide-sky-300"
+                              >
+                                <td className="py-6">
+                                  <Link href={`/product/${item.slug}`} passHref>
+                                    <a>
+                                      <Image
+                                        src={item.image}
+                                        alt={item.name}
+                                        placeholder="blur"
+                                        blurDataURL={item.image}
+                                        quality={50}
+                                        width={50}
+                                        height={50}
+                                      ></Image>
+                                    </a>
+                                  </Link>
+                                </td>
+                                <td>
+                                  <Link href={`/product/${item.slug}`} passHref>
+                                    <a>
+                                      <p className="text-sky-600">
+                                        {item.name}
+                                      </p>
+                                    </a>
+                                  </Link>
+                                </td>
+                                <td>
+                                  <h2>{item.quantity}</h2>
+                                </td>
+                                <td>
+                                  <h2>${item.price}</h2>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
 
-                          <Suspense fallback={`Cargando...`}>
-                            <StoreEth
-                              paymentProcessor={paymentProcessor}
-                              dai={dai}
-                              className="w-full text-lg mt-8 font-bold"
+              <>
+                <div className="card col-span-2 md:col-auto h-min">
+                  <div className="grid grid-flow-row-dense grid-cols-3 p-5 gap-y-4">
+                    <h2 className="dark:text-yellow col-span-3 font-bold text-2xl">
+                      Resumen del pedido
+                    </h2>
+                    <p className="col-span-2 dark:bg-transparent bg-gray-100">
+                      Items:
+                    </p>
+                    <p className="text-right dark:bg-transparent bg-sky-50">
+                      ${itemsPrice}
+                    </p>
+                    <p className="col-span-2 dark:bg-transparent bg-gray-100">
+                      Impuesto:
+                    </p>
+                    <p className="text-right dark:bg-transparent bg-sky-50">
+                      ${taxPrice}
+                    </p>
+
+                    <p className="col-span-2 dark:bg-transparent bg-gray-100">
+                      Envío:
+                    </p>
+                    <p className="text-right dark:bg-transparent bg-sky-50">
+                      ${shippingPrice}
+                    </p>
+
+                    <p className="col-span-2 dark:bg-transparent bg-gray-100 text-lg font-bold">
+                      Total:
+                    </p>
+                    <p className="text-right dark:bg-transparent bg-sky-50 text-lg font-bold">
+                      ${totalPrice}
+                    </p>
+                  </div>
+                  {!isPaid && (
+                    <li>
+                      {isPending ? (
+                        <CircularProgress />
+                      ) : (
+                        // botones PayPal - cryto
+                        <>
+                          <div>
+                            <PayPalButtons
                               createOrder={createOrder}
                               onApprove={onApprove}
                               onError={onError}
+                              className="mx-5"
+                            ></PayPalButtons>
+
+                            <Suspense fallback={`Cargando...`}>
+                              <StoreEth
+                                paymentProcessor={paymentProcessor}
+                                dai={dai}
+                                className="w-full text-lg mt-8 font-bold"
+                                createOrder={createOrder}
+                                onApprove={onApprove}
+                                onError={onError}
+                              />
+                            </Suspense>
+
+                            <PagoPlux
+                              createOrder={createOrder}
+                              onApprove={onAuthorize}
+                              onError={onError}
+                              className="text-lg mt-8 font-bold w-full"
                             />
-                          </Suspense>
+                          </div>
+                        </>
+                      )}
+                    </li>
+                  )}
+                  {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                    <li>
+                      {loadingDeliver && <CircularProgress />}
+                      <button
+                        className="bg-green font-semibold text-lg rounded-full px-3 py-1 shadow-xl w-full hover:bg-yellow"
+                        onClick={deliverOrderHandler}
+                      >
+                        Entregar órden
+                      </button>
+                    </li>
+                  )}
+                </div>
+              </>
+            </div>
 
-                          <PagoPlux
-                            createOrder={createOrder}
-                            onApprove={onApprove}
-                            onError={onError}
-                            className="text-lg mt-8 font-bold w-full"
-                          />
-                        </div>
-                      </>
-                    )}
-                  </li>
-                )}
-                {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
-                  <li>
-                    {loadingDeliver && <CircularProgress />}
-                    <button
-                      className="bg-green font-semibold text-lg rounded-full px-3 py-1 shadow-xl w-full hover:bg-yellow"
-                      onClick={deliverOrderHandler}
-                    >
-                      Entregar órden
-                    </button>
-                  </li>
-                )}
-              </div>
-            </>
-          </div>
+            {/* clases con JSX */}
+            <style jsx>
+              {`
+                .tableInfo {
+                  width: -webkit-fill-available;
+                }
 
-          {/* clases con JSX */}
-          <style jsx>
-            {`
-              .tableInfo {
-                width: -webkit-fill-available;
-              }
-
-              th {
-                text-align: initial;
-              }
-            `}
-          </style>
-        </>
-      )}
-    </Layout>
+                th {
+                  text-align: initial;
+                }
+              `}
+            </style>
+          </>
+        )}
+      </Layout>
+    </>
   );
 }
 
