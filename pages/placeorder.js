@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import CheckoutWizard from "../components/CheckoutWizard";
 import Layout from "../components/Layout";
+import CheckoutWizard from "../components/CheckoutWizard";
 import { Store } from "../utils/Store";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
