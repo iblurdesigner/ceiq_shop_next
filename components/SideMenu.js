@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
+// import dynamic from 'next/dynamic';
 import { getError } from "../utils/error";
 import { useSnackbar } from "notistack";
 import axios from "axios";
@@ -13,22 +13,9 @@ import {
   ListItemText,
 } from "@mui/material";
 import Link from "next/link";
-const ButtonCloseUi = dynamic(() => import("./buttons/ButtonCloseUi"), {
-  suspense: true,
-  ssr: false,
-});
-const HamburgerBtn = dynamic(() => import("./buttons/HamburgerBtn"), {
-  suspense: true,
-  ssr: false,
-});
-const LogoCeiq = dynamic(() => import("./LogoCeiq"), {
-  suspense: true,
-  ssr: false,
-});
-const ButtonDarkM = dynamic(() => import("../components/buttons/ButtonDarkM"), {
-  suspense: true,
-  ssr: false,
-});
+import ButtonCloseUi from "./buttons/ButtonCloseUi";
+import HamburgerBtn from "./buttons/HamburgerBtn";
+import ButtonDarkM from "./buttons/ButtonDarkM";
 
 export const config = {
   unstable_runtimeJS: false,
@@ -74,16 +61,6 @@ export default function SideMenu() {
             alt="boton hamgurguesa"
             className="text-white px-2 h-12 w-12"
           />
-
-          <Link href="/" passHref>
-            <a
-              alt="logo-de-ceiq"
-              aria-describedby="logo-de-ceiq"
-              className="text-lg font-bold"
-            >
-              <LogoCeiq />
-            </a>
-          </Link>
         </IconButton>
       </Box>
 
@@ -126,9 +103,6 @@ export default function SideMenu() {
         </List>
         <Divider light />
         <div className="p-2 flex flex-col justify-around items-center">
-          {/* <UserLogin className="text-blue" props={(dispatch, userInfo)} />
-          <div className="mt-12">
-          </div> */}
           <ButtonDarkM
             aria-describedby="boton-modo-oscuro"
             alt="boton modo oscuro"

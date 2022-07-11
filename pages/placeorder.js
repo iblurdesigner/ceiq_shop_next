@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import CheckoutWizard from "../components/CheckoutWizard";
 import Layout from "../components/Layout";
+import CheckoutWizard from "../components/CheckoutWizard";
 import { Store } from "../utils/Store";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import Link from "next/link";
 import Image from "next/image";
-
 import dynamic from "next/dynamic";
 import axios from "axios";
 import { getError } from "../utils/error";
