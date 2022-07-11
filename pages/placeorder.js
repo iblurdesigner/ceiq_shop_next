@@ -7,7 +7,6 @@ import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import Link from "next/link";
 import Image from "next/image";
-
 import dynamic from "next/dynamic";
 import axios from "axios";
 import { getError } from "../utils/error";
