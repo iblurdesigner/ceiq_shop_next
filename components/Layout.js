@@ -1,18 +1,19 @@
-import React, { useContext, useState } from "react";
+import React, { Suspense, useContext, useState } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { Store } from "../utils/Store";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { Menu, MenuItem } from "@mui/material";
-
 import Link from "next/link";
 import Userbtn from "../components/buttons/Userbtn";
+import LogoCeiq from "./LogoCeiq";
 
-const ButtonDarkM = dynamic(() => import("../components/buttons/ButtonDarkM"), {
+const SideMenu = dynamic(() => import("./SideMenu"), {
   suspense: true,
 });
-const SideMenu = dynamic(() => import("./SideMenu"), {
+
+const ButtonDarkM = dynamic(() => import("../components/buttons/ButtonDarkM"), {
   suspense: true,
 });
 const Search = dynamic(() => import("./Search"), {
@@ -62,11 +63,18 @@ export default function Layout({ title, description, children }) {
       <div className="dark:flex min-h-screen flex-col justify-between">
         <header>
           <nav className="flex navbar items-center px-4 justify-center flex-wrap sm:flex-nowrap md:justify-between shadow-md h-40 md:h-28">
-            <SideMenu
-              props={
-                (logoutClickHandler, logoutClickHandler, loginClickHandler)
-              }
-            />
+            <Suspense fallback={`Cargando...`}>
+              <SideMenu
+                props={
+                  (logoutClickHandler, logoutClickHandler, loginClickHandler)
+                }
+              />
+            </Suspense>
+            <Link href="/" passHref>
+              <a className="text-lg font-bold">
+                <LogoCeiq />
+              </a>
+            </Link>
             <div className="lg:w-4/6 flex sm:flex-wrap justify-between items-center md:px-6">
               <Search />
               <div className="invisible md:visible order-3 md:order-2">
