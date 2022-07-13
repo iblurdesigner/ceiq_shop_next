@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 // import dynamic from 'next/dynamic';
 import { getError } from "../utils/error";
 import { useSnackbar } from "notistack";
@@ -21,7 +21,7 @@ export const config = {
   unstable_runtimeJS: false,
 };
 
-export default function SideMenu() {
+function SideMenu() {
   const [sidbarVisible, setSidebarVisible] = useState(false);
 
   const [categories, setCategories] = useState([]);
@@ -40,12 +40,13 @@ export default function SideMenu() {
     fetchCategories();
   }, []);
 
-  const sidebarOpenHandler = () => {
+  const sidebarOpenHandler = useCallback(() => {
     setSidebarVisible(true);
-  };
-  const sidebarCloseHandler = () => {
+  }, [setSidebarVisible]);
+
+  const sidebarCloseHandler = useCallback(() => {
     setSidebarVisible(false);
-  };
+  }, [setSidebarVisible]);
 
   return (
     <>
@@ -112,3 +113,8 @@ export default function SideMenu() {
     </>
   );
 }
+
+function areEqual(prevProps, nextProps) {
+  return prevProps.product === nextProps.product;
+}
+export default React.memo(SideMenu, areEqual);

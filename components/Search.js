@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import { InputBase } from "@mui/material";
 
-export default function Search() {
+function Search() {
   const [query, setQuery] = useState("");
   const router = useRouter();
-  const queryChangeHandler = (e) => {
-    setQuery(e.target.value);
-  };
+  const queryChangeHandler = useCallback(
+    (e) => {
+      setQuery(e.target.value);
+    },
+    [setQuery]
+  );
+
   const submitHandler = (e) => {
     e.preventDefault();
     router.push(`/search?query=${query}`);
@@ -49,3 +53,9 @@ export default function Search() {
     </div>
   );
 }
+
+function areEqual(prevProps, nextProps) {
+  return prevProps.product === nextProps.product;
+}
+
+export default React.memo(Search, areEqual);

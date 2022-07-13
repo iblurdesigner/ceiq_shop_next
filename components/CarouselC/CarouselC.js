@@ -5,7 +5,7 @@ import Carousel from "react-material-ui-carousel";
 export const config = {
   unstable_runtimeJS: false,
 };
-export default function CarouselC({ featuredProducts }) {
+function CarouselC({ featuredProducts }) {
   return (
     <Carousel animation="slide" className="rounded-lg">
       {featuredProducts.map((product) => (
@@ -26,3 +26,9 @@ export default function CarouselC({ featuredProducts }) {
     </Carousel>
   );
 }
+
+function areEqual(prevProps, nextProps) {
+  return prevProps.product === nextProps.product;
+}
+
+export default React.memo(CarouselC, areEqual);

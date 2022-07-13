@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
+import React from "react";
 import { Rating } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function ProductItem({ product, addToCartHandler }) {
+function ProductItem({ product, addToCartHandler }) {
   return (
     <>
       <div className="card">
@@ -67,3 +68,9 @@ export default function ProductItem({ product, addToCartHandler }) {
     </>
   );
 }
+
+function areEqual(prevProps, nextProps) {
+  return prevProps.product === nextProps.product;
+}
+
+export default React.memo(ProductItem, areEqual);
