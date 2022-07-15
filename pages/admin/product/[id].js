@@ -18,6 +18,7 @@ import { Store } from "../../../utils/Store";
 import Layout from "../../../components/Layout";
 import { Controller, useForm } from "react-hook-form";
 import { useSnackbar } from "notistack";
+import Image from "next/image";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -48,6 +49,8 @@ function reducer(state, action) {
 }
 
 function ProductEdit({ params }) {
+  const [dataImgUrl, setDataImgUrl] = useState("");
+  const [dataImgUrlT, setDataImgUrlT] = useState("");
   const productId = params.id;
   const { state } = useContext(Store);
 
@@ -120,6 +123,18 @@ function ProductEdit({ params }) {
       dispatch({ type: "UPLOAD_FAIL", payload: getError(err) });
       enqueueSnackbar(getError(err), { variant: "error" });
     }
+  };
+
+  const handlerUrl = (e) => {
+    e.preventDefault();
+    const referen = document.getElementById("image");
+    setDataImgUrl(referen.getAttribute("value"));
+  };
+
+  const handlerUrlT = (e) => {
+    e.preventDefault();
+    const referen = document.getElementById("featuredImage");
+    setDataImgUrlT(referen.getAttribute("value"));
   };
 
   const submitHandler = async ({
@@ -262,10 +277,12 @@ function ProductEdit({ params }) {
                                   fullWidth
                                   className="dark:bg-gray-50 dark:rounded"
                                   id="slug"
-                                  label="Slug"
+                                  label="Enlace amigable"
                                   error={Boolean(errors.slug)}
                                   helperText={
-                                    errors.slug ? "Slug es requerido" : ""
+                                    errors.slug
+                                      ? "El enalce amigable es requerido"
+                                      : ""
                                   }
                                   {...field}
                                 ></TextField>
@@ -310,6 +327,7 @@ function ProductEdit({ params }) {
                                   fullWidth
                                   className="dark:bg-gray-50 dark:rounded"
                                   id="image"
+                                  onChange={handlerUrl}
                                   label="Imagen"
                                   error={Boolean(errors.image)}
                                   helperText={
@@ -320,6 +338,15 @@ function ProductEdit({ params }) {
                               )}
                             ></Controller>
                           </ListItem>
+                          {dataImgUrl ? (
+                            <Image
+                              src={dataImgUrl}
+                              width={100}
+                              height={100}
+                            ></Image>
+                          ) : (
+                            ""
+                          )}
 
                           <ListItem>
                             <Button variant="contained" component="label">
@@ -330,6 +357,12 @@ function ProductEdit({ params }) {
                                 hidden
                               />
                             </Button>
+                            <button
+                              className="bg-green dark:text-blue rounded-full ml-4 px-3 py-1 shadow-xl hover:bg-yellow"
+                              onClick={handlerUrl}
+                            >
+                              previsualizar imagen
+                            </button>
                             {loadingUpload && <CircularProgress />}
                           </ListItem>
                           <ListItem>
@@ -354,7 +387,7 @@ function ProductEdit({ params }) {
                               control={control}
                               defaultValue=""
                               rules={{
-                                required: true,
+                                required: false,
                               }}
                               render={({ field }) => (
                                 <TextField
@@ -362,6 +395,7 @@ function ProductEdit({ params }) {
                                   fullWidth
                                   className="dark:bg-gray-50 dark:rounded"
                                   id="featuredImage"
+                                  onChange={handlerUrlT}
                                   label="Foto destacada"
                                   error={Boolean(errors.image)}
                                   helperText={
@@ -375,6 +409,16 @@ function ProductEdit({ params }) {
                             ></Controller>
                           </ListItem>
 
+                          {dataImgUrlT ? (
+                            <Image
+                              src={dataImgUrlT}
+                              width={400}
+                              height={100}
+                            ></Image>
+                          ) : (
+                            ""
+                          )}
+
                           <ListItem>
                             <Button variant="contained" component="label">
                               Subir imagen
@@ -386,6 +430,12 @@ function ProductEdit({ params }) {
                                 hidden
                               />
                             </Button>
+                            <button
+                              className="bg-green dark:text-blue rounded-full ml-4 px-3 py-1 shadow-xl hover:bg-yellow"
+                              onClick={handlerUrlT}
+                            >
+                              previsualizar destacada
+                            </button>
                             {loadingUpload && <CircularProgress />}
                           </ListItem>
 
