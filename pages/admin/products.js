@@ -1,14 +1,19 @@
+import React, { useEffect, useContext, useReducer, useState } from "react";
 import axios from "axios";
-import dynamic from "next/dynamic";
+// import db from '../../utils/db';
 import { useRouter } from "next/router";
 import Link from "next/link";
-import React, { useEffect, useContext, useReducer } from "react";
+// import Product from '../../models/Product';
 import { CircularProgress, List, ListItem, ListItemText } from "@mui/material";
-
 import { getError } from "../../utils/error";
 import { Store } from "../../utils/Store";
 import Layout from "../../components/Layout";
 import { useSnackbar } from "notistack";
+import Image from "next/image";
+import ReactPaginate from "react-paginate";
+import dynamic from "next/dynamic";
+
+// const PAGE_SIZE = 10;
 
 function reducer(state, action) {
   switch (action.type) {
@@ -36,11 +41,18 @@ function reducer(state, action) {
   }
 }
 
-function AdminProducts() {
-  const { state } = useContext(Store);
+function AdminProducts(props) {
   const router = useRouter();
-
+  // const { query = 'all' } = router.query;
+  // const { pages } = props;
+  const { state } = useContext(Store);
   const { userInfo } = state;
+
+  // ***** INICIO PRODUCTOS por pagina  *****
+
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
 
   const [
     { loading, error, products, loadingCreate, loadingDelete, successDelete },
@@ -112,8 +124,22 @@ function AdminProducts() {
       enqueueSnackbar(getError(err), { variant: "error" });
     }
   };
+  // ***** FIN para crear un producto y para eliminarlo ******
 
-  // ***** para crear un producto y para eliminarlo ******
+  // ***** CONTINUA PRODUCTOS por pagina  *****
+  const itemsPerPage = 6;
+
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    console.log(`Cargando items desde ${itemOffset} hasta ${endOffset}`);
+    setCurrentItems(products.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(products.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, products]);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % products.length;
+    setItemOffset(newOffset);
+  };
 
   return (
     <>
@@ -172,7 +198,7 @@ function AdminProducts() {
                     <div>
                       <div className="w-full dark:bg-transparent bg-gray-100">
                         <div className="w-full text-lg font-bold flex flex-row flex-wrap justify-between invisible md:visible">
-                          <div className="py-2">ID</div>
+                          <div className="py-2">IMAGEN</div>
                           <div className="py-2">NOMBRE</div>
                           <div className="py-2">PRECIO</div>
                           <div className="py-2">CATEGORIA</div>
@@ -182,18 +208,21 @@ function AdminProducts() {
                         </div>
                       </div>
                       <div>
-                        {products.map((product) => (
+                        {currentItems.map((product) => (
                           <div
                             key={product._id}
                             className="card md:flex md:flex-row md:justify-items-stretch md:justify-between px-2 py-6"
                           >
                             <div className="flex justify-between">
                               <span className="md:order-2 visible md:invisible">
-                                ID
+                                IMAGEN
                               </span>
-                              <p className="md:order-1">
-                                {product._id.substring(20, 24)}
-                              </p>
+                              <Image
+                                className="md:order-1"
+                                src={product.image}
+                                width={100}
+                                height={50}
+                              />
                             </div>
 
                             <div className="flex justify-between basis-1/6">
@@ -265,6 +294,28 @@ function AdminProducts() {
                     </div>
                   )}
                 </li>
+                <li className="bg-orange">
+                  {/* <Pagination
+                    defaultPage={parseInt(query.page || '1')}
+                    count={pages}
+                    onChange={pageHandler}
+                    className="mt-6"
+                  ></Pagination> */}
+                  <ReactPaginate
+                    breakLabel="..."
+                    nextLabel="siguiente >"
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={3}
+                    pageCount={pageCount}
+                    previousLabel="< anterior"
+                    renderOnZeroPageCount={null}
+                    containerClassName="pagination"
+                    pageLinkClassName="page-num"
+                    previousClassName="page-num"
+                    nextLinkClassName="page-num"
+                    activeLinkClassName="active"
+                  />
+                </li>
               </ul>
             </div>
           </div>
@@ -273,6 +324,26 @@ function AdminProducts() {
     </>
   );
 }
+
+// export async function getServerSideProps({ query }) {
+//   await db.connect();
+//   const pageSize = query.pageSize || PAGE_SIZE;
+//   const page = query.page || 1;
+
+//   const countProducts = await Product.countDocuments();
+//   await db.disconnect();
+
+//   // const products = productDocs.map(db.convertDocToObj);
+
+//   return {
+//     props: {
+//       // products,
+//       countProducts,
+//       page,
+//       pages: Math.ceil(countProducts / pageSize),
+//     },
+//   };
+// }
 
 export default dynamic(() => Promise.resolve(AdminProducts), {
   ssr: false,
