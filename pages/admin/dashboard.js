@@ -177,9 +177,14 @@ function AdminDashboard() {
                       labels: summary.salesData.map((x) => x._id),
                       datasets: [
                         {
-                          label: "Ventas",
+                          label: "Ventas por mes",
                           backgroundColor: "rgba(162, 222, 208, 1)",
                           data: summary.salesData.map((x) => x.totalSales),
+                        },
+                        {
+                          label: "Ventas por año",
+                          backgroundColor: "rgba(140, 122, 189, 1)",
+                          data: summary.ordersPrice,
                         },
                       ],
                     }}
