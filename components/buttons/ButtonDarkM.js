@@ -22,7 +22,10 @@ export default function ButtonDarkM({ alt }) {
       return (
         <button
           alt="boton modo oscuro"
+          title="boton modo oscuro"
+          description="boton modo oscuro"
           aria-labelledby="boton modo oscuro"
+          aria-label="boton modo oscuro"
           aria-describedby="boton-modo-oscuro"
           data-test="darkmode-button"
           onClick={() => setTheme("light")}
@@ -44,7 +47,13 @@ export default function ButtonDarkM({ alt }) {
       );
     } else {
       return (
-        <button onClick={() => setTheme("dark")}>
+        <button
+          alt="boton modo oscuro"
+          title="boton modo oscuro"
+          description="boton modo oscuro"
+          aria-label="boton modo oscuro"
+          onClick={() => setTheme("dark")}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-10 w-10 md:h-5 md:w-5 "

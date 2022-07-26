@@ -12,6 +12,8 @@ export default class MyDocument extends Document {
             name="description"
             content="CEIQ Shop - Artīculos para enseñanza quirúgica"
           />
+          <script src="https://sandbox-paybox.pagoplux.com/paybox/index.js"></script>
+          <script src="https://sandbox-paybox.pagoplux.com/js/addons/jquery-3.4.1.min.js"></script>
         </Head>
         <body>
           <Main />

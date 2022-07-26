@@ -53,6 +53,8 @@ function SideMenu() {
       <Box display="flex" alignItems="center">
         <IconButton
           alt="boton hamgurguesa"
+          title="boton hamgurguesa"
+          description="boton hamgurguesa"
           edge="start"
           type="button"
           aria-label="open drawer"
@@ -60,6 +62,8 @@ function SideMenu() {
         >
           <HamburgerBtn
             alt="boton hamgurguesa"
+            title="boton hamgurguesa"
+            description="boton hamgurguesa"
             className="text-white px-2 h-12 w-12"
           />
         </IconButton>
@@ -107,6 +111,8 @@ function SideMenu() {
           <ButtonDarkM
             aria-describedby="boton-modo-oscuro"
             alt="boton modo oscuro"
+            title="boton modo oscuro"
+            description="boton modo oscuro"
           />
         </div>
       </Drawer>

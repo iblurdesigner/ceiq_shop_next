@@ -15,8 +15,10 @@ function CarouselC({ featuredProducts }) {
               src={product.featuredImage}
               placeholder="blur"
               blurDataURL={product.featuredImage}
-              quality={25}
+              quality={90}
               alt={product.name}
+              title={product.name}
+              description={product.description}
               width={1500}
               height={400}
             ></Image>

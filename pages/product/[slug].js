@@ -169,12 +169,12 @@ export default function ProductScreen(props) {
             id="reviews"
             className="text-3xl text-gray-400 font-medium mb-4"
           >
-            Revisiones de clientes
+            Comentarios de clientes
           </h2>
         </li>
         {reviews.length === 0 && (
           <li>
-            <p className="text-gray-400 mb-4">No hay revisiones</p>
+            <p className="text-gray-400 mb-4">No hay comentarios</p>
           </li>
         )}
         {reviews.map((review) => (

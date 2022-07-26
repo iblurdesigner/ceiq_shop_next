@@ -7,7 +7,6 @@ export default function HamburgerBtn({ className }) {
       className={`${className}`}
       viewBox="0 0 20 20"
       fill="currentColor"
-      alt="menu"
       data-test="hamburger-button"
     >
       <path

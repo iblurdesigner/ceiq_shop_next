@@ -8,7 +8,7 @@ const CartBtn = dynamic(() => import("../components/buttons/CartBtn"), {
 export default function Cart({ cart }) {
   return (
     <Link href="/cart" passHref>
-      <a className="p-2 md:visible">
+      <a className="p-2 md:visible" title="boton carrito de compras">
         <div className="flex">
           <CartBtn
             alt="boton carrito de compras"

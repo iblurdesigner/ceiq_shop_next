@@ -10,6 +10,8 @@ export default function Userbtn({ className }) {
       stroke="currentColor"
       strokeWidth="2"
       alt="boton usuario"
+      title="boton usuario"
+      description="boton usuario"
       aria-describedby="boton-de-usuario"
       data-test="usericon-button"
     >

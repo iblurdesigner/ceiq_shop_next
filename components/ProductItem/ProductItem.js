@@ -7,7 +7,7 @@ import Link from "next/link";
 function ProductItem({ product, addToCartHandler }) {
   return (
     <>
-      <div className="card">
+      <article className="card">
         <div className="h-full grid grid-cols-1 content-between">
           <div>
             <Link href={`/product/${product.slug}`} passHref>
@@ -16,8 +16,10 @@ function ProductItem({ product, addToCartHandler }) {
                   src={product.image}
                   placeholder="blur"
                   blurDataURL={product.image}
-                  quality={50}
+                  quality={90}
                   alt={product.name}
+                  title={product.name}
+                  description={product.description}
                   width={400}
                   height={400}
                   className="rounded-t-lg shadow"
@@ -64,7 +66,7 @@ function ProductItem({ product, addToCartHandler }) {
             </button>
           </div>
         </div>
-      </div>
+      </article>
     </>
   );
 }

@@ -22,8 +22,6 @@ import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import getBlockchain from "../../components/ethereum.js";
 import PagoPlux from "../../components/PagoPlux";
 import StoreEth from "../../components/StoreEth/StoreEth";
-import Head from "next/head";
-import jQuery from "jquery";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -58,15 +56,12 @@ function reducer(state, action) {
   }
 }
 
-// Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
-
 function Order({ params }) {
   const orderId = params.id;
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
   const router = useRouter();
   const { state } = useContext(Store);
   const { userInfo } = state;
-  const $ = jQuery;
   // crypto
   const [paymentProcessor, setPaymentProcessor] = useState(undefined);
   const [dai, setDai] = useState(undefined);
@@ -146,7 +141,6 @@ function Order({ params }) {
       setDai(dai);
     };
     init();
-    console.log($("esta activo el jquery"));
   }, [order, successPay, successDeliver]);
 
   const { enqueueSnackbar } = useSnackbar();
@@ -197,6 +191,8 @@ function Order({ params }) {
       // response.detail.token;
       // response.detail.amount;
       // response.detail.fecha;
+      console.log(response);
+      alert("Proceso completado con éxito");
 
       return actions.order.capture().then(async function (details) {
         try {
@@ -220,6 +216,9 @@ function Order({ params }) {
           enqueueSnackbar(getError(err), { variant: "error" });
         }
       });
+    } else {
+      alert("Error al procesar el pago");
+      console.log(response);
     }
   };
 
@@ -247,12 +246,28 @@ function Order({ params }) {
     }
   }
 
+  const data = {
+    PayboxRemail: "drfernandotorresjaramillo@hotmail.com",
+    PayboxSendmail: "user_ema@doain.com",
+    PayboxRename: "Pago Plux Establecimiento",
+    PayboxSendname: "Nombre Cliente",
+    PayboxBase0: "2.7",
+    PayboxBase12: "8",
+    PayboxDescription: "Pago Testa",
+    PayboxLanguage: "es",
+    PayboxRequired: [],
+    PayboxDirection: "Bolivar 2-80 y borrero",
+    PayBoxClientPhone: "0987654321",
+    PayboxProduction: false,
+    PayBoxClientName: "Cristian Bastidas",
+    PayBoxClientIdentification: "10030",
+    PayboxEnvironment: "sandbox",
+    PayboxPagoPlux: true,
+    PayboxIdElement: "idElementoTest",
+  };
+
   return (
     <>
-      <Head>
-        <script src="https://sandbox-paybox.pagoplux.com/paybox/index.js"></script>
-      </Head>
-
       <Layout title={`Orden ${orderId}`}>
         <h1 className="text-4xl py-4">
           Orden
@@ -413,33 +428,55 @@ function Order({ params }) {
                       {isPending ? (
                         <CircularProgress />
                       ) : (
-                        // botones PayPal - cryto
+                        // botones PayPal - cryto - pagoplux
                         <>
-                          <div>
-                            <PayPalButtons
+                          <PayPalButtons
+                            createOrder={createOrder}
+                            onApprove={onApprove}
+                            onError={onError}
+                            className="mx-5"
+                          ></PayPalButtons>
+
+                          <Suspense fallback={`Cargando...`}>
+                            <StoreEth
+                              paymentProcessor={paymentProcessor}
+                              dai={dai}
+                              className="w-full text-lg mt-8 font-bold"
                               createOrder={createOrder}
                               onApprove={onApprove}
                               onError={onError}
-                              className="mx-5"
-                            ></PayPalButtons>
-
-                            <Suspense fallback={`Cargando...`}>
-                              <StoreEth
-                                paymentProcessor={paymentProcessor}
-                                dai={dai}
-                                className="w-full text-lg mt-8 font-bold"
-                                createOrder={createOrder}
-                                onApprove={onApprove}
-                                onError={onError}
-                              />
-                            </Suspense>
-
-                            <PagoPlux
-                              createOrder={createOrder}
-                              onApprove={onAuthorize}
-                              onError={onError}
-                              className="text-lg mt-8 font-bold w-full"
                             />
+                          </Suspense>
+
+                          {/* <div id="payment">
+                            <div className="splash-container">
+                              <div className="box">
+                                <button
+                                  id="idElementoTest"
+                                  className="dark:text-black text-white bg-indigo-500 rounded-full px-3 py-1 shadow-xl hover:bg-yellow text-lg mt-8 font-bold w-full"
+                                >
+                                  Pagar Prueba
+                                </button>
+                              </div>
+
+                              <div id="ButtonPaybox"></div>
+                            </div>
+                          </div> */}
+
+                          <div id="payment">
+                            <div className="splash-container">
+                              <div className="box">
+                                <PagoPlux
+                                  id="idElementoTest"
+                                  createOrder={createOrder}
+                                  onApprove={onAuthorize}
+                                  data={data}
+                                  onError={onError}
+                                  className="text-lg mt-8 font-bold w-full"
+                                />
+                              </div>
+                              <div id="ButtonPaybox"></div>
+                            </div>
                           </div>
                         </>
                       )}

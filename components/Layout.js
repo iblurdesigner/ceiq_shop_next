@@ -71,7 +71,13 @@ export default function Layout({ title, description, children }) {
               />
             </Suspense>
             <Link href="/" passHref>
-              <a className="text-lg font-bold">
+              <a
+                className="text-lg font-bold"
+                title="logo ceiq"
+                alt="logo ceiq"
+                aria-label="logo ceiq"
+                description="logo ceiq"
+              >
                 <LogoCeiq />
               </a>
             </Link>
@@ -81,11 +87,18 @@ export default function Layout({ title, description, children }) {
                 <ButtonDarkM
                   aria-describedby="boton-modo-oscuro"
                   alt="boton modo oscuro"
+                  aria-label="boton modo oscuro"
                 />
               </div>
 
               <div className="order-2 md:order-3">
-                <Cart cart={cart} />
+                <Cart
+                  cart={cart}
+                  alt="carrito de compras"
+                  aria-label="carrito de compras"
+                  title="carrito de compras"
+                  description="carrito de compras"
+                />
               </div>
 
               <div className="order-last visible">
@@ -96,6 +109,9 @@ export default function Layout({ title, description, children }) {
                       className="hover:text-green mx-6"
                       type="button"
                       alt="boton usuario"
+                      aria-label="boton usuario"
+                      title="boton usuario"
+                      description="boton usuario"
                       aria-controls="simple-menu"
                       aria-haspopup="true"
                       onClick={loginClickHandler}
@@ -141,9 +157,17 @@ export default function Layout({ title, description, children }) {
                   </>
                 ) : (
                   <Link href="/login" passHref>
-                    <a className="p-2">
+                    <a
+                      className="p-2"
+                      alt="boton usuario"
+                      aria-label="boton usuario"
+                      title="boton usuario"
+                      description="boton usuario"
+                    >
                       <Userbtn
                         alt="boton usuario"
+                        title="boton usuario"
+                        description="boton usuario"
                         className="text-white h-6 w-6"
                       />
                     </a>
