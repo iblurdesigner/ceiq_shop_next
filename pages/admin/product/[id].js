@@ -11,6 +11,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  MenuItem,
   TextField,
 } from "@mui/material";
 import { getError } from "../../../utils/error";
@@ -48,11 +49,39 @@ function reducer(state, action) {
   }
 }
 
+const currencies = [
+  {
+    value: "Accesorios",
+    label: "Accesorios",
+  },
+  {
+    value: "Entrenador Laparoscópico",
+    label: "Entrenador Laparoscópico",
+  },
+  {
+    value: "Kits",
+    label: "Kits",
+  },
+  {
+    value: "Simuladores",
+    label: "Simuladores",
+  },
+  {
+    value: "Skins",
+    label: "Skins",
+  },
+];
+
 function ProductEdit({ params }) {
   const [dataImgUrl, setDataImgUrl] = useState("");
   const [dataImgUrlT, setDataImgUrlT] = useState("");
   const productId = params.id;
   const { state } = useContext(Store);
+  const [categoria, setCategoria] = useState("Accesorios");
+
+  const handleCategory = (event) => {
+    setCategoria(event.target.value);
+  };
 
   const [{ loading, error, loadingUpdate, loadingUpload }, dispatch] =
     useReducer(reducer, {
@@ -281,7 +310,7 @@ function ProductEdit({ params }) {
                                   error={Boolean(errors.slug)}
                                   helperText={
                                     errors.slug
-                                      ? "El enalce amigable es requerido"
+                                      ? "El enlace amigable es requerido"
                                       : ""
                                   }
                                   {...field}
@@ -451,6 +480,9 @@ function ProductEdit({ params }) {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
+                                  select
+                                  value={categoria}
+                                  onChange={handleCategory}
                                   className="dark:bg-gray-50 dark:rounded"
                                   id="category"
                                   label="Categoría"
@@ -461,7 +493,16 @@ function ProductEdit({ params }) {
                                       : ""
                                   }
                                   {...field}
-                                ></TextField>
+                                >
+                                  {currencies.map((option) => (
+                                    <MenuItem
+                                      key={option.value}
+                                      value={option.value}
+                                    >
+                                      {option.label}
+                                    </MenuItem>
+                                  ))}
+                                </TextField>
                               )}
                             ></Controller>
                           </ListItem>

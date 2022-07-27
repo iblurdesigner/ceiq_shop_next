@@ -295,19 +295,13 @@ function AdminProducts(props) {
                   )}
                 </li>
                 <li className="bg-orange">
-                  {/* <Pagination
-                    defaultPage={parseInt(query.page || '1')}
-                    count={pages}
-                    onChange={pageHandler}
-                    className="mt-6"
-                  ></Pagination> */}
                   <ReactPaginate
                     breakLabel="..."
-                    nextLabel="siguiente >"
+                    nextLabel=">"
                     onPageChange={handlePageClick}
                     pageRangeDisplayed={3}
                     pageCount={pageCount}
-                    previousLabel="< anterior"
+                    previousLabel="<"
                     renderOnZeroPageCount={null}
                     containerClassName="pagination"
                     pageLinkClassName="page-num"
@@ -324,26 +318,6 @@ function AdminProducts(props) {
     </>
   );
 }
-
-// export async function getServerSideProps({ query }) {
-//   await db.connect();
-//   const pageSize = query.pageSize || PAGE_SIZE;
-//   const page = query.page || 1;
-
-//   const countProducts = await Product.countDocuments();
-//   await db.disconnect();
-
-//   // const products = productDocs.map(db.convertDocToObj);
-
-//   return {
-//     props: {
-//       // products,
-//       countProducts,
-//       page,
-//       pages: Math.ceil(countProducts / pageSize),
-//     },
-//   };
-// }
 
 export default dynamic(() => Promise.resolve(AdminProducts), {
   ssr: false,
