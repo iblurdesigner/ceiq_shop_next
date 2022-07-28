@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 
 export default function PagoPlux({ className, data }) {
   const [open, setOpen] = useState(false);
-  // const handleOpen = () => setOpen(true);
+  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
@@ -19,8 +19,9 @@ export default function PagoPlux({ className, data }) {
       <button
         type="button"
         // onClick={onAuthorize}
+        onClick={handleOpen}
         id="idElementoTest"
-        className={`dark:text-black text-white bg-indigo-500 rounded-full px-3 py-1 shadow-xl hover:bg-yellow ${className}`}
+        className={`dark:text-black text-white bg-emerald-400 rounded-full px-3 py-1 shadow-xl hover:bg-yellow ${className}`}
       >
         PagoPlux
       </button>

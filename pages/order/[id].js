@@ -18,10 +18,48 @@ import axios from "axios";
 import { getError } from "../../utils/error";
 import { CircularProgress } from "@mui/material";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 
 import getBlockchain from "../../components/ethereum.js";
 import PagoPlux from "../../components/PagoPlux";
 import StoreEth from "../../components/StoreEth/StoreEth";
+// import getStripe from '../api/keys/get-stripe';
+import { shootFireworks } from "../../utils/shootFireworks";
+import CheckoutFormStripe from "../../components/checkouts/CheckoutFormStripe";
+
+// ****  INICIO  boton de pago Stripe  FASTWEB  ****
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
+
+// ****  FIN  boton de pago Stripe  - FASTWEB ****
+
+// ****  INICIO  boton de pago Stripe method 1  ****
+
+// const redirectToCheckout = async () => {
+//   // Stripe checkout session
+//   const {
+//     data: { id },
+//   } = await axios.post('/api/checkout_sessions', {
+//     items: Object.entries(cartDetails).map(([_, { id, quantity }]) => ({
+//       price: id,
+//       quantity,
+//     })),
+//   });
+
+//   // redirect to checkout
+//   const stripe = await getStripe();
+//   await stripe.redirectToCheckout({ sessionId: id });
+// };
+
+// ****  FIN  boton de pago Stripe  method 1  ****
+
+// ****  INICIO  boton de pago Stripe method 2  ****
+
+// loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+
+// ****  FIN  boton de pago Stripe  method 2  ****
 
 function reducer(state, action) {
   switch (action.type) {
@@ -176,6 +214,12 @@ function Order({ params }) {
         enqueueSnackbar("Transferencia exitosa! La orden ha sido pagada!", {
           variant: "success",
         });
+
+        useEffect(() => {
+          if (data) {
+            shootFireworks();
+          }
+        }, [data]);
       } catch (err) {
         dispatch({ type: "PAY_FAIL", payload: getError(err) });
         enqueueSnackbar(getError(err), { variant: "error" });
@@ -183,6 +227,28 @@ function Order({ params }) {
     });
   }
 
+  // *** CONTINUA STRIPE metodo 2
+
+  // const { success, canceled } = router.query;
+
+  // useEffect(() => {
+  //   // Check to see if this is a redirect back from Checkout
+  //   // const query = new URLSearchParams(window.location.search);
+  //   if (success !== undefined || canceled !== undefined) {
+  //     if (success) {
+  //       console.log('Order placed! You will receive an email confirmation.');
+  //     }
+
+  //     if (canceled) {
+  //       console.log(
+  //         'Order canceled -- continue to shop around and checkout when you’re ready.'
+  //       );
+  //     }
+  //   }
+  // }, [success, canceled]);
+  // *** TERMINA STRIPE metodo 2
+
+  // *** PAGO PLUX
   const onAuthorize = function (actions, response) {
     // La variable response posee un Objeto con la respuesta de PagoPlux.
     if (response.status === "succeeded") {
@@ -437,17 +503,6 @@ function Order({ params }) {
                             className="mx-5"
                           ></PayPalButtons>
 
-                          <Suspense fallback={`Cargando...`}>
-                            <StoreEth
-                              paymentProcessor={paymentProcessor}
-                              dai={dai}
-                              className="w-full text-lg mt-8 font-bold"
-                              createOrder={createOrder}
-                              onApprove={onApprove}
-                              onError={onError}
-                            />
-                          </Suspense>
-
                           {/* <div id="payment">
                             <div className="splash-container">
                               <div className="box">
@@ -461,6 +516,23 @@ function Order({ params }) {
 
                               <div id="ButtonPaybox"></div>
                             </div>
+                          </div> */}
+
+                          {/* Stripe FastWeb */}
+                          <div className="mt-6 mb-4 p-4 bg-indigo-50">
+                            <Elements stripe={stripePromise}>
+                              <CheckoutFormStripe totalPrice={totalPrice} />
+                            </Elements>
+                          </div>
+
+                          {/* Stripe metodo  */}
+                          {/* <div className="mt-6 mb-4 p-4 bg-indigo-50">
+                            <button
+                              className="dark:text-black text-white bg-indigo-500 rounded-full px-3 py-1 shadow-xl hover:bg-yellow text-lg mt-8 font-bold w-full"
+                              onClick={redirectToCheckout}
+                            >
+                              Pagar con Stripe
+                            </button>
                           </div> */}
 
                           <div id="payment">
@@ -478,6 +550,17 @@ function Order({ params }) {
                               <div id="ButtonPaybox"></div>
                             </div>
                           </div>
+
+                          <Suspense fallback={`Cargando...`}>
+                            <StoreEth
+                              paymentProcessor={paymentProcessor}
+                              dai={dai}
+                              className="w-full text-lg mt-8 font-bold"
+                              createOrder={createOrder}
+                              onApprove={onApprove}
+                              onError={onError}
+                            />
+                          </Suspense>
                         </>
                       )}
                     </li>
