@@ -8,32 +8,6 @@ import { SnackbarProvider } from "notistack";
 import dynamic from "next/dynamic";
 
 const clientSideEmotionCache = createCache({ key: "css" });
-export function reportWebVitals(metric) {
-  switch (metric.name) {
-    case "FCP":
-      // handle FCP results
-      console.log(metric);
-      break;
-    case "LCP":
-      // handle LCP results
-      console.log(metric);
-      break;
-    case "CLS":
-      // handle CLS results
-      console.log(metric);
-      break;
-    case "FID":
-      // handle FID results
-      console.log(metric);
-      break;
-    case "TTFB":
-      // handle TTFB results
-      console.log(metric);
-      break;
-    default:
-      break;
-  }
-}
 function MyApp({
   Component,
   pageProps,

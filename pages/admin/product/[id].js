@@ -480,7 +480,7 @@ function ProductEdit({ params }) {
                                 <TextField
                                   variant="outlined"
                                   fullWidth
-                                  select
+                                  // select
                                   value={categoria}
                                   onChange={handleCategory}
                                   className="dark:bg-gray-50 dark:rounded"

@@ -9,6 +9,7 @@ import { Store } from "../utils/Store";
 import Head from "next/head";
 import ProductItem from "../components/ProductItem/ProductItem";
 import CarouselC from "../components/CarouselC/CarouselC";
+import { Helmet } from "react-helmet";
 
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
 export default function Home({ title, description, ...props }) {
@@ -38,6 +39,25 @@ export default function Home({ title, description, ...props }) {
         <title>{title ? title + " - CEIQ Shop" : "CEIQ Shop"}</title>
         {description && <meta name="description" content={description} />}
       </Head>
+      <Helmet>
+        <meta
+          name="description"
+          content="CEIQ Shop, venta de materiales de estudio para estudiantes de medicina, profesionales de la salud, postgradistas y especialistas en áreas quirúrgicas."
+        />
+        <meta
+          name="keywords"
+          content="cirugía, medicina, salud, enseñanza quirúrgica"
+        />
+        <meta property="og:title" content="CEIQ Shop" />
+        <meta
+          property="og:description"
+          content="CEIQ Shop, venta de materiales de estudio para estudiantes de medicina, profesionales de la salud, postgradistas y especialistas en áreas quirúrgicas."
+        />
+        <meta property="og:url" content="https://ceiq-shop.vercel.app/" />
+        <meta property="og:site_name" content="CEIQ Shop" />
+        <meta property="og:locale" content="es_ES" />
+        <meta property="og:type" content="article" />
+      </Helmet>
       <Layout title="Pagina de inicio">
         <CarouselC featuredProducts={featuredProducts} />
 
