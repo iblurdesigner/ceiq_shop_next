@@ -30,7 +30,7 @@ const isAuth = async (req, res, next) => {
       }
     });
   } else {
-    res.status(401).send({ message: "No se ha proporciona el token" });
+    res.status(401).send({ message: "No se ha proporcionado el token" });
   }
 };
 const isAdmin = async (req, res, next) => {

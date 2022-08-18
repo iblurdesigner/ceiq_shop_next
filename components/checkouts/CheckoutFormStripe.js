@@ -1,7 +1,7 @@
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "axios";
 
-export default function CheckoutFormStripe({ totalPrice }) {
+export default function CheckoutFormStripe({ totalPrice, children }) {
   let amount = totalPrice;
   amount = Math.round(amount.toFixed(2) * 100);
   const stripe = useStripe();
@@ -24,7 +24,6 @@ export default function CheckoutFormStripe({ totalPrice }) {
           type,
           amount,
         });
-
         console.log(data);
 
         elements.getElement(CardElement).clear();
@@ -36,12 +35,7 @@ export default function CheckoutFormStripe({ totalPrice }) {
   return (
     <form onSubmit={handleSubmit}>
       <CardElement />
-      <button
-        disabled={!stripe}
-        className="dark:text-black text-white bg-indigo-500 rounded-full px-3 py-1 shadow-xl hover:bg-yellow text-lg mt-8 font-bold w-full"
-      >
-        Pagar con Stripe
-      </button>
+      {children}
     </form>
   );
 }

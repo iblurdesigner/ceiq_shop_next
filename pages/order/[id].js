@@ -100,6 +100,7 @@ function Order({ params }) {
   const router = useRouter();
   const { state } = useContext(Store);
   const { userInfo } = state;
+
   // crypto
   const [paymentProcessor, setPaymentProcessor] = useState(undefined);
   const [dai, setDai] = useState(undefined);
@@ -226,6 +227,46 @@ function Order({ params }) {
       }
     });
   }
+  // ******** inicio Stripe on approve ******
+  async function onApproveStripe() {
+    const { success, canceled } = router.query;
+    if (success) {
+      try {
+        dispatch({ type: "PAY_REQUEST" });
+        const { data } = await axios.put(`/api/orders/${order._id}/pay`, {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        });
+        dispatch({ type: "PAY_SUCCESS", payload: data });
+        enqueueSnackbar("Transferencia exitosa! La orden ha sido pagada!", {
+          variant: "success",
+        });
+
+        useEffect(() => {
+          // Check to see if this is a redirect back from Checkout
+          // const query = new URLSearchParams(window.location.search);
+          if (success !== undefined || canceled !== undefined) {
+            if (success) {
+              console.log(
+                "Order placed! You will receive an email confirmation."
+              );
+              shootFireworks();
+            }
+            order.isPaid = true;
+            if (canceled) {
+              console.log(
+                "Order canceled -- continue to shop around and checkout when you’re ready."
+              );
+            }
+          }
+        }, [success, canceled]);
+      } catch (err) {
+        dispatch({ type: "PAY_FAIL", payload: getError(err) });
+        enqueueSnackbar(getError(err), { variant: "error" });
+      }
+    }
+  }
+
+  // ******** fin Stripe on approve ******
 
   // *** CONTINUA STRIPE metodo 2
 
@@ -249,44 +290,44 @@ function Order({ params }) {
   // *** TERMINA STRIPE metodo 2
 
   // *** PAGO PLUX
-  const onAuthorize = function (actions, response) {
-    // La variable response posee un Objeto con la respuesta de PagoPlux.
-    if (response.status === "succeeded") {
-      // Si el pago fue exitoso se ejecutará el código contenido en este if.
-      // VALORES OBTENIDOS EN CASO DE ÉXITO, PARA VALIDAR TRANSACCIONES
-      // response.detail.token;
-      // response.detail.amount;
-      // response.detail.fecha;
-      console.log(response);
-      alert("Proceso completado con éxito");
+  // const onAuthorize = function (actions, response) {
+  //   // La variable response posee un Objeto con la respuesta de PagoPlux.
+  //   if (response.status === 'succeeded') {
+  //     // Si el pago fue exitoso se ejecutará el código contenido en este if.
+  //     // VALORES OBTENIDOS EN CASO DE ÉXITO, PARA VALIDAR TRANSACCIONES
+  //     // response.detail.token;
+  //     // response.detail.amount;
+  //     // response.detail.fecha;
+  //     console.log(response);
+  //     alert('Proceso completado con éxito');
 
-      return actions.order.capture().then(async function (details) {
-        try {
-          dispatch({ type: "PAY_REQUEST" });
-          const { data } = await axios.put(
-            `/api/orders/${order._id}/pay`,
-            details,
-            {
-              headers: { authorization: `Bearer ${userInfo.token}` },
-            }
-          );
-          dispatch({ type: "PAY_SUCCESS", payload: data });
-          enqueueSnackbar("Transferencia exitosa! La orden ha sido pagada!", {
-            variant: "success",
-          });
-          return (
-            response.detail.token, response.detail.amount, response.detail.fecha
-          );
-        } catch (err) {
-          dispatch({ type: "PAY_FAIL", payload: getError(err) });
-          enqueueSnackbar(getError(err), { variant: "error" });
-        }
-      });
-    } else {
-      alert("Error al procesar el pago");
-      console.log(response);
-    }
-  };
+  //     return actions.order.capture().then(async function (details) {
+  //       try {
+  //         dispatch({ type: 'PAY_REQUEST' });
+  //         const { data } = await axios.put(
+  //           `/api/orders/${order._id}/pay`,
+  //           details,
+  //           {
+  //             headers: { authorization: `Bearer ${userInfo.token}` },
+  //           }
+  //         );
+  //         dispatch({ type: 'PAY_SUCCESS', payload: data });
+  //         enqueueSnackbar('Transferencia exitosa! La orden ha sido pagada!', {
+  //           variant: 'success',
+  //         });
+  //         return (
+  //           response.detail.token, response.detail.amount, response.detail.fecha
+  //         );
+  //       } catch (err) {
+  //         dispatch({ type: 'PAY_FAIL', payload: getError(err) });
+  //         enqueueSnackbar(getError(err), { variant: 'error' });
+  //       }
+  //     });
+  //   } else {
+  //     alert('Error al procesar el pago');
+  //     console.log(response);
+  //   }
+  // };
 
   function onError(err) {
     enqueueSnackbar(getError(err), { variant: "error" });
@@ -312,25 +353,25 @@ function Order({ params }) {
     }
   }
 
-  const data = {
-    PayboxRemail: "drfernandotorresjaramillo@hotmail.com",
-    PayboxSendmail: "user_ema@doain.com",
-    PayboxRename: "Pago Plux Establecimiento",
-    PayboxSendname: "Nombre Cliente",
-    PayboxBase0: "2.7",
-    PayboxBase12: "8",
-    PayboxDescription: "Pago Testa",
-    PayboxLanguage: "es",
-    PayboxRequired: [],
-    PayboxDirection: "Bolivar 2-80 y borrero",
-    PayBoxClientPhone: "0987654321",
-    PayboxProduction: false,
-    PayBoxClientName: "Cristian Bastidas",
-    PayBoxClientIdentification: "10030",
-    PayboxEnvironment: "sandbox",
-    PayboxPagoPlux: true,
-    PayboxIdElement: "idElementoTest",
-  };
+  // const data = {
+  //   PayboxRemail: 'drfernandotorresjaramillo@hotmail.com',
+  //   PayboxSendmail: 'user_ema@doain.com',
+  //   PayboxRename: 'Pago Plux Establecimiento',
+  //   PayboxSendname: 'Nombre Cliente',
+  //   PayboxBase0: '2.7',
+  //   PayboxBase12: '8',
+  //   PayboxDescription: 'Pago Testa',
+  //   PayboxLanguage: 'es',
+  //   PayboxRequired: [],
+  //   PayboxDirection: 'Bolivar 2-80 y borrero',
+  //   PayBoxClientPhone: '0987654321',
+  //   PayboxProduction: false,
+  //   PayBoxClientName: 'Cristian Bastidas',
+  //   PayBoxClientIdentification: '10030',
+  //   PayboxEnvironment: 'sandbox',
+  //   PayboxPagoPlux: true,
+  //   PayboxIdElement: 'idElementoTest',
+  // };
 
   return (
     <>
@@ -518,10 +559,30 @@ function Order({ params }) {
                             </div>
                           </div> */}
 
-                          {/* Stripe FastWeb */}
+                          {/* Stripe FastWeb test 1 */}
+                          {/* <div className="mt-6 mb-4 p-4 bg-indigo-50">
+                            <Elements stripe={stripePromise}>
+                              <CheckoutFormStripe
+                                totalPrice={totalPrice}
+                                order={order}
+                                userInfo={userInfo}
+                              />
+                              </Elements>
+                            </div> */}
+
+                          {/* Stripe FastWeb test 2 */}
                           <div className="mt-6 mb-4 p-4 bg-indigo-50">
                             <Elements stripe={stripePromise}>
-                              <CheckoutFormStripe totalPrice={totalPrice} />
+                              <CheckoutFormStripe totalPrice={totalPrice}>
+                                <button
+                                  createOrder={createOrder}
+                                  onClick={onApproveStripe}
+                                  onError={onError}
+                                  className="dark:text-black text-white bg-indigo-500 rounded-full px-3 py-1 shadow-xl hover:bg-yellow text-lg mt-8 font-bold w-full"
+                                >
+                                  Pagar con Stripe
+                                </button>
+                              </CheckoutFormStripe>
                             </Elements>
                           </div>
 
@@ -541,8 +602,8 @@ function Order({ params }) {
                                 <PagoPlux
                                   id="idElementoTest"
                                   createOrder={createOrder}
-                                  onApprove={onAuthorize}
-                                  data={data}
+                                  // onApprove={onAuthorize}
+                                  // data={data}
                                   onError={onError}
                                   className="text-lg mt-8 font-bold w-full"
                                 />
