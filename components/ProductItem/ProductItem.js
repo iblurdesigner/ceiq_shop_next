@@ -25,6 +25,7 @@ function ProductItem({ product, addToCartHandler }) {
                   className="rounded-t-lg shadow"
                   layout="responsive"
                   objectFit="contain"
+                  priority={false}
                 />
               </a>
             </Link>

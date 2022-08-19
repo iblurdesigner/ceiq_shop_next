@@ -82,7 +82,7 @@ export default function Home({ title, description, ...props }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   await db.connect();
   const featuredProductsDocs = await Product.find(
     { isFeatured: true },
