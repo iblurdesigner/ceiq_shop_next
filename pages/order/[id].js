@@ -22,7 +22,6 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
 import getBlockchain from "../../components/ethereum.js";
-import PagoPlux from "../../components/PagoPlux";
 import StoreEth from "../../components/StoreEth/StoreEth";
 // import getStripe from '../api/keys/get-stripe';
 import { shootFireworks } from "../../utils/shootFireworks";
@@ -32,34 +31,6 @@ import CheckoutFormStripe from "../../components/checkouts/CheckoutFormStripe";
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
-
-// ****  FIN  boton de pago Stripe  - FASTWEB ****
-
-// ****  INICIO  boton de pago Stripe method 1  ****
-
-// const redirectToCheckout = async () => {
-//   // Stripe checkout session
-//   const {
-//     data: { id },
-//   } = await axios.post('/api/checkout_sessions', {
-//     items: Object.entries(cartDetails).map(([_, { id, quantity }]) => ({
-//       price: id,
-//       quantity,
-//     })),
-//   });
-
-//   // redirect to checkout
-//   const stripe = await getStripe();
-//   await stripe.redirectToCheckout({ sessionId: id });
-// };
-
-// ****  FIN  boton de pago Stripe  method 1  ****
-
-// ****  INICIO  boton de pago Stripe method 2  ****
-
-// loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
-
-// ****  FIN  boton de pago Stripe  method 2  ****
 
 function reducer(state, action) {
   switch (action.type) {
@@ -266,69 +237,6 @@ function Order({ params }) {
     }
   }
 
-  // ******** fin Stripe on approve ******
-
-  // *** CONTINUA STRIPE metodo 2
-
-  // const { success, canceled } = router.query;
-
-  // useEffect(() => {
-  //   // Check to see if this is a redirect back from Checkout
-  //   // const query = new URLSearchParams(window.location.search);
-  //   if (success !== undefined || canceled !== undefined) {
-  //     if (success) {
-  //       console.log('Order placed! You will receive an email confirmation.');
-  //     }
-
-  //     if (canceled) {
-  //       console.log(
-  //         'Order canceled -- continue to shop around and checkout when you’re ready.'
-  //       );
-  //     }
-  //   }
-  // }, [success, canceled]);
-  // *** TERMINA STRIPE metodo 2
-
-  // *** PAGO PLUX
-  // const onAuthorize = function (actions, response) {
-  //   // La variable response posee un Objeto con la respuesta de PagoPlux.
-  //   if (response.status === 'succeeded') {
-  //     // Si el pago fue exitoso se ejecutará el código contenido en este if.
-  //     // VALORES OBTENIDOS EN CASO DE ÉXITO, PARA VALIDAR TRANSACCIONES
-  //     // response.detail.token;
-  //     // response.detail.amount;
-  //     // response.detail.fecha;
-  //     console.log(response);
-  //     alert('Proceso completado con éxito');
-
-  //     return actions.order.capture().then(async function (details) {
-  //       try {
-  //         dispatch({ type: 'PAY_REQUEST' });
-  //         const { data } = await axios.put(
-  //           `/api/orders/${order._id}/pay`,
-  //           details,
-  //           {
-  //             headers: { authorization: `Bearer ${userInfo.token}` },
-  //           }
-  //         );
-  //         dispatch({ type: 'PAY_SUCCESS', payload: data });
-  //         enqueueSnackbar('Transferencia exitosa! La orden ha sido pagada!', {
-  //           variant: 'success',
-  //         });
-  //         return (
-  //           response.detail.token, response.detail.amount, response.detail.fecha
-  //         );
-  //       } catch (err) {
-  //         dispatch({ type: 'PAY_FAIL', payload: getError(err) });
-  //         enqueueSnackbar(getError(err), { variant: 'error' });
-  //       }
-  //     });
-  //   } else {
-  //     alert('Error al procesar el pago');
-  //     console.log(response);
-  //   }
-  // };
-
   function onError(err) {
     enqueueSnackbar(getError(err), { variant: "error" });
   }
@@ -352,26 +260,6 @@ function Order({ params }) {
       enqueueSnackbar(getError(err), { variant: "error" });
     }
   }
-
-  // const data = {
-  //   PayboxRemail: 'drfernandotorresjaramillo@hotmail.com',
-  //   PayboxSendmail: 'user_ema@doain.com',
-  //   PayboxRename: 'Pago Plux Establecimiento',
-  //   PayboxSendname: 'Nombre Cliente',
-  //   PayboxBase0: '2.7',
-  //   PayboxBase12: '8',
-  //   PayboxDescription: 'Pago Testa',
-  //   PayboxLanguage: 'es',
-  //   PayboxRequired: [],
-  //   PayboxDirection: 'Bolivar 2-80 y borrero',
-  //   PayBoxClientPhone: '0987654321',
-  //   PayboxProduction: false,
-  //   PayBoxClientName: 'Cristian Bastidas',
-  //   PayBoxClientIdentification: '10030',
-  //   PayboxEnvironment: 'sandbox',
-  //   PayboxPagoPlux: true,
-  //   PayboxIdElement: 'idElementoTest',
-  // };
 
   return (
     <>
@@ -544,33 +432,6 @@ function Order({ params }) {
                             className="mx-5"
                           ></PayPalButtons>
 
-                          {/* <div id="payment">
-                            <div className="splash-container">
-                              <div className="box">
-                                <button
-                                  id="idElementoTest"
-                                  className="dark:text-black text-white bg-indigo-500 rounded-full px-3 py-1 shadow-xl hover:bg-yellow text-lg mt-8 font-bold w-full"
-                                >
-                                  Pagar Prueba
-                                </button>
-                              </div>
-
-                              <div id="ButtonPaybox"></div>
-                            </div>
-                          </div> */}
-
-                          {/* Stripe FastWeb test 1 */}
-                          {/* <div className="mt-6 mb-4 p-4 bg-indigo-50">
-                            <Elements stripe={stripePromise}>
-                              <CheckoutFormStripe
-                                totalPrice={totalPrice}
-                                order={order}
-                                userInfo={userInfo}
-                              />
-                              </Elements>
-                            </div> */}
-
-                          {/* Stripe FastWeb test 2 */}
                           <div className="mt-6 mb-4 p-4 bg-indigo-50">
                             <Elements stripe={stripePromise}>
                               <CheckoutFormStripe totalPrice={totalPrice}>
@@ -584,32 +445,6 @@ function Order({ params }) {
                                 </button>
                               </CheckoutFormStripe>
                             </Elements>
-                          </div>
-
-                          {/* Stripe metodo  */}
-                          {/* <div className="mt-6 mb-4 p-4 bg-indigo-50">
-                            <button
-                              className="dark:text-black text-white bg-indigo-500 rounded-full px-3 py-1 shadow-xl hover:bg-yellow text-lg mt-8 font-bold w-full"
-                              onClick={redirectToCheckout}
-                            >
-                              Pagar con Stripe
-                            </button>
-                          </div> */}
-
-                          <div id="payment">
-                            <div className="splash-container">
-                              <div className="box">
-                                <PagoPlux
-                                  id="idElementoTest"
-                                  createOrder={createOrder}
-                                  // onApprove={onAuthorize}
-                                  // data={data}
-                                  onError={onError}
-                                  className="text-lg mt-8 font-bold w-full"
-                                />
-                              </div>
-                              <div id="ButtonPaybox"></div>
-                            </div>
                           </div>
 
                           <Suspense fallback={`Cargando...`}>

@@ -21,6 +21,7 @@ function CarouselC({ featuredProducts }) {
               description={product.description}
               width={1500}
               height={400}
+              priority={false}
             ></Image>
           </a>
         </Link>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import React, { useEffect, useContext } from "react";
@@ -11,7 +11,7 @@ import { Controller, useForm } from "react-hook-form";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 
-function Profile() {
+export default function Profile() {
   const { state, dispatch } = useContext(Store);
   const {
     handleSubmit,
@@ -244,4 +244,4 @@ function Profile() {
   );
 }
 
-export default dynamic(() => Promise.resolve(Profile), { ssr: false });
+// export default dynamic(() => Promise.resolve(Profile), { ssr: false });

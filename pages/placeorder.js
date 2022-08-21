@@ -7,14 +7,14 @@ import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import Link from "next/link";
 import Image from "next/image";
-import dynamic from "next/dynamic";
+// import dynamic from 'next/dynamic';
 import axios from "axios";
 import { getError } from "../utils/error";
 import { CircularProgress } from "@mui/material";
 
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
 
-function PlaceOrder() {
+export default function PlaceOrder() {
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
   const {
@@ -247,4 +247,4 @@ function PlaceOrder() {
 }
 
 // esto es para evitar el error de Hydration
-export default dynamic(() => Promise.resolve(PlaceOrder), { ssr: false });
+// export default dynamic(() => Promise.resolve(PlaceOrder), { ssr: false });
