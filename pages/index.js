@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "../components/Layout";
 import axios from "axios";
@@ -10,6 +10,7 @@ import Head from "next/head";
 import ProductItem from "../components/ProductItem/ProductItem";
 import CarouselC from "../components/CarouselC/CarouselC";
 import { Helmet } from "react-helmet";
+import { loadStripe } from "@stripe/stripe-js";
 
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
 export default function Home({ title, description, ...props }) {
@@ -17,6 +18,20 @@ export default function Home({ title, description, ...props }) {
   const { topRatedProducts, featuredProducts } = props;
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
+
+  const [publishableKey, setPublishableKey] = useState("");
+  // *** UseEffect HOOK Stripe
+  useEffect(() => {
+    fetch("api/keys", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setPublishableKey(data.publishableKey);
+      });
+  }, []);
 
   const addToCartHandler = async (product) => {
     // esto es para sumar un item adicional si ya estaba en el carrito
@@ -32,6 +47,13 @@ export default function Home({ title, description, ...props }) {
     dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity } });
     router.push("/cart");
   };
+
+  if (!publishableKey) {
+    return "Loading...";
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  const stripe = loadStripe(publishableKey);
 
   return (
     <>

@@ -13,7 +13,7 @@ import { useSnackbar } from "notistack";
 import Link from "next/link";
 import Image from "next/image";
 
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import axios from "axios";
 import { getError } from "../../utils/error";
 import { CircularProgress } from "@mui/material";
@@ -65,7 +65,7 @@ function reducer(state, action) {
   }
 }
 
-function Order({ params }) {
+export default function Order({ params }) {
   const orderId = params.id;
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
   const router = useRouter();
@@ -500,4 +500,4 @@ export async function getServerSideProps({ params }) {
 }
 
 // esto es para evitar el error de Hydration
-export default dynamic(() => Promise.resolve(Order), { ssr: false });
+// export default dynamic(() => Promise.resolve(Order), { ssr: false });
