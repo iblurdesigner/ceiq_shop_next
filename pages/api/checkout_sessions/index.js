@@ -11,6 +11,9 @@ export default async function handler(req, res) {
         currency: "USD",
         payment_method: id,
         confirm: true,
+        metadata: {
+          isPad: true,
+        },
       });
 
       console.log(payment);

@@ -8,13 +8,11 @@ import React, {
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import { Store } from "../../utils/Store";
-
 import { useSnackbar } from "notistack";
 import Link from "next/link";
 import Image from "next/image";
-
-// import dynamic from "next/dynamic";
 import axios from "axios";
+import Stripe from "stripe";
 import { getError } from "../../utils/error";
 import { CircularProgress } from "@mui/material";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
@@ -23,11 +21,10 @@ import { Elements } from "@stripe/react-stripe-js";
 
 import getBlockchain from "../../components/ethereum.js";
 import StoreEth from "../../components/StoreEth/StoreEth";
-// import getStripe from '../api/keys/get-stripe';
+
 import { shootFireworks } from "../../utils/shootFireworks";
 import CheckoutFormStripe from "../../components/checkouts/CheckoutFormStripe";
 
-// ****  INICIO  boton de pago Stripe  FASTWEB  ****
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
@@ -184,7 +181,7 @@ export default function Order({ params }) {
         );
         dispatch({ type: "PAY_SUCCESS", payload: data });
         enqueueSnackbar("Transferencia exitosa! La orden ha sido pagada!", {
-          variant: "success",
+          variant: "`success`",
         });
 
         useEffect(() => {
@@ -197,44 +194,6 @@ export default function Order({ params }) {
         enqueueSnackbar(getError(err), { variant: "error" });
       }
     });
-  }
-  // ******** inicio Stripe on approve ******
-  async function onApproveStripe() {
-    const { success, canceled } = router.query;
-    if (success) {
-      try {
-        dispatch({ type: "PAY_REQUEST" });
-        const { data } = await axios.put(`/api/orders/${order._id}/pay`, {
-          headers: { authorization: `Bearer ${userInfo.token}` },
-        });
-        dispatch({ type: "PAY_SUCCESS", payload: data });
-        enqueueSnackbar("Transferencia exitosa! La orden ha sido pagada!", {
-          variant: "success",
-        });
-
-        useEffect(() => {
-          // Check to see if this is a redirect back from Checkout
-          // const query = new URLSearchParams(window.location.search);
-          if (success !== undefined || canceled !== undefined) {
-            if (success) {
-              console.log(
-                "Order placed! You will receive an email confirmation."
-              );
-              shootFireworks();
-            }
-            order.isPaid = true;
-            if (canceled) {
-              console.log(
-                "Order canceled -- continue to shop around and checkout when you’re ready."
-              );
-            }
-          }
-        }, [success, canceled]);
-      } catch (err) {
-        dispatch({ type: "PAY_FAIL", payload: getError(err) });
-        enqueueSnackbar(getError(err), { variant: "error" });
-      }
-    }
   }
 
   function onError(err) {
@@ -434,16 +393,12 @@ export default function Order({ params }) {
 
                           <div className="mt-6 mb-4 p-4 bg-indigo-50">
                             <Elements stripe={stripePromise}>
-                              <CheckoutFormStripe totalPrice={totalPrice}>
-                                <button
-                                  createOrder={createOrder}
-                                  onClick={onApproveStripe}
-                                  onError={onError}
-                                  className="dark:text-black text-white bg-indigo-500 rounded-full px-3 py-1 shadow-xl hover:bg-yellow text-lg mt-8 font-bold w-full"
-                                >
-                                  Pagar con Stripe
-                                </button>
-                              </CheckoutFormStripe>
+                              <CheckoutFormStripe
+                                totalPrice={totalPrice}
+                                order={order}
+                                dispatch={dispatch}
+                                userInfo={userInfo}
+                              />
                             </Elements>
                           </div>
 
@@ -496,8 +451,12 @@ export default function Order({ params }) {
 }
 
 export async function getServerSideProps({ params }) {
-  return { props: { params } };
-}
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// esto es para evitar el error de Hydration
-// export default dynamic(() => Promise.resolve(Order), { ssr: false });
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: "1000",
+    currency: "USD",
+  });
+
+  return { props: { params, paymentIntent } };
+}
