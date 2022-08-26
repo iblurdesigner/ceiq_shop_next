@@ -27,7 +27,7 @@ export default function CheckoutFormStripe({ totalPrice, order, userInfo }) {
       );
       dispatch({ type: "PAY_SUCCESS", payload: data });
       enqueueSnackbar("Transferencia exitosa! La orden ha sido pagada!", {
-        variant: "`success`",
+        variant: "success",
       });
     } catch (err) {
       dispatch({ type: "PAY_FAIL", payload: getError(err) });

@@ -12,17 +12,13 @@ import { useSnackbar } from "notistack";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
-import Stripe from "stripe";
 import { getError } from "../../utils/error";
 import { CircularProgress } from "@mui/material";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-
 import getBlockchain from "../../components/ethereum.js";
 import StoreEth from "../../components/StoreEth/StoreEth";
-
-import { shootFireworks } from "../../utils/shootFireworks";
 import CheckoutFormStripe from "../../components/checkouts/CheckoutFormStripe";
 
 const stripePromise = loadStripe(
@@ -181,14 +177,8 @@ export default function Order({ params }) {
         );
         dispatch({ type: "PAY_SUCCESS", payload: data });
         enqueueSnackbar("Transferencia exitosa! La orden ha sido pagada!", {
-          variant: "`success`",
+          variant: "success",
         });
-
-        useEffect(() => {
-          if (data) {
-            shootFireworks();
-          }
-        }, [data]);
       } catch (err) {
         dispatch({ type: "PAY_FAIL", payload: getError(err) });
         enqueueSnackbar(getError(err), { variant: "error" });
@@ -451,12 +441,5 @@ export default function Order({ params }) {
 }
 
 export async function getServerSideProps({ params }) {
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: "1000",
-    currency: "USD",
-  });
-
-  return { props: { params, paymentIntent } };
+  return { props: { params } };
 }
