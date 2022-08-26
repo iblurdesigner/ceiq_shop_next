@@ -2,9 +2,9 @@ import axios from "axios";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import React, { useEffect, useContext, useReducer } from "react";
+import React, { useEffect, useContext, useReducer, useState } from "react";
 import { CircularProgress, List, ListItem, ListItemText } from "@mui/material";
-
+import ReactPaginate from "react-paginate";
 import { getError } from "../../utils/error";
 import { Store } from "../../utils/Store";
 import Layout from "../../components/Layout";
@@ -24,8 +24,11 @@ function reducer(state, action) {
 function AdminOrders() {
   const { state } = useContext(Store);
   const router = useRouter();
-
   const { userInfo } = state;
+  // ***** INICIO PRODUCTOS por pagina  *****
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
 
   const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
     loading: true,
@@ -50,6 +53,21 @@ function AdminOrders() {
     };
     fetchData();
   }, []);
+
+  const itemsPerPage = 10;
+
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    console.log(`Cargando items desde ${itemOffset} hasta ${endOffset}`);
+    setCurrentItems(orders.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(orders.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, orders]);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % orders.length;
+    setItemOffset(newOffset);
+  };
+
   return (
     <>
       <Layout title="Órdenes">
@@ -107,7 +125,7 @@ function AdminOrders() {
                         </div>
                       </div>
                       <div>
-                        {orders.map((order) => (
+                        {currentItems.map((order) => (
                           <div
                             key={order._id}
                             className="md:flex md:flex-row md:justify-items-stretch md:justify-between px-2 py-6"
@@ -189,6 +207,22 @@ function AdminOrders() {
                       </div>
                     </div>
                   )}
+                </li>
+                <li className="bg-orange">
+                  <ReactPaginate
+                    breakLabel="..."
+                    nextLabel=">"
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={3}
+                    pageCount={pageCount}
+                    previousLabel="<"
+                    renderOnZeroPageCount={null}
+                    containerClassName="pagination"
+                    pageLinkClassName="page-num"
+                    previousClassName="page-num"
+                    nextLinkClassName="page-num"
+                    activeLinkClassName="active"
+                  />
                 </li>
               </ul>
             </div>

@@ -14,11 +14,9 @@ import { loadStripe } from "@stripe/stripe-js";
 
 // Ojo: para evitar el error de la Hydration hay que usar dynamic de next, eliminando la exportacion por defecto de la funcion CartScreen
 export default function Home({ title, description, ...props }) {
-  // Ya no necesitaremos pedir desde la base de datos estatica si no mediante las props
   const { topRatedProducts, featuredProducts } = props;
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
-
   const [publishableKey, setPublishableKey] = useState("");
   // *** UseEffect HOOK Stripe
   useEffect(() => {
@@ -37,21 +35,17 @@ export default function Home({ title, description, ...props }) {
     // esto es para sumar un item adicional si ya estaba en el carrito
     const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
     const quantity = existItem ? existItem.quantity + 1 : 1;
-
     const { data } = await axios.get(`/api/products/${product._id}`);
     if (data.countInStock < quantity) {
       window.alert("Lo sentimos. La cantidad que solicita sobrepasa el stock");
       return;
     }
-
     dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity } });
     router.push("/cart");
   };
-
   if (!publishableKey) {
     return "Loading...";
   }
-
   // eslint-disable-next-line no-unused-vars
   const stripe = loadStripe(publishableKey);
 
@@ -82,11 +76,9 @@ export default function Home({ title, description, ...props }) {
       </Helmet>
       <Layout title="Pagina de inicio">
         <CarouselC featuredProducts={featuredProducts} />
-
         <h1 id="productos-title" className="text-2xl font-semibold my-6">
           Productos más vendidos
         </h1>
-
         <div
           data-test="div-productitem"
           className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4"
@@ -126,7 +118,3 @@ export async function getStaticProps() {
     },
   };
 }
-
-// export const config = {
-//   unstable_runtimeJS: false,
-// };

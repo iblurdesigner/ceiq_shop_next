@@ -1,9 +1,7 @@
 import React, { useEffect, useContext, useReducer, useState } from "react";
 import axios from "axios";
-// import db from '../../utils/db';
 import { useRouter } from "next/router";
 import Link from "next/link";
-// import Product from '../../models/Product';
 import { CircularProgress, List, ListItem, ListItemText } from "@mui/material";
 import { getError } from "../../utils/error";
 import { Store } from "../../utils/Store";
@@ -12,8 +10,6 @@ import { useSnackbar } from "notistack";
 import Image from "next/image";
 import ReactPaginate from "react-paginate";
 import dynamic from "next/dynamic";
-
-// const PAGE_SIZE = 10;
 
 function reducer(state, action) {
   switch (action.type) {
@@ -43,17 +39,12 @@ function reducer(state, action) {
 
 function AdminProducts(props) {
   const router = useRouter();
-  // const { query = 'all' } = router.query;
-  // const { pages } = props;
   const { state } = useContext(Store);
   const { userInfo } = state;
-
   // ***** INICIO PRODUCTOS por pagina  *****
-
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
-
   const [
     { loading, error, products, loadingCreate, loadingDelete, successDelete },
     dispatch,
