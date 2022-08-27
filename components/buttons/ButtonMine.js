@@ -3,7 +3,7 @@ import React from "react";
 const ButtonMine = ({ children, className, onClick }) => {
   return (
     <button
-      className={`p-2 rounded-md hover:ring-2 hover:ring-gray-300 ${className}`}
+      className={`bg-green dark:text-blue rounded-full px-3 py-1 shadow-xl hover:bg-yellow  ${className}`}
       onClick={onClick}
     >
       {children}

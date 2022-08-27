@@ -1,10 +1,17 @@
 import axios from "axios";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import React, { useEffect, useContext, useReducer } from "react";
+import React, {
+  useEffect,
+  useContext,
+  useReducer,
+  useState,
+  useRef,
+} from "react";
 import { CircularProgress, List, ListItem, ListItemText } from "@mui/material";
-
+import { getError } from "../../utils/error";
+import { Store } from "../../utils/Store";
+import Layout from "../../components/Layout";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -16,11 +23,8 @@ import {
   Legend,
   Filler,
 } from "chart.js";
-
 import { Bar } from "react-chartjs-2";
-import { getError } from "../../utils/error";
-import { Store } from "../../utils/Store";
-import Layout from "../../components/Layout";
+import ButtonMine from "../../components/buttons/ButtonMine";
 
 ChartJS.register(
   CategoryScale,
@@ -45,7 +49,7 @@ function reducer(state, action) {
   }
 }
 
-function AdminDashboard() {
+export default function AdminDashboard() {
   const { state } = useContext(Store);
   const router = useRouter();
 
@@ -74,6 +78,97 @@ function AdminDashboard() {
     };
     fetchData();
   }, []);
+
+  function BarChart() {
+    const initialDates = summary.salesData.map((x) => x._id);
+    const initialDataPoints = summary.salesData.map((x) => x.totalSales);
+
+    const [dates, setDates] = useState(initialDates);
+    const [dataPoints, setDataPoints] = useState(initialDataPoints);
+
+    console.log("inital Dates: ", initialDates);
+    console.log("inital data points: ", initialDataPoints);
+
+    console.log("Dates y Datapoints", dates, dataPoints);
+
+    const inputRef1 = useRef();
+    const inputRef2 = useRef();
+
+    function filterData() {
+      const dates2 = [...dates];
+      const dataPoints2 = [...dataPoints];
+
+      // slice the array
+      const value1 = inputRef1.current.value;
+      const value2 = inputRef2.current.value;
+      const indexstartdate = dates2.indexOf(value1);
+      const indexenddate = dates2.indexOf(value2);
+      console.log(indexstartdate);
+      console.log(indexenddate);
+      // slice the array
+      const filterDate = dates2.slice(indexstartdate, indexenddate + 1);
+      const filterDataPoints = dataPoints2.slice(
+        indexstartdate,
+        indexenddate + 1
+      );
+
+      console.log(filterDate, filterDataPoints);
+
+      setDates(filterDate);
+      setDataPoints(filterDataPoints);
+      console.log(dates, dataPoints);
+
+      console.log("nueva sumary", summary);
+    }
+
+    return (
+      <div>
+        <div>
+          <Bar
+            id="myChart"
+            data={{
+              labels: dates,
+
+              datasets: [
+                {
+                  label: "Ventas por mes",
+                  data: dataPoints,
+                  backgroundColor: [
+                    "rgba(255, 99, 132, 0.2)",
+                    "rgba(54, 162, 235, 0.2)",
+                    "rgba(255, 206, 86, 0.2)",
+                    "rgba(75, 192, 192, 0.2)",
+                    "rgba(153, 102, 255, 0.2)",
+                    "rgba(255, 159, 64, 0.2)",
+                  ],
+                  borderColor: [
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)",
+                    "rgba(75, 192, 192, 1)",
+                    "rgba(153, 102, 255, 1)",
+                    "rgba(255, 159, 64, 1)",
+                  ],
+                  borderWidth: 1,
+                },
+              ],
+            }}
+            height={400}
+            width={400}
+            options={{
+              maintainAspectRatio: false,
+            }}
+          />
+        </div>
+        <div className="w-4/6 p-2 mt-4 flex justify-around">
+          <input type="month" ref={inputRef1} />
+          <input type="month" ref={inputRef2} />
+          <ButtonMine onClick={filterData}>Filtrar</ButtonMine>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <Layout title="Dashboard">
@@ -172,26 +267,7 @@ function AdminDashboard() {
                   <h1 className="text-4xl py-4">Ventas</h1>
                 </li>
                 <li>
-                  <Bar
-                    data={{
-                      labels: summary.salesData.map((x) => x._id),
-                      datasets: [
-                        {
-                          label: "Ventas por mes",
-                          backgroundColor: "rgba(162, 222, 208, 1)",
-                          data: summary.salesData.map((x) => x.totalSales),
-                        },
-                        {
-                          label: "Ventas por año",
-                          backgroundColor: "rgba(140, 122, 189, 1)",
-                          data: summary.ordersPrice,
-                        },
-                      ],
-                    }}
-                    options={{
-                      legend: { display: true, position: "right" },
-                    }}
-                  ></Bar>
+                  <BarChart summary={summary} />
                 </li>
               </ul>
             </div>
@@ -213,5 +289,3 @@ function AdminDashboard() {
     </>
   );
 }
-
-export default dynamic(() => Promise.resolve(AdminDashboard), { ssr: false });
