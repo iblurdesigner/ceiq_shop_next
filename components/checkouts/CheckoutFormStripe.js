@@ -33,7 +33,6 @@ export default function CheckoutFormStripe({ totalPrice, order, userInfo }) {
       dispatch({ type: "PAY_FAIL", payload: getError(err) });
       enqueueSnackbar(getError(err), { variant: "error" });
     }
-    console.log("el token pasado", userInfo.token);
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",

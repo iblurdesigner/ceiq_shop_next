@@ -382,7 +382,7 @@ export default function Order({ params }) {
                             className="mx-5"
                           ></PayPalButtons>
 
-                          <div className="mt-6 mb-4 p-4 bg-indigo-50">
+                          <div className="mt-6 p-4 bg-indigo-50">
                             <Elements stripe={stripePromise}>
                               <CheckoutFormStripe
                                 totalPrice={totalPrice}
@@ -397,10 +397,13 @@ export default function Order({ params }) {
                             <StoreEth
                               paymentProcessor={paymentProcessor}
                               dai={dai}
-                              className="w-full text-lg mt-8 font-bold"
                               createOrder={createOrder}
                               onApprove={onApprove}
                               onError={onError}
+                              totalPrice={totalPrice}
+                              order={order}
+                              dispatch={dispatch}
+                              userInfo={userInfo}
                             />
                           </Suspense>
                         </>

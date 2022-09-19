@@ -195,7 +195,7 @@ export default function AdminDashboard() {
                       <div className="grid grid-flow-row md:grid-cols-4 gap-6">
                         <div className="card shadow-2xl p-6">
                           <h1 className="text-4xl py-4">
-                            ${summary.ordersPrice}
+                            ${summary.ordersPrice.toFixed(2)}
                           </h1>
                           <p className="text-xl text-cyan pb-10">Ventas</p>
                           <Link href="/admin/orders" passHref>
