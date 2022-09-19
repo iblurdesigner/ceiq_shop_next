@@ -91,7 +91,7 @@ export default function Order({ params }) {
     isDelivered,
     deliveredAt,
   } = order;
-
+  // Funcion que verifica si existe la orden, depacha la acción al API
   useEffect(() => {
     if (!userInfo) {
       return router.push("/login");
@@ -121,6 +121,7 @@ export default function Order({ params }) {
         dispatch({ type: "DELIVER_RESET" });
       }
     } else {
+      // Verifica los accesos a PayPal de acuerdo a usuario registrado
       const loadPaypalScript = async () => {
         const { data: clientId } = await axios.get("/api/keys/paypal", {
           headers: { authorization: `Bearer ${userInfo.token}` },
@@ -163,7 +164,7 @@ export default function Order({ params }) {
       });
   }
 
-  // para una vez aprobado
+  // Una vez aprobado los accesos y el pago, se confirma al usuario el pago
   function onApprove(data, actions) {
     return actions.order.capture().then(async function (details) {
       try {
@@ -189,7 +190,7 @@ export default function Order({ params }) {
   function onError(err) {
     enqueueSnackbar(getError(err), { variant: "error" });
   }
-
+  // Función para confirmar la entrega de los pedidos
   async function deliverOrderHandler() {
     try {
       dispatch({ type: "DELIVER_REQUEST" });

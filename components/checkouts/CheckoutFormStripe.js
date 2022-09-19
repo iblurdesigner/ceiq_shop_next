@@ -34,7 +34,6 @@ export default function CheckoutFormStripe({ totalPrice, order, userInfo }) {
       enqueueSnackbar(getError(err), { variant: "error" });
     }
     console.log("el token pasado", userInfo.token);
-    console.log("entramis en esta function on Approve");
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",

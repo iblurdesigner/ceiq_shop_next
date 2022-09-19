@@ -8,6 +8,7 @@ import { getError } from "../utils/error";
 import { Store } from "../utils/Store";
 import Layout from "../components/Layout";
 
+// Manejador de estado de acuerdo a la acción elegida
 function reducer(state, action) {
   switch (action.type) {
     case "FETCH_REQUEST":
@@ -19,7 +20,7 @@ function reducer(state, action) {
     default:
   }
 }
-
+// Función para mostrar el historial de ordenes registardas en la DB
 function OrderHistory() {
   const { state } = useContext(Store);
   const router = useRouter();
@@ -31,7 +32,7 @@ function OrderHistory() {
     orders: [],
     error: "",
   });
-
+  // Función para hacer el request de las ordenes
   useEffect(() => {
     if (!userInfo) {
       router.push("/login");

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+// Esuqema de una orden en Mongo
 const orderSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },

@@ -70,15 +70,15 @@ export default function Payment() {
                   value="Stripe"
                   control={<Radio className="dark:bg-gray-50" />}
                 ></FormControlLabel>
-                <FormControlLabel
+                {/* <FormControlLabel
                   data-test="plux"
                   label="PagoPlux"
                   value="PagoPlux"
                   control={<Radio className="dark:bg-gray-50" />}
-                ></FormControlLabel>
+                ></FormControlLabel> */}
                 <FormControlLabel
-                  data-test="efectivo"
-                  label="Efectivo"
+                  data-test="debito"
+                  label="Débito"
                   value="Cash"
                   control={<Radio className="dark:bg-gray-50" />}
                 ></FormControlLabel>

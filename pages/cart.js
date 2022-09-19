@@ -19,7 +19,7 @@ function CartScreen({ description }) {
   const {
     cart: { cartItems },
   } = state;
-
+  // Función para verificar si hay stock y aumentar la cantidad del producto elegido
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(`/api/products/${item._id}`);
     if (data.countInStock < quantity) {
@@ -33,7 +33,7 @@ function CartScreen({ description }) {
   const removeItemHandler = (item) => {
     dispatch({ type: "CART_REMOVE_ITEM", payload: item });
   };
-
+  // Función para enrutar al siguiente paso "shipping"
   const checkoutHandler = () => {
     router.push("/shipping");
   };

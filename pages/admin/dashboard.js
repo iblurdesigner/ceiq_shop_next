@@ -82,43 +82,25 @@ export default function AdminDashboard() {
   function BarChart() {
     const initialDates = summary.salesData.map((x) => x._id);
     const initialDataPoints = summary.salesData.map((x) => x.totalSales);
-
     const [dates, setDates] = useState(initialDates);
     const [dataPoints, setDataPoints] = useState(initialDataPoints);
-
-    console.log("inital Dates: ", initialDates);
-    console.log("inital data points: ", initialDataPoints);
-
-    console.log("Dates y Datapoints", dates, dataPoints);
-
     const inputRef1 = useRef();
     const inputRef2 = useRef();
 
     function filterData() {
       const dates2 = [...dates];
       const dataPoints2 = [...dataPoints];
-
-      // slice the array
       const value1 = inputRef1.current.value;
       const value2 = inputRef2.current.value;
       const indexstartdate = dates2.indexOf(value1);
       const indexenddate = dates2.indexOf(value2);
-      console.log(indexstartdate);
-      console.log(indexenddate);
-      // slice the array
       const filterDate = dates2.slice(indexstartdate, indexenddate + 1);
       const filterDataPoints = dataPoints2.slice(
         indexstartdate,
         indexenddate + 1
       );
-
-      console.log(filterDate, filterDataPoints);
-
       setDates(filterDate);
       setDataPoints(filterDataPoints);
-      console.log(dates, dataPoints);
-
-      console.log("nueva sumary", summary);
     }
 
     return (

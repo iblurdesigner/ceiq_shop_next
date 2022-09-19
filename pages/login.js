@@ -27,13 +27,13 @@ export default function Login({ description }) {
   const { redirect } = router.query; // esto es para que redirija a login?redirect=/shipping
   const { state, dispatch } = useContext(Store);
   const { userInfo } = state;
-
+  // Función para enrutar al usuario si no está logueado
   useEffect(() => {
     if (userInfo) {
       router.push("/");
     }
   }, []);
-
+  // Manejador de info de usuario para autenticar datos de correo y contraseña
   const submitHandler = async ({ email, password }) => {
     closeSnackbar();
     try {

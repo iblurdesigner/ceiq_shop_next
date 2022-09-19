@@ -7,7 +7,9 @@ import { isAuth } from "../../../../utils/auth";
 const handler = nc({
   onError,
 });
+// Para verificar si está autenticado
 handler.use(isAuth);
+// Busca la orden y envía la petición para actualizar su estado en la DB
 handler.put(async (req, res) => {
   await db.connect();
   const order = await Order.findById(req.query.id);
