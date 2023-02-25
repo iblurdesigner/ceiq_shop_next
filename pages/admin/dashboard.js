@@ -22,8 +22,10 @@ import {
   Tooltip,
   Legend,
   Filler,
+  TimeScale,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import "chartjs-adapter-spacetime";
 import ButtonMine from "../../components/buttons/ButtonMine";
 
 ChartJS.register(
@@ -34,7 +36,8 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  Filler
+  Filler,
+  TimeScale
 );
 
 function reducer(state, action) {
@@ -84,14 +87,18 @@ export default function AdminDashboard() {
     const initialDataPoints = summary.salesData.map((x) => x.totalSales);
     const [dates, setDates] = useState(initialDates);
     const [dataPoints, setDataPoints] = useState(initialDataPoints);
+
     const inputRef1 = useRef();
     const inputRef2 = useRef();
+    const myChart = useRef();
 
     function filterData() {
       const dates2 = [...dates];
       const dataPoints2 = [...dataPoints];
-      const value1 = inputRef1.current.value;
-      const value2 = inputRef2.current.value;
+      // eslint-disable-next-line prefer-const
+      let value1 = inputRef1.current.value;
+      // eslint-disable-next-line prefer-const
+      let value2 = inputRef2.current.value;
       const indexstartdate = dates2.indexOf(value1);
       const indexenddate = dates2.indexOf(value2);
       const filterDate = dates2.slice(indexstartdate, indexenddate + 1);
@@ -103,11 +110,31 @@ export default function AdminDashboard() {
       setDataPoints(filterDataPoints);
     }
 
+    function resetFilterDate() {
+      setDates(initialDates);
+      setDataPoints(initialDataPoints);
+    }
+
+    // function filterData(props) {
+    //   console.log(props.target.value);
+    //   const year = props.target.value.substring(0, 4);
+    //   const month = props.target.value.substring(5, 7);
+    //   console.log(year);
+    //   console.log(month);
+
+    //   const startDate = `${props.target.value}-01`;
+    //   return (myChart.current.scales.x.min = startDate);
+    //   // myChart.update();
+
+    //   // console.log(myChart.current.scales.x);
+    // }
+
     return (
       <div>
         <div>
           <Bar
             id="myChart"
+            ref={myChart}
             data={{
               labels: dates,
 
@@ -139,6 +166,19 @@ export default function AdminDashboard() {
             width={400}
             options={{
               maintainAspectRatio: false,
+              scales: {
+                x: {
+                  min: "2022-05-01",
+                  max: "2023-05-31",
+                  type: "time",
+                  time: {
+                    unit: "month",
+                  },
+                },
+                yAxes: {
+                  beginAtZero: true,
+                },
+              },
             }}
           />
         </div>
@@ -146,6 +186,9 @@ export default function AdminDashboard() {
           <input type="month" ref={inputRef1} />
           <input type="month" ref={inputRef2} />
           <ButtonMine onClick={filterData}>Filtrar</ButtonMine>
+          <ButtonMine onClick={resetFilterDate} className="bg-red-400 px-3">
+            Resetear
+          </ButtonMine>
         </div>
       </div>
     );
